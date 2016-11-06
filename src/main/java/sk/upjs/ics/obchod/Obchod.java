@@ -6,7 +6,7 @@ public class Obchod {
 
     private List<Tovar> zoznamTovarov = new ArrayList<>();
     
-    private Map<Tovar, Integer> pocetTovarov = new HashMap<>();
+    private Map<Tovar, Integer> pocetKusovTovaru = new HashMap<>();
     
     public void pridajTovarDoKosika(Tovar tovar) {}
     
