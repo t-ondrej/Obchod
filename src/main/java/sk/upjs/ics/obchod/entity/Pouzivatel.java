@@ -1,4 +1,6 @@
-package sk.upjs.ics.obchod;
+package sk.upjs.ics.obchod.entity;
+
+import sk.upjs.ics.obchod.entity.Kosik;
 
 public class Pouzivatel {
     

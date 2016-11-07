@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod;
+package sk.upjs.ics.obchod.entity;
 
 public class Tovar {
     

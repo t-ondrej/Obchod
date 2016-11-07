@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod;
+package sk.upjs.ics.obchod.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
