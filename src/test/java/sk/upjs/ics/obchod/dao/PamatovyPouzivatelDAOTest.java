@@ -5,6 +5,7 @@
  */
 package sk.upjs.ics.obchod.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,23 +23,7 @@ import sk.upjs.ics.obchod.entity.Pouzivatel;
 public class PamatovyPouzivatelDAOTest {
     
     public PamatovyPouzivatelDAOTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+    }   
 
     /**
      * Test of dajPouzivatelov method, of class PamatovyPouzivatelDAO.
@@ -63,7 +48,7 @@ public class PamatovyPouzivatelDAOTest {
         PamatovyPouzivatelDAO pamatovyPouzivatelDAO = new PamatovyPouzivatelDAO();
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
         
-        Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi", false, null);                ;       
+        Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi","igi@m.sk", LocalDateTime.MIN, false, null);                      
         pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
         int pocetPouzivatelovPoPridani = pamatovyPouzivatelDAO.dajPouzivatelov().size();
        
@@ -94,6 +79,7 @@ public class PamatovyPouzivatelDAOTest {
     /**
      * Test of aktualizujPouzivatelov method, of class PamatovyPouzivatelDAO.
      */
+    /*
     @Test
     public void testAktualizujPouzivatelov() {
         // TODO
@@ -103,5 +89,6 @@ public class PamatovyPouzivatelDAOTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    */
     
 }

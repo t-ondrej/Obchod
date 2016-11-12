@@ -1,6 +1,7 @@
 
 package sk.upjs.ics.obchod.dao;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
@@ -11,8 +12,8 @@ public class PamatovyPouzivatelDAO implements PouzivatelDAO{
      
      public PamatovyPouzivatelDAO(){
          
-         Pouzivatel p1 = new Pouzivatel(null, "Jano", "jano", false, null);
-         Pouzivatel p2 = new Pouzivatel(null, "Eva", "eva", false, null);
+         Pouzivatel p1 = new Pouzivatel(null, "Jano", "jano", "jano@m.sk", LocalDateTime.MIN, false, null);
+         Pouzivatel p2 = new Pouzivatel(null, "Eva", "eva", "eva@m.sk", LocalDateTime.MIN,  false, null);
          
          pouzivatelia.add(p1);
          pouzivatelia.add(p2);
