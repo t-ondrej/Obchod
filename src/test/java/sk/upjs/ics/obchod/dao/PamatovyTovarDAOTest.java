@@ -47,7 +47,7 @@ public class PamatovyTovarDAOTest {
          PamatovyTovarDAO pamatovyTovarDAO = new PamatovyTovarDAO(); 
          int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
          
-        Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ");        
+        Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ", "@../img/1.JPG");        
         pamatovyTovarDAO.pridajTovar(tovar);
         int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovar().size();
         

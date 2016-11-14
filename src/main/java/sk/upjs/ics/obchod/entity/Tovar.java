@@ -15,8 +15,10 @@ public class Tovar {
     private int cena;
     
     private String popis;
+    
+    private String URL;
 
-    public Tovar(Long id, String nazov, String znacka, String kategoria, String podkategoria, int cena, String popis) {
+    public Tovar(Long id, String nazov, String znacka, String kategoria, String podkategoria, int cena, String popis, String URL) {
         this.id = id;
         this.nazov = nazov;
         this.znacka = znacka;
@@ -24,6 +26,7 @@ public class Tovar {
         this.podkategoria = podkategoria;
         this.cena = cena;
         this.popis = popis;
+        this.URL = URL;
     }
     
     public Long getId() {
@@ -81,5 +84,12 @@ public class Tovar {
     public void setPopis(String popis) {
         this.popis = popis;
     }
-    
+
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
 }
