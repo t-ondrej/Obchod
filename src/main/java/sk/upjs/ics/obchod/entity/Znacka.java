@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Znacka {
     
-     private Long id; 
+    private Long id_Znacka; 
     
     private String nazov;
    
-    private List<Tovar> ulohy = new ArrayList<>();   
+    private List<Tovar> tovary = new ArrayList<>();   
     
     
 }

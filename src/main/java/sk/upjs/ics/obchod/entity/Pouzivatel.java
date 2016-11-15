@@ -6,7 +6,7 @@ import sk.upjs.ics.obchod.entity.Kosik;
 
 public class Pouzivatel {
     
-    private Long id;
+    private Long id_Pouzivatel;
     
     private String login;
     
@@ -23,7 +23,7 @@ public class Pouzivatel {
     private Kosik kosik;
 
     public Pouzivatel(Long id, String login, String password,String email,LocalDateTime poslednePrihlasenie, boolean jeOnline, Kosik kosik) {
-        this.id = id;
+        this.id_Pouzivatel = id;
         this.login = login;
         
        // setPassword(password);
@@ -35,11 +35,11 @@ public class Pouzivatel {
     }
 
     public Long getId() {
-        return id;
+        return id_Pouzivatel;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_Pouzivatel = id;
     }
 
     public String getLogin() {

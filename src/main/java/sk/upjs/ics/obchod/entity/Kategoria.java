@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Kategoria {
     
-    private Long id; 
+    private Long id_Kategoria; 
     
     private String nazov;
    
-    private List<Tovar> ulohy = new ArrayList<>();
+    private List<Tovar> tovary = new ArrayList<>();
     
 }

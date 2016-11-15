@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Podkategoria {
     
-     private Long id; 
+    private Long id_Podkategoria; 
     
     private String nazov;
    
-    private List<Tovar> ulohy = new ArrayList<>();
+    private List<Tovar> tovary = new ArrayList<>();
     
 }
