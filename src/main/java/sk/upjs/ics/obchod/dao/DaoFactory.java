@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public enum DaoFactory {
     INSTANCE;
     
-    private MysqlPouzivatelDAO mysqlPouzivatelDao;
+    private MysqlPouzivatelDao mysqlPouzivatelDao;
     
     private MysqlTovarDao mysqlTovarDao;
     
@@ -32,9 +32,9 @@ public enum DaoFactory {
         return mysqlTovarDao;
     }
     
-    public MysqlPouzivatelDAO getMysqlPouzivatelDao(JdbcTemplate jdbcTemplate) {
+    public MysqlPouzivatelDao getMysqlPouzivatelDao(JdbcTemplate jdbcTemplate) {
         if (mysqlPouzivatelDao == null)
-            mysqlPouzivatelDao = new MysqlPouzivatelDAO(jdbcTemplate);
+            mysqlPouzivatelDao = new MysqlPouzivatelDao(jdbcTemplate);
         
         return mysqlPouzivatelDao;
     }
