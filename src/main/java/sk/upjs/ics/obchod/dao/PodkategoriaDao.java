@@ -2,14 +2,15 @@
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
-import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.entity.Podkategoria;
+
 
 public interface PodkategoriaDao {
     
-    public List<Kategoria> dajKategorie();
+    public List<Podkategoria> dajPodkategorie();
     
-    public Kategoria najdiPodlaId(Long id);
+    public Podkategoria najdiPodlaId(Long id_Podkategoria);
     
-    public void uloz(Kategoria kategoria);
+    public void uloz(Podkategoria podkategoria);
     
 }

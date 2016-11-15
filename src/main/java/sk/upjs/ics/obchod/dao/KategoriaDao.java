@@ -8,7 +8,7 @@ public interface KategoriaDao {
     
     public List<Kategoria> dajKategorie();
     
-    public Kategoria najdiPodlaId(Long id);
+    public Kategoria najdiPodlaId(Long id_Kategoria);
     
     public void uloz(Kategoria kategoria);
     

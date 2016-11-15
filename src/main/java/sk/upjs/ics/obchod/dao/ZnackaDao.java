@@ -2,14 +2,14 @@
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
-import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.entity.Znacka;
 
 public interface ZnackaDao {
     
-    public List<Kategoria> dajKategorie();
+    public List<Znacka> dajZnacky();
     
-    public Kategoria najdiPodlaId(Long id);
+    public Znacka najdiPodlaId(Long id_Znacka);
     
-    public void uloz(Kategoria kategoria);
+    public void uloz(Znacka znacka);
     
 }
