@@ -9,7 +9,7 @@ public class Kategoria {
     
     private String nazov;
     
-    private List<Tovar> tovary = new ArrayList<>();
+    private List<Tovar> zoznamTovarov = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -28,10 +28,10 @@ public class Kategoria {
     }    
 
     public List<Tovar> getTovary() {
-        return tovary;
+        return zoznamTovarov;
     }
 
     public void setTovary(List<Tovar> tovary) {
-        this.tovary = tovary;
+        this.zoznamTovarov = tovary;
     }
 }

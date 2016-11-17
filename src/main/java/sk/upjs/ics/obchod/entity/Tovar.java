@@ -2,7 +2,7 @@ package sk.upjs.ics.obchod.entity;
 
 public class Tovar {
     
-    private Long id_Tovar;
+    private Long id;
     
     private String nazov;
     
@@ -19,11 +19,11 @@ public class Tovar {
     private String obrazokUrl;
     
     public Long getId() {
-        return id_Tovar;
+        return id;
     }
 
     public void setId(Long id) {
-        this.id_Tovar = id;
+        this.id = id;
     }
 
     public String getNazov() {

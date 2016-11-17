@@ -6,7 +6,7 @@ import sk.upjs.ics.obchod.entity.Kosik;
 
 public class Pouzivatel {
     
-    private Long id_Pouzivatel;
+    private Long id;
     
     private String prihlasovacieMeno;
     
@@ -18,14 +18,14 @@ public class Pouzivatel {
      
     private LocalDateTime poslednePrihlasenie;
         
-    private Kosik kosik;
+    private Long idKosik;
 
     public Long getId() {
-        return id_Pouzivatel;
+        return id;
     }
 
     public void setId(Long id) {
-        this.id_Pouzivatel = id;
+        this.id = id;
     }
 
     public String getPrihlasovacieMeno() {
@@ -80,12 +80,12 @@ public class Pouzivatel {
         this.poslednePrihlasenie = poslednePrihlasenie;
     }    
 
-    public Kosik getKosik() {
-        return kosik;
+    public Long getIdKosik() {
+        return idKosik;
     }
 
-    public void setKosik(Kosik kosik) {
-        this.kosik = kosik;
+    public void setKosik(Long idKosik) {
+        this.idKosik = idKosik;
     }
     
 }
