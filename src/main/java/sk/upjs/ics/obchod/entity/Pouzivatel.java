@@ -6,7 +6,7 @@ import sk.upjs.ics.obchod.entity.Kosik;
 
 public class Pouzivatel {
     
-    private Long id;
+    private Long id_Pouzivatel;
     
     private String prihlasovacieMeno;
     
@@ -21,11 +21,11 @@ public class Pouzivatel {
     private Kosik kosik;
 
     public Long getId() {
-        return id;
+        return id_Pouzivatel;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_Pouzivatel = id;
     }
 
     public String getPrihlasovacieMeno() {

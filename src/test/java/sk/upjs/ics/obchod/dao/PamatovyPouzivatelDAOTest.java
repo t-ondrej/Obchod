@@ -32,7 +32,7 @@ public class PamatovyPouzivatelDAOTest {
     public void testDajPouzivatelov() {
         
         System.out.println("dajPouzivatelov");
-        PamatovyPouzivatelDAO pamatovyPouzivatelDAO = new PamatovyPouzivatelDAO();
+        PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();
         List<Pouzivatel> pouzivatelia = pamatovyPouzivatelDAO.dajPouzivatelov();        
         Assert.assertEquals(2, pouzivatelia.size());
         
@@ -45,7 +45,7 @@ public class PamatovyPouzivatelDAOTest {
     public void testPridajPouzivatela() {
         
         System.out.println("pridajPouzivatela");
-        PamatovyPouzivatelDAO pamatovyPouzivatelDAO = new PamatovyPouzivatelDAO();
+        PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
         
        // Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi","igi@m.sk", LocalDateTime.MIN, false, null);                      
@@ -64,7 +64,7 @@ public class PamatovyPouzivatelDAOTest {
     public void testOdstranPouzivatela() {
         
         System.out.println("odstranPouzivatela");
-        PamatovyPouzivatelDAO pamatovyPouzivatelDAO = new PamatovyPouzivatelDAO();
+        PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
         
         Pouzivatel pouzivatel = pamatovyPouzivatelDAO.dajPouzivatelov().get(0);       

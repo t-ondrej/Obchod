@@ -2,10 +2,8 @@
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
-import sk.upjs.ics.obchod.entity.Tovar;
 
 
 public class MysqlPouzivatelDao implements PouzivatelDao{
@@ -15,34 +13,27 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     public MysqlPouzivatelDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-   
-  @Override
-    public List<Pouzivatel> dajPouzivatelov() {
-        String sql = "SELECT * FROM Pouzivatel";
-        
-        BeanPropertyRowMapper<Pouzivatel> mapper = BeanPropertyRowMapper.newInstance(Pouzivatel.class);
-        
-        return jdbcTemplate.query(sql, mapper);
-    }
     
 
     @Override
+    public List<Pouzivatel> dajPouzivatelov() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public void pridajPouzivatela(Pouzivatel pouzivatel) {
-        String sql = "INSERT INTO Tovar VALUES(? ? ? ? ? ? ?)";
-        
-        jdbcTemplate.update(sql, pouzivatel.getId(), pouzivatel.getKosik().getId(), pouzivatel.getPrihlasovacieMeno(), 
-                pouzivatel.getPasswordHash(), pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void odstranPouzivatela(Pouzivatel pouzivatel) {
-        String sql = "DELETE FROM Pouzivatel WHERE id = ?";
-        
-        jdbcTemplate.update(sql, pouzivatel.getId());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void aktualizujPouzivatelov() {
+        // neviem celkom co to ma robit
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

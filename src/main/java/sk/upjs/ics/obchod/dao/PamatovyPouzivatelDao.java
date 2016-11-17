@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
-public class PamatovyPouzivatelDAO implements PouzivatelDAO{
+public class PamatovyPouzivatelDao implements PouzivatelDao{
 
      private List<Pouzivatel> pouzivatelia = new ArrayList<Pouzivatel>();
      
-     public PamatovyPouzivatelDAO(){
+     public PamatovyPouzivatelDao(){
          
        //  Pouzivatel p1 = new Pouzivatel(null, "Jano", "jano", "jano@m.sk", LocalDateTime.MIN, false, null);
        //  Pouzivatel p2 = new Pouzivatel(null, "Eva", "eva", "eva@m.sk", LocalDateTime.MIN,  false, null);

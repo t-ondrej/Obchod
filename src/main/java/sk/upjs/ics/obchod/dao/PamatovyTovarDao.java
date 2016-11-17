@@ -6,7 +6,7 @@ import java.util.List;
 import sk.upjs.ics.obchod.entity.Tovar;
 
 
-public class PamatovyTovarDAO implements TovarDao {
+public class PamatovyTovarDao implements TovarDao {
     
      private List<Tovar> tovary = new ArrayList<>();
      

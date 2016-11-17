@@ -31,7 +31,7 @@ public class PamatovyTovarDAOTest {
     public void testDajTovar() {
         
         System.out.println("dajTovar");
-        PamatovyTovarDAO pamatovyTovarDAO = new PamatovyTovarDAO();        
+        PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao();        
         List<Tovar> tovary = pamatovyTovarDAO.dajTovar();
        Assert.assertEquals(2, tovary.size());
        
@@ -44,7 +44,7 @@ public class PamatovyTovarDAOTest {
     public void testPridajTovar() {
         
         System.out.println("pridajTovar");
-         PamatovyTovarDAO pamatovyTovarDAO = new PamatovyTovarDAO(); 
+         PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao(); 
          int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
          
        // Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ", "@../img/1.JPG");        
@@ -62,7 +62,7 @@ public class PamatovyTovarDAOTest {
     @Test
     public void testOdstranTovar() {
         System.out.println("odstranTovar");
-       PamatovyTovarDAO pamatovyTovarDAO = new PamatovyTovarDAO(); 
+       PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao(); 
          int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
          
         Tovar tovar = pamatovyTovarDAO.dajTovar().get(0);

@@ -3,7 +3,7 @@ package sk.upjs.ics.obchod.dao;
 import java.util.List;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
-public interface PouzivatelDAO {
+public interface PouzivatelDao {
     
     public List<Pouzivatel> dajPouzivatelov();
     

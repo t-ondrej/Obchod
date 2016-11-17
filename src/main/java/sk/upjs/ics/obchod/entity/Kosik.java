@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Kosik {
     
-    private String id;
+    private Long id_Kosik;
     
     private Pouzivatel pouzivatel;
     
@@ -14,8 +14,8 @@ public class Kosik {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(Long id) {
+        this.id_Kosik = id;
     }
 
     public List<Tovar> getZoznamTovarov() {
