@@ -8,7 +8,7 @@ public class Pouzivatel {
     
     private Long id;
     
-    private String login;
+    private String prihlasovacieMeno;
     
     private String sol;
     
@@ -17,22 +17,8 @@ public class Pouzivatel {
     private String email;
      
     private LocalDateTime poslednePrihlasenie;
-    
-    private boolean jeOnline;
-    
+        
     private Kosik kosik;
-
-    public Pouzivatel(Long id, String login, String password,String email,LocalDateTime poslednePrihlasenie, boolean jeOnline, Kosik kosik) {
-        this.id = id;
-        this.login = login;
-        
-       // setPassword(password);
-        
-        this.email = email;
-        this.poslednePrihlasenie = poslednePrihlasenie;
-        this.jeOnline = jeOnline;
-        this.kosik = kosik;
-    }
 
     public Long getId() {
         return id;
@@ -42,12 +28,12 @@ public class Pouzivatel {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getPrihlasovacieMeno() {
+        return prihlasovacieMeno;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setPrihlasovacieMeno(String prihlasovacieMeno) {
+        this.prihlasovacieMeno = prihlasovacieMeno;
     }
 
     public String getSol() {
@@ -93,14 +79,6 @@ public class Pouzivatel {
     public void setPoslednePrihlasenie(LocalDateTime poslednePrihlasenie) {
         this.poslednePrihlasenie = poslednePrihlasenie;
     }    
-
-    public boolean isJeOnline() {
-        return jeOnline;
-    }
-
-    public void setJeOnline(boolean jeOnline) {
-        this.jeOnline = jeOnline;
-    }
 
     public Kosik getKosik() {
         return kosik;

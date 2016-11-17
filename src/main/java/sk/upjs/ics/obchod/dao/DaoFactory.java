@@ -13,26 +13,26 @@ public enum DaoFactory {
     private JdbcTemplate jdbcTemplate;
     
     private DaoFactory() {
-        jdbcTemplate = new JdbcTemplate(createDataSource());
+        jdbcTemplate = new JdbcTemplate(getDataSource());
     }
     
-    private MysqlDataSource createDataSource() {
+    private MysqlDataSource getDataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/Obchod");
-        dataSource.setUser("Obchod");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/Obchod?serverTimezone=UTC");
+        dataSource.setUser("obchod");
         dataSource.setPassword("obchod1");
         
         return dataSource;
     }
     
-    public MysqlTovarDao getMysqlTovarDao(JdbcTemplate jdbcTemplate) {
+    public MysqlTovarDao getMysqlTovarDao() {
         if (mysqlTovarDao == null)
             mysqlTovarDao = new MysqlTovarDao(jdbcTemplate);
         
         return mysqlTovarDao;
     }
     
-    public MysqlPouzivatelDAO getMysqlPouzivatelDao(JdbcTemplate jdbcTemplate) {
+    public MysqlPouzivatelDAO getMysqlPouzivatelDao() {
         if (mysqlPouzivatelDao == null)
             mysqlPouzivatelDao = new MysqlPouzivatelDAO(jdbcTemplate);
         

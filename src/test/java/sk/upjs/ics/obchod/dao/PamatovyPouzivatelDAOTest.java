@@ -48,13 +48,13 @@ public class PamatovyPouzivatelDAOTest {
         PamatovyPouzivatelDAO pamatovyPouzivatelDAO = new PamatovyPouzivatelDAO();
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
         
-        Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi","igi@m.sk", LocalDateTime.MIN, false, null);                      
-        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+       // Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi","igi@m.sk", LocalDateTime.MIN, false, null);                      
+     //   pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
         int pocetPouzivatelovPoPridani = pamatovyPouzivatelDAO.dajPouzivatelov().size();
        
         Assert.assertEquals(pocetPouzivatelovPoPridani, pocetPouzivatelov+1);
          
-        pamatovyPouzivatelDAO.odstranPouzivatela(pouzivatel);
+      //  pamatovyPouzivatelDAO.odstranPouzivatela(pouzivatel);
     }
 
     /**

@@ -1,6 +1,7 @@
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.entity.Tovar;
 
@@ -15,17 +16,26 @@ public class MysqlTovarDao implements TovarDao{
     
     @Override
     public List<Tovar> dajTovar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM Tovar";
+        
+        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
+        
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public void pridajTovar(Tovar tovar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "INSERT INTO Tovar VALUES(? ? ? ? ? ? ? ?)";
+        
+        jdbcTemplate.update(sql, tovar.getId(), tovar.getIdKategoria(), tovar.getIdPodkategoria(), 
+                tovar.getNazov(), tovar.getZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getobrazokUrl());
     }
 
     @Override
     public void odstranTovar(Tovar tovar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "DELETE FROM Tovar WHERE id = ?";
+        
+        jdbcTemplate.update(sql, tovar.getId());
     }
     
 }

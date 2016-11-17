@@ -47,13 +47,13 @@ public class PamatovyTovarDAOTest {
          PamatovyTovarDAO pamatovyTovarDAO = new PamatovyTovarDAO(); 
          int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
          
-        Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ", "@../img/1.JPG");        
-        pamatovyTovarDAO.pridajTovar(tovar);
+       // Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ", "@../img/1.JPG");        
+      //  pamatovyTovarDAO.pridajTovar(tovar);
         int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovar().size();
         
          Assert.assertEquals(pocetTovarovPoPridani, pocetTovarov+1);
          
-        pamatovyTovarDAO.odstranTovar(tovar);
+       // pamatovyTovarDAO.odstranTovar(tovar);
     }
 
     /**

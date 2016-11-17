@@ -11,5 +11,4 @@ public interface PouzivatelDAO {
     
     public void odstranPouzivatela(Pouzivatel pouzivatel);
     
-    public void aktualizujPouzivatelov();
 }
