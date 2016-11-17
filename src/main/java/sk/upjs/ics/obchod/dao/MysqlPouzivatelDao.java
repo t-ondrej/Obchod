@@ -29,11 +29,5 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     public void odstranPouzivatela(Pouzivatel pouzivatel) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public void aktualizujPouzivatelov() {
-        // neviem celkom co to ma robit
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

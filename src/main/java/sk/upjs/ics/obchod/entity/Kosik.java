@@ -4,18 +4,18 @@ import java.util.*;
 
 public class Kosik {
     
-    private Long id_Kosik;
+    private Long id;
     
     private Pouzivatel pouzivatel;
     
     private List<Tovar> zoznamTovarov = new ArrayList<>();
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
-        this.id_Kosik = id;
+        this.id = id;
     }
 
     public List<Tovar> getZoznamTovarov() {

@@ -10,7 +10,7 @@ public class PamatovyTovarDao implements TovarDao {
     
      private List<Tovar> tovary = new ArrayList<>();
      
-     public PamatovyTovarDAO(){
+     public PamatovyTovarDao(){
        //  Tovar t1 = new Tovar(null, "Notebook", "hp", " ", " ", 500, " ", "@../img/1.JPG");
       //   Tovar t2 = new Tovar(null, "Mobil", "Samsung", " ", " ", 100, " ", "@../img/2.JPG");
          
