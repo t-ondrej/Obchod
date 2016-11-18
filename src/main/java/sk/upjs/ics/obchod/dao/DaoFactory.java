@@ -10,6 +10,8 @@ public enum DaoFactory {
     
     private MysqlTovarDao mysqlTovarDao;
     
+    private MysqlKategoriaDao mysqlKategoriaDao;
+    
     private JdbcTemplate jdbcTemplate;
     
     private DaoFactory() {
@@ -37,5 +39,12 @@ public enum DaoFactory {
             mysqlPouzivatelDao = new MysqlPouzivatelDao(jdbcTemplate);
         
         return mysqlPouzivatelDao;
+    }
+    
+    public MysqlKategoriaDao getMysqlKategoriaDao() {
+        if (mysqlKategoriaDao == null)
+            mysqlKategoriaDao = new MysqlKategoriaDao(jdbcTemplate);
+        
+        return mysqlKategoriaDao;
     }
 }
