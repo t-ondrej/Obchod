@@ -42,8 +42,7 @@ public class PamatovyPouzivatelDAOTest {
 
     /**
      * Test of pridajPouzivatela method, of class PamatovyPouzivatelDAO.
-     */
-    /*
+     */    
     @Test
     public void testPridajPouzivatela() {
         
@@ -51,36 +50,43 @@ public class PamatovyPouzivatelDAOTest {
         PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
         
-       // Pouzivatel pouzivatel = new Pouzivatel(null, "Igi", "igi","igi@m.sk", LocalDateTime.MIN, false, null);                      
-     //   pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+        Pouzivatel pouzivatel = new Pouzivatel(); 
+        pouzivatel.setPrihlasovacieMeno("Igi");
+        pouzivatel.setEmail("igi@m.sk");
+        pouzivatel.setPassword("igi");        
+        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
         int pocetPouzivatelovPoPridani = pamatovyPouzivatelDAO.dajPouzivatelov().size();
        
         Assert.assertEquals(pocetPouzivatelovPoPridani, pocetPouzivatelov+1);
          
-      //  pamatovyPouzivatelDAO.odstranPouzivatela(pouzivatel);
+        pamatovyPouzivatelDAO.odstranPouzivatela(pouzivatel);
     }
-*/
+
     
     /**
      * Test of odstranPouzivatela method, of class PamatovyPouzivatelDAO.
-     */
-    /*
+     */    
     @Test
     public void testOdstranPouzivatela() {
         
         System.out.println("odstranPouzivatela");
-        PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();
-        int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
+        PamatovyPouzivatelDao pamatovyPouzivatelDAO = new PamatovyPouzivatelDao();        
         
-        Pouzivatel pouzivatel = pamatovyPouzivatelDAO.dajPouzivatelov().get(0);       
+        Pouzivatel pouzivatel = new Pouzivatel(); 
+        pouzivatel.setPrihlasovacieMeno("Igi");
+        pouzivatel.setEmail("igi@m.sk");
+        pouzivatel.setPassword("igi");        
+        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+        
+        int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
+              
         pamatovyPouzivatelDAO.odstranPouzivatela(pouzivatel);
         int pocetPouzivatelovPoOdstraneni = pamatovyPouzivatelDAO.dajPouzivatelov().size();
        
-        Assert.assertEquals(pocetPouzivatelovPoOdstraneni, pocetPouzivatelov-1);
-         
-        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+        Assert.assertEquals(pocetPouzivatelovPoOdstraneni, pocetPouzivatelov-1);        
+        
     }
-    */
+    
 
     /**
      * Test of aktualizujPouzivatelov method, of class PamatovyPouzivatelDAO.

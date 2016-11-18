@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
@@ -39,8 +35,7 @@ public class PamatovyTovarDAOTest {
 
     /**
      * Test of pridajTovar method, of class PamatovyTovarDAO.
-     */
-    /*
+     */    
     @Test
     public void testPridajTovar() {
         
@@ -48,27 +43,33 @@ public class PamatovyTovarDAOTest {
          PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao(); 
          int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
          
-       // Tovar tovar = new Tovar(null, "Klavesnica", "Logitech", " ", " ", 50, " ", "@../img/1.JPG");        
-      //  pamatovyTovarDAO.pridajTovar(tovar);
+        Tovar tovar = new Tovar();  
+        tovar.setNazov("t1");
+        tovar.setCena(50);       
+        pamatovyTovarDAO.pridajTovar(tovar);
         int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovar().size();
         
          Assert.assertEquals(pocetTovarovPoPridani, pocetTovarov+1);
          
-       // pamatovyTovarDAO.odstranTovar(tovar);
+        pamatovyTovarDAO.odstranTovar(tovar);
     }
-    */
+    
 
     /**
      * Test of odstranTovar method, of class PamatovyTovarDAO.
-     */
-    /*
+     */    
     @Test
     public void testOdstranTovar() {
         System.out.println("odstranTovar");
-       PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao(); 
-         int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
-         
-        Tovar tovar = pamatovyTovarDAO.dajTovar().get(0);
+       PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao();
+       
+       Tovar tovar = new Tovar();  
+        tovar.setNazov("t1");
+        tovar.setCena(50);       
+        pamatovyTovarDAO.pridajTovar(tovar);
+       
+         int pocetTovarov = pamatovyTovarDAO.dajTovar().size();         
+        
         pamatovyTovarDAO.odstranTovar(tovar);
         int pocetTovarovPoOdstraneni = pamatovyTovarDAO.dajTovar().size();
         
@@ -76,6 +77,6 @@ public class PamatovyTovarDAOTest {
          
         pamatovyTovarDAO.pridajTovar(tovar);
     }
-*/
+
     
 }
