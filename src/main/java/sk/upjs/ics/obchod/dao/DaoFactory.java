@@ -12,6 +12,8 @@ public enum DaoFactory {
     
     private MysqlKategoriaDao mysqlKategoriaDao;
     
+    private MysqlZnackaDao mysqlZnackaDao;
+    
     private JdbcTemplate jdbcTemplate;
     
     private DaoFactory() {
@@ -46,5 +48,12 @@ public enum DaoFactory {
             mysqlKategoriaDao = new MysqlKategoriaDao(jdbcTemplate);
         
         return mysqlKategoriaDao;
+    }
+    
+    public MysqlZnackaDao getMysqlZnackaDao() {
+        if (mysqlZnackaDao == null)
+            mysqlZnackaDao = new MysqlZnackaDao(jdbcTemplate);
+        
+        return mysqlZnackaDao;
     }
 }
