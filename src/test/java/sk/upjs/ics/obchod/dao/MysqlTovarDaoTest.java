@@ -16,15 +16,28 @@ public class MysqlTovarDaoTest {
        MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();
        List<Tovar> tovary = dao.dajTovar();
        
-       Assert.assertEquals(1, tovary.size());
+       Assert.assertTrue(tovary.size()>0);
     }
 
     @Test
     public void testPridajTovar() {
+        MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();
+        
+        int pocetPred = dao.dajTovar().size();
+        
+        Tovar t = new Tovar();
+        t.setKategoria(0L);
+        t.setIdPodkategoria(0L);
+        t.setNazov("nazov1");
+        dao.pridajTovar(t);
+        
+         int pocetPo = dao.dajTovar().size();
+         
+         Assert.assertEquals(pocetPo, pocetPred+1);
     }
 
     @Test
-    public void testOdstranTovar() {
+    public void testOdstranTovar() {  
     }
     
 }

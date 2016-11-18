@@ -8,15 +8,15 @@ public class Tovar {
     
     private String znacka;
     
-    private Long idKategoria;
+    private Long id_kategoria;
     
-    private Long idPodkategoria;
+    private Long id_podkategoria;
     
     private int cena;
     
     private String popis;
     
-    private String obrazokUrl;
+    private String obrazok_url;
     
     public Long getId() {
         return id;
@@ -43,19 +43,19 @@ public class Tovar {
     }
 
     public Long getIdKategoria() {
-        return idKategoria;
+        return id_kategoria;
     }
 
     public void setKategoria(Long idKategoria) {
-        this.idKategoria = idKategoria;
+        this.id_kategoria = idKategoria;
     }
 
     public Long getIdPodkategoria() {
-        return idPodkategoria;
+        return id_podkategoria;
     }
 
     public void setIdPodkategoria(Long idPodkategoria) {
-        this.idPodkategoria = idPodkategoria;
+        this.id_podkategoria = idPodkategoria;
     }
 
     public int getCena() {
@@ -75,10 +75,10 @@ public class Tovar {
     }
 
     public String getobrazokUrl() {
-        return obrazokUrl;
+        return obrazok_url;
     }
 
     public void setobrazokUrl(String obrazokUrl) {
-        this.obrazokUrl = obrazokUrl;
+        this.obrazok_url = obrazokUrl;
     }
 }

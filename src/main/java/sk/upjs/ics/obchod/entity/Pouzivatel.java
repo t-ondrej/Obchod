@@ -8,18 +8,18 @@ public class Pouzivatel {
     
     private Long id;
     
-    private String prihlasovacieMeno;
+    private Long id_kosik;
+    
+    private String prihlasovacie_meno;
+    
+    private String heslo;
     
     private String sol;
-    
-    private String passwordHash;
-    
+        
     private String email;
      
-    private LocalDateTime poslednePrihlasenie;
-        
-    private Long idKosik;
-
+    private LocalDateTime posledne_prihlasenie;
+      
     public Long getId() {
         return id;
     }
@@ -29,11 +29,11 @@ public class Pouzivatel {
     }
 
     public String getPrihlasovacieMeno() {
-        return prihlasovacieMeno;
+        return prihlasovacie_meno;
     }
 
     public void setPrihlasovacieMeno(String prihlasovacieMeno) {
-        this.prihlasovacieMeno = prihlasovacieMeno;
+        this.prihlasovacie_meno = prihlasovacieMeno;
     }
 
     public String getSol() {
@@ -45,23 +45,23 @@ public class Pouzivatel {
     }
     
     public String getPasswordHash() {
-        return passwordHash;
+        return heslo;
     }
 
     public void setPassword(String password) {
         if (sol == null) {
             sol = BCrypt.gensalt();
         }
-        this.passwordHash = BCrypt.hashpw(password, sol);
+        this.heslo = BCrypt.hashpw(password, sol);
     }
 
     public boolean checkPassword(String password) {
         String result = BCrypt.hashpw(password, sol);
-        return result.equals(passwordHash);
+        return result.equals(heslo);
     }
     
     public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+        this.heslo = passwordHash;
     }
 
     public String getEmail() {
@@ -73,19 +73,19 @@ public class Pouzivatel {
     }
 
     public LocalDateTime getPoslednePrihlasenie() {
-        return poslednePrihlasenie;
+        return posledne_prihlasenie;
     }
 
     public void setPoslednePrihlasenie(LocalDateTime poslednePrihlasenie) {
-        this.poslednePrihlasenie = poslednePrihlasenie;
+        this.posledne_prihlasenie = poslednePrihlasenie;
     }    
 
     public Long getIdKosik() {
-        return idKosik;
+        return id_kosik;
     }
 
     public void setKosik(Long idKosik) {
-        this.idKosik = idKosik;
+        this.id_kosik = idKosik;
     }
     
 }

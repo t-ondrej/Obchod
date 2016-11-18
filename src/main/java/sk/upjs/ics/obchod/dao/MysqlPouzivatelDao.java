@@ -26,9 +26,9 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     
     @Override
     public void pridajPouzivatela(Pouzivatel pouzivatel) {
-        String sql = "INSERT INTO Tovar VALUES(? ? ? ? ? ? ?)";
+        String sql = "INSERT INTO Pouzivatel (id_kosik, prihlasovacie_meno, heslo, sol, email, posledne_prihlasenie) VALUES(?, ?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(sql, pouzivatel.getId(), pouzivatel.getKosik().getId(), pouzivatel.getPrihlasovacieMeno(), 
+        jdbcTemplate.update(sql, pouzivatel.getIdKosik(), pouzivatel.getPrihlasovacieMeno(), 
                 pouzivatel.getPasswordHash(), pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie());
     }
 
