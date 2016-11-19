@@ -1,9 +1,10 @@
 
-package sk.upjs.ics.obchod.dao;
+package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 
@@ -28,7 +29,7 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     public void pridajPouzivatela(Pouzivatel pouzivatel) {
         String sql = "INSERT INTO Pouzivatel (id_kosik, prihlasovacie_meno, heslo, sol, email, posledne_prihlasenie) VALUES(?, ?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(sql, pouzivatel.getIdKosik(), pouzivatel.getPrihlasovacieMeno(), 
+        jdbcTemplate.update(sql, pouzivatel.getKosik().getId(), pouzivatel.getPrihlasovacieMeno(), 
                 pouzivatel.getPasswordHash(), pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie());
     }
 

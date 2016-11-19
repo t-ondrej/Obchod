@@ -10,8 +10,6 @@ public class Znacka {
     
     private String nazov;
    
-    private List<Tovar> tovary = new ArrayList<>();   
-
     public Long getId_Znacka() {
         return id;
     }
@@ -28,15 +26,4 @@ public class Znacka {
         this.nazov = nazov;
     }
 
-    public List<Tovar> getTovary() {
-        return tovary;
-    }
-
-    public void setTovary(List<Tovar> tovary) {
-        this.tovary = tovary;
-    }
-    
-    
-    
-    
 }

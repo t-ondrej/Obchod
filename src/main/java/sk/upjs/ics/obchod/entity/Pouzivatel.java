@@ -1,15 +1,14 @@
 package sk.upjs.ics.obchod.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import sk.upjs.ics.obchod.entity.Kosik;
 
 public class Pouzivatel {
     
     private Long id;
-    
-    private Long id_kosik;
-    
+        
     private String prihlasovacie_meno;
     
     private String heslo;
@@ -18,7 +17,9 @@ public class Pouzivatel {
         
     private String email;
      
-    private LocalDateTime posledne_prihlasenie;
+    private Date posledne_prihlasenie;
+    
+    private Kosik kosik;
       
     public Long getId() {
         return id;
@@ -72,20 +73,20 @@ public class Pouzivatel {
         this.email = email;
     }
 
-    public LocalDateTime getPoslednePrihlasenie() {
+    public Date getPoslednePrihlasenie() {
         return posledne_prihlasenie;
     }
 
-    public void setPoslednePrihlasenie(LocalDateTime poslednePrihlasenie) {
+    public void setPoslednePrihlasenie(Date poslednePrihlasenie) {
         this.posledne_prihlasenie = poslednePrihlasenie;
     }    
 
-    public Long getIdKosik() {
-        return id_kosik;
+    public Kosik getKosik() {
+        return kosik;
     }
 
-    public void setKosik(Long idKosik) {
-        this.id_kosik = idKosik;
+    public void setKosik(Kosik kosik) {
+        this.kosik = kosik;
     }
     
 }

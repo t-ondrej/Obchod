@@ -1,6 +1,7 @@
 
-package sk.upjs.ics.obchod.dao;
+package sk.upjs.ics.obchod.dao.mysql;
 
+import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import sk.upjs.ics.obchod.dao.DaoFactory;
 import static org.junit.Assert.*;
 import sk.upjs.ics.obchod.entity.Znacka;
 
@@ -41,7 +43,7 @@ public class MysqlZnackaDaoTest {
         MysqlZnackaDao dao = DaoFactory.INSTANCE.getMysqlZnackaDao();
         Znacka z = dao.najdiPodlaId(0L);
         
-        Assert.assertEquals(z.getNazov(), "Neznama");
+        Assert.assertEquals(z.getNazov(), "Nezaradene");
         
     }
 

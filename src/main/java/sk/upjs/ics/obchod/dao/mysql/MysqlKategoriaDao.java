@@ -1,9 +1,10 @@
 
-package sk.upjs.ics.obchod.dao;
+package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.obchod.dao.KategoriaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 
 public class MysqlKategoriaDao implements KategoriaDao{
@@ -22,10 +23,10 @@ public class MysqlKategoriaDao implements KategoriaDao{
     }
 
     @Override
-    public Kategoria najdiPodlaId(Long id_Kategoria) {
+    public Kategoria najdiPodlaId(Long idKategoria) {
        String sql = "SELECT * FROM kategoria WHERE id = ?";        
         BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);        
-        return jdbcTemplate.queryForObject(sql, mapper, id_Kategoria);
+        return jdbcTemplate.queryForObject(sql, mapper, idKategoria);
     }
 
     @Override

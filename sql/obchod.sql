@@ -1,21 +1,37 @@
-CREATE DATABASE IF NOT EXISTS obchod;
-USE obchod;
+CREATE DATABASE IF NOT EXISTS obchod_test;
+USE obchod_test;
 
-CREATE USER 'obchod'@'localhost' IDENTIFIED BY 'obchod1';
-GRANT ALL ON obchod.* TO 'obchod'@'localhost';
+CREATE USER 'obchod_test'@'localhost' IDENTIFIED BY 'obchod1_test';
+GRANT ALL ON obchod_test.* TO 'obchod'@'localhost';
+
+CREATE TABLE IF NOT EXISTS Kategoria (
+	id INT NOT NULL AUTO_INCREMENT,
+    nazov VARCHAR(60),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Znacka (
+	id INT NOT NULL AUTO_INCREMENT,
+    nazov VARCHAR(60),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Kosik (
+	id INT NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE IF NOT EXISTS Tovar (
 	id INT NOT NULL AUTO_INCREMENT,
     id_kategoria INT NOT NULL,
-    id_podkategoria INT NOT NULL,
+    id_znacka INT NOT NULL,
     nazov VARCHAR(35),	
-    znacka VARCHAR(35),
 	cena INT NOT NULL,
 	popis VARCHAR(90),
     obrazok_url VARCHAR(90),
     PRIMARY KEY (id),
     FOREIGN KEY (id_kategoria) REFERENCES Kategoria(id),
-    FOREIGN KEY (id_podkategoria) REFERENCES Podkategoria(id)
+    FOREIGN KEY (id_znacka) REFERENCES Znacka(id)
 );
 
 CREATE TABLE IF NOT EXISTS Pouzivatel (
@@ -30,11 +46,6 @@ CREATE TABLE IF NOT EXISTS Pouzivatel (
     FOREIGN KEY (id_kosik) REFERENCES Kosik(id)
 );
 
-CREATE TABLE IF NOT EXISTS Kosik (
-	id INT NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE IF NOT EXISTS Tovar_Kosika (
 	id_kosik INT NOT NULL,
     id_tovar INT,
@@ -45,35 +56,38 @@ CREATE TABLE IF NOT EXISTS Tovar_Kosika (
 CREATE TABLE IF NOT EXISTS Faktura (
 	id INT NOT NULL AUTO_INCREMENT,
 	id_pouzivatel INT NOT NULL,
-	id_tovar INT NOT NULL,
     suma INT NOT NULL,
     datum_nakupu DATETIME,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_pouzivatel) REFERENCES Pouzivatel(id),
-    FOREIGN KEY (id_tovar) REFERENCES Tovar(id)
+    FOREIGN KEY (id_pouzivatel) REFERENCES Pouzivatel(id)
 );
 
-CREATE TABLE IF NOT EXISTS Kategoria (
-	id INT NOT NULL AUTO_INCREMENT,
-    nazov VARCHAR(60),
-    PRIMARY KEY (id)
+CREATE TABLE IF NOT EXISTS Tovar_Faktury (
+	id_faktura INT NOT NULL,
+    id_tovar INT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Podkategoria (
-	id INT NOT NULL AUTO_INCREMENT,
-    nazov VARCHAR(60),
-    PRIMARY KEY (id)
-);
-
-INSERT INTO Kategoria VALUES(0, 'Nezaradene');
+INSERT INTO Kategoria(nazov) VALUES('Nezaradene');
 UPDATE Kategoria SET id = 0 WHERE id = 1;
-INSERT INTO Podkategoria VALUES(0, 'Nezaradene');
-UPDATE Podkategoria SET id = 0 WHERE id = 1;
 
-INSERT INTO Kosik VALUES(0);
+INSERT INTO Znacka(nazov) VALUES('Nezaradene');
+UPDATE Znacka SET id = 0 WHERE id = 1;
+
+INSERT INTO Kosik VALUES();
 UPDATE Kosik SET id = 0 WHERE id = 1;
-INSERT INTO Pouzivatel VALUES(0, 0, 'testPouzivatel', 'testHeslo1', 'testSol', 'pouzivatel@test.com', '2016.11.15');
+
+INSERT INTO Pouzivatel(id_kosik, prihlasovacie_meno, heslo, sol, email, posledne_prihlasenie) 
+VALUES(0, 'testPouzivatel', 'testHeslo1', 'testSol', 'pouzivatel@test.com', '2016.11.15');
 UPDATE Pouzivatel SET id = 0 WHERE id = 1;
-INSERT INTO Tovar VALUES(0, 0, 0, 'testNazov', 'testZnacka', 20, 'testPopis', '@../img/1.JPG');
+
+INSERT INTO Tovar(id_kategoria, id_znacka, nazov, cena, popis, obrazok_url) 
+VALUES(0, 0, 'testNazov', 20, 'testPopis', '@../img/1.JPG');
 UPDATE Tovar SET id = 0 WHERE id = 1;
+
 INSERT INTO Tovar_Kosika VALUES(0, 0);
+
+INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu)
+VALUES(0, 0, '2016.9.15');
+UPDATE Faktura SET id = 0 WHERE id = 1;
+
+INSERT INTO Tovar_Faktury VALUES(0, 0);

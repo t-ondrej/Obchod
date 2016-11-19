@@ -6,16 +6,26 @@ public class Faktura {
     
     private Long id;
     
+    private Long idPouzivatel;
+     
     private int suma;
     
     private Date datumNakupu;
-
+    
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdPouzivatel() {
+        return idPouzivatel;
+    }
+
+    public void setIdPouzivatel(Long idPouzivatel) {
+        this.idPouzivatel = idPouzivatel;
     }
 
     public int getSuma() {
@@ -33,6 +43,5 @@ public class Faktura {
     public void setDatumNakupu(Date datumNakupu) {
         this.datumNakupu = datumNakupu;
     }
-    
-    
+
 }
