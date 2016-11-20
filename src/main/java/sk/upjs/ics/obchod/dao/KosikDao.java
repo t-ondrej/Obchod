@@ -5,11 +5,11 @@ import sk.upjs.ics.obchod.entity.Kosik;
 
 public interface KosikDao {
     
-    public List<Kosik> dajKosiky();
+    List<Kosik> dajKosiky();
     
-    public Kosik dajKosikPodlaId(Long idKosika);
+    Kosik dajKosikPodlaId(Long idKosika);
     
-    public void pridajKosik(Kosik kosik);
+    void pridajKosik(Kosik kosik);
     
-    public void odstranKosik(Kosik kosik);
+    void odstranKosik(Kosik kosik);
 }

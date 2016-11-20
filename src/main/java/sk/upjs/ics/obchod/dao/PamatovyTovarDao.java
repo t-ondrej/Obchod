@@ -3,7 +3,9 @@ package sk.upjs.ics.obchod.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.entity.Znacka;
 
 
 public class PamatovyTovarDao implements TovarDao {
@@ -31,6 +33,21 @@ public class PamatovyTovarDao implements TovarDao {
     @Override
     public void odstranTovar(Tovar tovar) {
         tovary.remove(tovar);
+    }
+
+    @Override
+    public List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Tovar> dajTovarPodlaNazvu(String nazov) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Tovar> dajTovarPodlaZnacky(Znacka znacka) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

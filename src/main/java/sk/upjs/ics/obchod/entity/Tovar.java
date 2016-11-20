@@ -71,4 +71,8 @@ public class Tovar {
     public void setobrazokUrl(String obrazokUrl) {
         this.obrazokUrl = obrazokUrl;
     }
+
+    void add(Tovar tovar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

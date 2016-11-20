@@ -6,10 +6,10 @@ import sk.upjs.ics.obchod.entity.Znacka;
 
 public interface ZnackaDao {
     
-    public List<Znacka> dajZnacky();
+    List<Znacka> dajZnacky();
     
-    public Znacka najdiPodlaId(Long id_Znacka);
+    Znacka najdiPodlaId(Long id_Znacka);
     
-    public void uloz(Znacka znacka);
+    void uloz(Znacka znacka);
     
 }

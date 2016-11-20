@@ -6,10 +6,10 @@ import sk.upjs.ics.obchod.entity.Kategoria;
 
 public interface KategoriaDao {
     
-    public List<Kategoria> dajKategorie();
+    List<Kategoria> dajKategorie();
     
-    public Kategoria najdiPodlaId(Long id_Kategoria);
+    Kategoria najdiPodlaId(Long idKategoria);
     
-    public void uloz(Kategoria kategoria);
+    void uloz(Kategoria kategoria);
     
 }

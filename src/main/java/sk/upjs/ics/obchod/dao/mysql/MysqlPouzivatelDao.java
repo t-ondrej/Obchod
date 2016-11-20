@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
+import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 
@@ -19,10 +20,22 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     @Override
     public List<Pouzivatel> dajPouzivatelov() {
         String sql = "SELECT * FROM Pouzivatel";
-        
-        BeanPropertyRowMapper<Pouzivatel> mapper = BeanPropertyRowMapper.newInstance(Pouzivatel.class);
-        
-        return jdbcTemplate.query(sql, mapper);
+               
+        return jdbcTemplate.query(sql, new PouzivatelRowMapper());
+    }
+    
+    @Override
+    public Pouzivatel dajPouzivatela(String meno) {
+        String sql = "SELECT * FROM Pouzivatel WHERE prihlasovacie_meno = ?";
+                   
+        return jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper(), meno);
+    }
+    
+    @Override
+    public Pouzivatel dajPouzivatela(Long id) {
+        String sql = "SELECT * FROM Pouzivatel WHERE id = ?";
+                   
+        return jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper(), id);
     }
     
     @Override
@@ -39,6 +52,7 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
         
         jdbcTemplate.update(sql, pouzivatel.getId());
     }
+
 }
 
 

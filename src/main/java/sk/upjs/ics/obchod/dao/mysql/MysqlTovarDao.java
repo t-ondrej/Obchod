@@ -4,13 +4,17 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TovarDao;
+import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.entity.Znacka;
 
 
 public class MysqlTovarDao implements TovarDao{
 
     private final JdbcTemplate jdbcTemplate;
     
+    private final BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
+           
     public MysqlTovarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -18,11 +22,30 @@ public class MysqlTovarDao implements TovarDao{
     @Override
     public List<Tovar> dajTovar() {
         String sql = "SELECT * FROM Tovar";
-        
-        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
-        
+                    
         return jdbcTemplate.query(sql, mapper);
     }
+    
+      @Override
+    public List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria) {
+        String sql = "SELECT * FROM Tovar WHERE id_kategoria = ?";
+        
+        return jdbcTemplate.query(sql, mapper, kategoria.getId());
+    }
+
+    @Override
+    public List<Tovar> dajTovarPodlaNazvu(String nazov) {
+        String sql = "SELECT * FROM Tovar WHERE nazov = ?";
+        
+        return jdbcTemplate.query(sql, mapper, nazov);
+    }
+
+    @Override
+    public List<Tovar> dajTovarPodlaZnacky(Znacka znacka) {
+        String sql = "SELECT * FROM Tovar WHERE id_znacka = ?";
+        
+        return jdbcTemplate.query(sql, mapper, znacka.getId());
+    }   
 
     @Override
     public void pridajTovar(Tovar tovar) {
@@ -38,5 +61,4 @@ public class MysqlTovarDao implements TovarDao{
         
         jdbcTemplate.update(sql, tovar.getId());
     }
-    
 }

@@ -5,10 +5,14 @@ import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 public interface PouzivatelDao {
     
-    public List<Pouzivatel> dajPouzivatelov();
+    List<Pouzivatel> dajPouzivatelov();
     
-    public void pridajPouzivatela(Pouzivatel pouzivatel);
+    Pouzivatel dajPouzivatela(Long id);
     
-    public void odstranPouzivatela(Pouzivatel pouzivatel);
+    Pouzivatel dajPouzivatela(String meno);
+    
+    void pridajPouzivatela(Pouzivatel pouzivatel);
+    
+    void odstranPouzivatela(Pouzivatel pouzivatel);
     
 }

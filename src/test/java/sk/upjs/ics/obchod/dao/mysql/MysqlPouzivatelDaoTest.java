@@ -29,8 +29,15 @@ public class MysqlPouzivatelDaoTest {
         MysqlPouzivatelDao dao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
         List<Pouzivatel> pouzivatelia = dao.dajPouzivatelov();
         
-         Assert.assertTrue(pouzivatelia.size()>0);
+        Assert.assertTrue(pouzivatelia.size()>0);       
+    }
+    
+    @Test
+    public void testDajPouzivatelaPodlaId() {
+        MysqlPouzivatelDao dao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
+        Pouzivatel pouzivatel = dao.dajPouzivatela(0L);
         
+        Assert.assertTrue(0L == pouzivatel.getId());
     }
 
     /**

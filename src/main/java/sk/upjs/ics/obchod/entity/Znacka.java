@@ -10,12 +10,12 @@ public class Znacka {
     
     private String nazov;
    
-    public Long getId_Znacka() {
+    public Long getId() {
         return id;
     }
 
-    public void setId_Znacka(Long id_Znacka) {
-        this.id = id_Znacka;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNazov() {

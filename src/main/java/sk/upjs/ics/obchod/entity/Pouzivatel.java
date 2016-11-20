@@ -87,6 +87,5 @@ public class Pouzivatel {
 
     public void setKosik(Kosik kosik) {
         this.kosik = kosik;
-    }
-    
+    }   
 }
