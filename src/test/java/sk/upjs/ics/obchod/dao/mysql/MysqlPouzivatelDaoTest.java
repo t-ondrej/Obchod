@@ -39,6 +39,18 @@ public class MysqlPouzivatelDaoTest {
         
         Assert.assertTrue(0L == pouzivatel.getId());
     }
+    
+    @Test
+    public void testDajPouzivatelaPodlaMena() {
+        MysqlPouzivatelDao dao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
+        Pouzivatel pouzivatel;
+        
+        pouzivatel = dao.dajPouzivatela("neznameMeno");       
+        Assert.assertTrue(null == pouzivatel);
+        
+        pouzivatel = dao.dajPouzivatela("testPouzivatel");
+        Assert.assertTrue("testPouzivatel".equals(pouzivatel.getPrihlasovacieMeno()));
+    }
 
     /**
      * Test of pridajPouzivatela method, of class MysqlPouzivatelDao.
@@ -46,8 +58,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testPridajPouzivatela() {
         System.out.println("pridajPouzivatela");
-        
-        
+               
     }
 
     /**

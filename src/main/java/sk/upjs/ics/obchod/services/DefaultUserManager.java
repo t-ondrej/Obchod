@@ -30,8 +30,9 @@ public enum DefaultUserManager implements UserManager{
                           
     }
     
-    private boolean jeVolneMeno(String meno) {
-        return dao.dajPouzivatela(meno) == null;
+    public boolean jeVolneMeno(String meno) {
+       Pouzivatel  pouzivatel = dao.dajPouzivatela(meno);
+       return pouzivatel == null;
     }
     
 }

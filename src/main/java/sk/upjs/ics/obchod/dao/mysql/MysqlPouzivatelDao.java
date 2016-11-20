@@ -27,8 +27,16 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     @Override
     public Pouzivatel dajPouzivatela(String meno) {
         String sql = "SELECT * FROM Pouzivatel WHERE prihlasovacie_meno = ?";
-                   
-        return jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper(), meno);
+        Pouzivatel pouzivatel = null;
+        
+        try {
+           pouzivatel = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper(), meno);
+        }
+        catch (Exception e) {
+            return null;
+        }
+        
+        return pouzivatel;
     }
     
     @Override
