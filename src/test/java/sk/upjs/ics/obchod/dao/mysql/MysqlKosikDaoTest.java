@@ -27,15 +27,19 @@ public class MysqlKosikDaoTest {
     }
 
     @Test
-    public void testPridajKosik() {
+    public void testPridajKosikVratId() {
         MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();
         int pocetPred = dao.dajKosiky().size();
         
-        dao.pridajKosik(new Kosik());
+        Long idKosik1 = dao.pridajKosikVratId(new Kosik());
         
         int pocetPo = dao.dajKosiky().size();
         
         Assert.assertEquals(pocetPred + 1,pocetPo);
+        
+        Long idKosik2 = dao.pridajKosikVratId(new Kosik());
+        
+        Assert.assertTrue(idKosik1 + 1 == idKosik2);
     }
 
     @Test
