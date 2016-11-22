@@ -15,6 +15,10 @@ public interface TovarDao {
     
     List<Tovar> dajTovarPodlaZnacky(Znacka znacka);
     
+    Tovar najdiPodlaId(Long id);
+    
+    void nastavTovaruPocetKusov(Tovar tovar, int pocet);    
+    
     void pridajTovar(Tovar tovar);
     
     void odstranTovar(Tovar tovar);

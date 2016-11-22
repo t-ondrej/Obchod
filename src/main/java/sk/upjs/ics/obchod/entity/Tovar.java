@@ -16,6 +16,8 @@ public class Tovar {
     
     private String obrazokUrl;
     
+    private int pocet_kusov;
+    
     public Long getId() {
         return id;
     }
@@ -71,6 +73,15 @@ public class Tovar {
     public void setobrazokUrl(String obrazokUrl) {
         this.obrazokUrl = obrazokUrl;
     }
+    
+    public int getPocet_kusov() {
+        return pocet_kusov;
+    }
+
+    public void setPocet_kusov(int pocet_kusov) {
+        this.pocet_kusov = pocet_kusov;
+    }
+    
 
     void add(Tovar tovar) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

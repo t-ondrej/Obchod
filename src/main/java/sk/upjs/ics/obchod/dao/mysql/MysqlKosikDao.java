@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 import sk.upjs.ics.obchod.dao.KosikDao;
 import sk.upjs.ics.obchod.entity.Kosik;
+import sk.upjs.ics.obchod.entity.Tovar;
 
 public class MysqlKosikDao implements KosikDao {
 
@@ -63,11 +64,24 @@ public class MysqlKosikDao implements KosikDao {
     }
 
     @Override
-    public void odstranKosik(Kosik kosik
-    ) {
+    public void odstranKosik(Kosik kosik) {
         String sql = "DELETE FROM kosik WHERE id = ?";
 
         jdbcTemplate.update(sql, kosik.getId());
+    }
+
+    @Override
+    public void dajTovarDoKosika(Long idTovaru, Long idKosika) {
+         String sql = "INSERT INTO tovar_kosika (id_kosik, id_tovar) VALUES(?, ?)";
+        
+        jdbcTemplate.update(sql, idKosika, idTovaru);
+    }
+
+    @Override
+    public List<Tovar> dajTovaryKosika(Long idKosika) {
+        String sql = "SELECT id, id_kategoria, id_znacka, nazov, cena, popis, obrazok_url, pocet_kusov FROM tovar as t JOIN tovar_kosika as tk ON t.id=tk.id_tovar WHERE tk.id_kosik = ?;";
+         BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
+        return jdbcTemplate.query(sql, mapper, idKosika);
     }
 
 }
