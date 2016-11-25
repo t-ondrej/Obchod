@@ -13,23 +13,46 @@ public class DefaultKosikManager implements KosikManager{
     private TovarDao tovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
 
     @Override
-    public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik) {
-        
-        if(tovar.getPocet_kusov()==0){
+    public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik) { 
+        int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
+        if(pocetTovaru <= 0){
             return false;
-        }        
-        int predtym = tovar.getPocet_kusov();        
-        kosikDao.dajTovarDoKosika(tovar.getId(), kosik.getId());   
-        tovarDao.nastavTovaruPocetKusov(tovar, predtym-1);
-                
+        }
+        
+        List<Tovar> tovaryKosika = kosikDao.dajTovaryKosika(kosik.getId());        
+        boolean jeVKosiku = false;
+        
+        for(Tovar t: tovaryKosika){
+            if(t.getId().equals(tovar.getId())){
+                jeVKosiku = true;                
+            }
+        }
+        
+        if(!jeVKosiku){                   
+            kosikDao.dajTovarDoKosika(tovar.getId(), kosik.getId());   
+            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+        }else{           
+             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
+             kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred+1);
+             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+        }               
         return true;
     }
 
     @Override
-    public boolean odoberTovarZKosika(Tovar tovar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void odoberTovarZKosika(Tovar tovar, Kosik kosik) {
+        int pocetZTovaruVKosiku = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
+        int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
+        
+        if(pocetZTovaruVKosiku <= 1){
+            kosikDao.odoberTovarZKosika(tovar.getId(), kosik.getId());           
+            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);                
+        }else{            
+            int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
+            kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred-1);
+            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);
+        }
     }
 
    
-    
 }

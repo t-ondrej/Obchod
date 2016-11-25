@@ -77,5 +77,11 @@ public class MysqlTovarDao implements TovarDao{
        
     }
 
+    @Override
+    public int dajPocetTovaru(Long idTovar) {
+        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
+       return jdbcTemplate.queryForObject(sql,Integer.class, idTovar);
+    }
+
     
 }

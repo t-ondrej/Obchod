@@ -64,24 +64,42 @@ public class MysqlKosikDao implements KosikDao {
     }
 
     @Override
-    public void odstranKosik(Kosik kosik) {
+    public void odstranKosik(Long idKosik) {
         String sql = "DELETE FROM kosik WHERE id = ?";
 
-        jdbcTemplate.update(sql, kosik.getId());
+        jdbcTemplate.update(sql, idKosik);
     }
 
     @Override
     public void dajTovarDoKosika(Long idTovaru, Long idKosika) {
-         String sql = "INSERT INTO tovar_kosika (id_kosik, id_tovar) VALUES(?, ?)";
+         String sql = "INSERT INTO tovar_kosika (id_kosik, id_tovar, pocet_kusov) VALUES(?, ?, ?)";
         
-        jdbcTemplate.update(sql, idKosika, idTovaru);
-    }
+        jdbcTemplate.update(sql, idKosika, idTovaru, 1);
+    }    
 
     @Override
+    public void odoberTovarZKosika(Long idTovaru, Long idKosika) {
+        String sql = "DELETE FROM tovar_kosika WHERE id_tovar = ? AND id_kosik = ?;";
+         jdbcTemplate.update(sql, idTovaru , idKosika);
+    }
+    
+    @Override
     public List<Tovar> dajTovaryKosika(Long idKosika) {
-        String sql = "SELECT id, id_kategoria, id_znacka, nazov, cena, popis, obrazok_url, pocet_kusov FROM tovar as t JOIN tovar_kosika as tk ON t.id=tk.id_tovar WHERE tk.id_kosik = ?;";
+        String sql = "SELECT t.id, t.id_kategoria, t.id_znacka, t.nazov, t.cena, t.popis, t.obrazok_url, t.pocet_kusov FROM tovar as t JOIN tovar_kosika as tk ON t.id=tk.id_tovar WHERE tk.id_kosik = ?;";
          BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
         return jdbcTemplate.query(sql, mapper, idKosika);
     }
 
+    @Override
+    public int pocetJednehoTovaruVKosiku(Long idTovaru, Long idKosika) {
+       String sql = "SELECT pocet_kusov FROM tovar_kosika WHERE id_kosik = ? AND id_tovar = ?;";
+       return jdbcTemplate.queryForObject(sql,Integer.class, idKosika, idTovaru);
+       
+    }
+
+    @Override
+    public void nastavTovaruVKosikuPocetKusov(Long idTovaru, Long idKosika, int pocet_kusov) {
+        String sql = "UPDATE tovar_kosika SET pocet_kusov = ? WHERE id_kosik = ? AND id_tovar = ?;";
+        jdbcTemplate.update(sql, pocet_kusov, idKosika , idTovaru);
+    }
 }

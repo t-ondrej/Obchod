@@ -17,6 +17,8 @@ public interface TovarDao {
     
     Tovar najdiPodlaId(Long id);
     
+    int dajPocetTovaru(Long idTovar);
+    
     void nastavTovaruPocetKusov(Tovar tovar, int pocet);    
     
     void pridajTovar(Tovar tovar);

@@ -16,23 +16,7 @@ import sk.upjs.ics.obchod.entity.Znacka;
 
 public class MysqlTovarDaoTest {
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
-   
+      
     @Test
     public void testDajTovar() {
         MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();
@@ -128,6 +112,17 @@ public class MysqlTovarDaoTest {
         Assert.assertEquals(pocetPo, pocetPred+1);
     }
 
-    
+    /**
+     * Test of dajPocetTovaru method, of class MysqlTovarDao.
+     */
+    @Test
+    public void testDajPocetTovaru() {
+        System.out.println("dajPocetTovaru");
+        Long idTovar = 0L;
+        MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();        
+        int pocet = dao.dajPocetTovaru(idTovar);
+        assertEquals(pocet, 1);
+        
+    } 
 
 }

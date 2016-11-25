@@ -15,63 +15,50 @@ import sk.upjs.ics.obchod.entity.Tovar;
 
 public class MysqlKosikDaoTest {    
 
+    private MysqlKosikDao dao;
     
+    public MysqlKosikDaoTest(){
+        dao = DaoFactory.INSTANCE.getMysqlKosikDao();
+    }    
     
     @Test
-    public void testDajKosiky() {
-        MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();
-        List<Kosik> kosiky = dao.dajKosiky();
-        
+    public void testDajKosiky() {        
+        List<Kosik> kosiky = dao.dajKosiky();        
         Assert.assertTrue(kosiky.size()>0);
     }
 
     @Test
-    public void testDajKosikPodlaId() {
-        MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();
-        Kosik kosik = dao.dajKosikPodlaId(0L);
-        
+    public void testDajKosikPodlaId() {       
+        Kosik kosik = dao.dajKosikPodlaId(0L);        
         Assert.assertTrue(kosik.getId() == 0L);
     }
 
     @Test
-    public void testPridajKosikVratId() {
-        MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();
-        int pocetPred = dao.dajKosiky().size();
-        
-        Long idKosik1 = dao.pridajKosikVratId(new Kosik());
-        
+    public void testPridajKosikVratId() {       
+        int pocetPred = dao.dajKosiky().size();        
+        Long idKosik1 = dao.pridajKosikVratId(new Kosik());        
         int pocetPo = dao.dajKosiky().size();
         
         Assert.assertEquals(pocetPred + 1,pocetPo);
         
-        Long idKosik2 = dao.pridajKosikVratId(new Kosik());
-        
+        Long idKosik2 = dao.pridajKosikVratId(new Kosik());        
         Assert.assertTrue(idKosik1 + 1 == idKosik2);
+        
+        dao.odstranKosik(idKosik1);
+        dao.odstranKosik(idKosik2);
+        
     }
 
     @Test
     public void testOdstranKosik() {
-    }
-
-    /**
-     * Test of dajDoKosikaTovar method, of class MysqlKosikDao.
-     */
-    @Test
-    public void testTovarDoKosika() {
-        System.out.println("dajTovarDoKosika");
-        Long idKosika = 0L;
-        Long idTovaru = 0L;
-        MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();
-        dao.dajTovarDoKosika(idTovaru, idKosika);
-        List<Tovar> tovary = dao.dajTovaryKosika(idKosika);
-        boolean jeTam = false;
-        for(Tovar t: tovary){
-            if(t.getId()==idTovaru){
-                jeTam = true;
-            }
-        }
-        Assert.assertTrue(jeTam);
-    }
+        Long idKosik = dao.pridajKosikVratId(new Kosik());
+        
+        int pocetPred = dao.dajKosiky().size();
+        dao.odstranKosik(idKosik);
+        int pocetPo = dao.dajKosiky().size();
+        
+        Assert.assertEquals(pocetPred - 1,pocetPo);
+    }   
 
     /**
      * Test of dajTovaryKosika method, of class MysqlKosikDao.
@@ -80,9 +67,84 @@ public class MysqlKosikDaoTest {
     public void testDajTovaryKosika() {
         System.out.println("dajTovaryKosika");
         Long idKosika = 0L;
-        MysqlKosikDao dao = DaoFactory.INSTANCE.getMysqlKosikDao();        
-        List<Tovar> tovary = dao.dajTovaryKosika(idKosika);
+              
+        List<Tovar> tovary = dao.dajTovaryKosika(idKosika);        
         Assert.assertTrue(tovary.size()>0);
+    }
+
+    /**
+     * Test of dajTovarDoKosika method, of class MysqlKosikDao.
+     */
+    @Test
+    public void testDajTovarDoKosika() {
+        System.out.println("dajTovarDoKosika");
+        Long idTovaru = 1L;
+        Long idKosika = 0L;
+        
+        dao.dajTovarDoKosika(idTovaru, idKosika);
+        
+        List<Tovar> tovary = dao.dajTovaryKosika(idKosika);
+        boolean jeTam = false;
+        for(Tovar t: tovary){
+            if (t.getId()==idTovaru){
+                jeTam=true;
+            }
+        }
+        Assert.assertTrue(jeTam);  
+        dao.odoberTovarZKosika(idTovaru, idKosika);
+    }
+
+    /**
+     * Test of odoberTovarZKosika method, of class MysqlKosikDao.
+     */
+    @Test
+    public void testOdoberTovarZKosika() {
+        System.out.println("odoberTovarZKosika");
+        Long idTovaru = 1L;
+        Long idKosika = 0L;
+        
+        dao.dajTovarDoKosika(idTovaru, idKosika);
+        
+        int pocPred = dao.dajTovaryKosika(idKosika).size();
+        dao.odoberTovarZKosika(idTovaru, idKosika);
+        int pocPo = dao.dajTovaryKosika(idKosika).size();
+        
+        Assert.assertEquals(pocPred-1, pocPo);
+        
+    }
+
+    /**
+     * Test of pocetJednehoTovaruVKosiku method, of class MysqlKosikDao.
+     */
+    @Test
+    public void testPocetJednehoTovaruVKosiku() {
+        System.out.println("pocetJednehoTovaruVKosiku");
+        Long idTovaru = 0L;
+        Long idKosika = 0L;       
+        
+        int result = dao.pocetJednehoTovaruVKosiku(idTovaru, idKosika);
+        Assert.assertEquals(1, result);
+        
+    }
+
+    /**
+     * Test of nastavTovaruVKosikuPocetKusov method, of class MysqlKosikDao.
+     */
+    @Test
+    public void testNastavTovaruVKosikuPocetKusov() {
+        System.out.println("nastavTovaruVKosikuPocetKusov");
+        Long idTovaru = 0L;
+        Long idKosika = 0L;
+        int pocet_kusov = 0;
+        
+        int pocetPred = dao.pocetJednehoTovaruVKosiku(idTovaru, idKosika);
+        
+        dao.nastavTovaruVKosikuPocetKusov(idTovaru, idKosika, pocet_kusov);        
+        int pocet = dao.pocetJednehoTovaruVKosiku(idTovaru, idKosika);
+        
+        Assert.assertEquals(pocet_kusov, pocet);
+        dao.nastavTovaruVKosikuPocetKusov(idTovaru, idKosika, pocetPred);  
+        
     }
     
 }

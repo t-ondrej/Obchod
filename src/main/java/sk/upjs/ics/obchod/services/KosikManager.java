@@ -5,7 +5,7 @@ import sk.upjs.ics.obchod.entity.Tovar;
 
 public interface KosikManager {
     
-    public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik);
+    boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik);
     
-    public boolean odoberTovarZKosika(Tovar tovar);
+    void odoberTovarZKosika(Tovar tovar, Kosik kosik);
 }
