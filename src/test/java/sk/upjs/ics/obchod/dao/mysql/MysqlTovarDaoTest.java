@@ -124,5 +124,4 @@ public class MysqlTovarDaoTest {
         assertEquals(pocet, 1);
         
     } 
-
 }
