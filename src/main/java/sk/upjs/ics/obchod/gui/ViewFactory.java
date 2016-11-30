@@ -8,6 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Pagination;
 import javafx.stage.Stage;
+import sk.upjs.ics.obchod.gui.Controllers.AdministraciaController;
+import sk.upjs.ics.obchod.gui.Controllers.PokladnaController;
+import sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController;
 
 public enum ViewFactory {
     INSTANCE;
@@ -17,6 +20,12 @@ public enum ViewFactory {
     private Scene prihlasenieScene;
 
     private Scene registraciaScene;
+    
+    private Scene pokladnaScene;
+    
+    private Scene administraciaScene;
+    
+    private Scene specifikaciaTovaruScene;
 
     public Scene getObchodScene(Stage mainStage) {
         if (obchodScene == null) {
@@ -67,4 +76,56 @@ public enum ViewFactory {
 
         return registraciaScene;
     }
+    
+    public Scene getPokladnaScene(Stage mainStage) {
+        if (pokladnaScene == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pokladna.fxml"));
+                pokladnaScene = new Scene(loader.load());
+                PokladnaController pokladnaController = loader.getController();
+                pokladnaController.setStage(mainStage);
+                
+            } catch (IOException e) {
+                System.err.println("Nepodarilo sa nacitat Pokladna.fxml");
+                e.printStackTrace();
+            }
+        }
+
+        return pokladnaScene;
+    }
+    
+    public Scene getAdministraciaScene(Stage mainStage) {
+        if (administraciaScene == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Administracia.fxml"));
+                administraciaScene = new Scene(loader.load());
+                AdministraciaController administraciaController = loader.getController();
+                administraciaController.setStage(mainStage);
+                
+            } catch (IOException e) {
+                System.err.println("Nepodarilo sa nacitat Administracia.fxml");
+                e.printStackTrace();
+            }
+        }
+
+        return administraciaScene;
+    }
+    
+ /*   public Scene getSpecifikaciaTovaruScene(Stage mainStage, String nazovTovaru) {
+        if (specifikaciaTovaruScene == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SpecifikaciaTovaru.fxml"));
+                specifikaciaTovaruScene = new Scene(loader.load());
+                SpecifikaciaTovaruController specifikaciaTovaruController = loader.getController();
+                specifikaciaTovaruController.setStage(mainStage);
+                specifikaciaTovaruController.setNazovTovaru(nazovTovaru);
+                
+            } catch (IOException e) {
+                System.err.println("Nepodarilo sa nacitat SpecifikaciaTovaru.fxml");
+                e.printStackTrace();
+            }
+        }
+
+        return specifikaciaTovaruScene;
+    }*/
 }

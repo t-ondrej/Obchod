@@ -7,6 +7,9 @@ public class Kosik {
     
     private Long id;
     
+    // TODO: hashmapa<nazovTovaru, pocetTovaru>
+    //       celkova cena tovaru v kosiku
+    
     private List<Tovar> zoznamTovaru = new ArrayList<>();
     
     public Long getId() {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="669.0" prefWidth="1094.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
+    <stylesheets>
+        <URL value="@/styles/Obchod.css" />
+    </stylesheets>
+   <children>
+      <BorderPane layoutX="250.0" layoutY="154.0" prefHeight="0.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="83.0" prefWidth="938.0" styleClass="pane" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatButtonClicked" text="Späť" />
+               </children>
+            </Pane>
+         </top>
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="455.0" layoutY="42.0" text="Špecifikácia tovaru" />
+                  <ImageView fx:id="tovarImageView" fitHeight="150.0" fitWidth="200.0" layoutX="138.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="nazovTovaruLabel" layoutX="547.0" layoutY="134.0" text="Názov tovaru" />
+                  <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="547.0" layoutY="182.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
+                  <Label fx:id="cenaLabel" layoutX="547.0" layoutY="422.0" text="Cena" />
+                  <Button fx:id="pridatDoKosikaButton" layoutX="684.0" layoutY="420.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

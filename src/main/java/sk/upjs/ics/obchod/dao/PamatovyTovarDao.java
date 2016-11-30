@@ -41,11 +41,6 @@ public class PamatovyTovarDao implements TovarDao {
     }
 
     @Override
-    public List<Tovar> dajTovarPodlaNazvu(String nazov) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<Tovar> dajTovarPodlaZnacky(Znacka znacka) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -62,6 +57,11 @@ public class PamatovyTovarDao implements TovarDao {
 
     @Override
     public int dajPocetTovaru(Long idTovar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Tovar dajTovarPodlaNazvu(String nazov) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

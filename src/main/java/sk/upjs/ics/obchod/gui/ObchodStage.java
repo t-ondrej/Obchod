@@ -16,6 +16,8 @@ public class ObchodStage extends Application {
         stage.setTitle("Obchod");
         stage.setScene(obchodScene);
         stage.show();
+        
+        
     }
 
     public static void main(String[] args) {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="669.0" prefWidth="1094.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PokladnaController">
+    <stylesheets>
+        <URL value="@/styles/Obchod.css" />
+    </stylesheets>
+   <children>
+      <BorderPane layoutX="293.0" layoutY="177.0" prefHeight="669.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="83.0" prefWidth="1094.0" styleClass="pane" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="label-back" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť" />
+               </children>
+            </Pane>
+         </top>
+         <left>
+            <TableView prefHeight="586.0" prefWidth="701.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </left>
+         <right>
+            <VBox prefHeight="586.0" prefWidth="218.0" spacing="15.0" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets top="28.0" />
+               </padding>
+               <children>
+                  <Label fx:id="cenaLabel" />
+               </children>
+            </VBox>
+         </right>
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Celková cena:" />
+                  <Button mnemonicParsing="false" onMouseClicked="#onKupitButtonClicked" prefHeight="27.0" prefWidth="138.0" text="Kúpiť" />
+               </children>
+               <padding>
+                  <Insets left="20.0" top="28.0" />
+               </padding>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

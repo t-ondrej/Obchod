@@ -32,6 +32,9 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     @Override
     public boolean prihlasPouzivatela(String prihlasovacieMeno, String heslo) {
         Pouzivatel pouzivatel = dao.dajPouzivatela(prihlasovacieMeno);
+        // Miesto, kde sa vytvara pre pouzivatela kosik
+        Kosik kosik = new Kosik();
+        pouzivatel.setKosik(kosik);
 
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
             aktivnyPouzivatel = pouzivatel;

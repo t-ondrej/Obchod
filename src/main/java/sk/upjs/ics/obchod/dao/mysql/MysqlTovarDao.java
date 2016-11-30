@@ -34,10 +34,10 @@ public class MysqlTovarDao implements TovarDao{
     }
 
     @Override
-    public List<Tovar> dajTovarPodlaNazvu(String nazov) {
+    public Tovar dajTovarPodlaNazvu(String nazov) {
         String sql = "SELECT * FROM Tovar WHERE nazov = ?";
         
-        return jdbcTemplate.query(sql, mapper, nazov);
+        return jdbcTemplate.queryForObject(sql, mapper, nazov);
     }
 
     @Override

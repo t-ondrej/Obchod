@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.PouzivatelManager;
 
 public class RegistraciaController implements Initializable {
 
@@ -75,6 +74,10 @@ public class RegistraciaController implements Initializable {
             defaultPouzivatelManager.registrujPouzivatela(meno, heslo, email);
             onSpatLabelClicked();
         }
+        
+        prihlasovacieMenoTextField.clear();
+        hesloPasswordField.clear();
+        emailTextField.clear();
 
     }
 }

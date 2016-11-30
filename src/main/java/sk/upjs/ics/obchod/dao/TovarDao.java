@@ -11,7 +11,7 @@ public interface TovarDao {
     
     List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria);
     
-    List<Tovar> dajTovarPodlaNazvu(String nazov);
+    Tovar dajTovarPodlaNazvu(String nazov);
     
     List<Tovar> dajTovarPodlaZnacky(Znacka znacka);
     

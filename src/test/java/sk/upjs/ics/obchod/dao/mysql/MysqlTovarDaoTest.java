@@ -43,8 +43,7 @@ public class MysqlTovarDaoTest {
     public void testDajTovarPodlaNazvu() {
         MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();
         
-        List<Tovar> tovary = dao.dajTovarPodlaNazvu("Tovar1Test");
-        Tovar tovar = tovary.get(0);
+        Tovar tovar = dao.dajTovarPodlaNazvu("Tovar1Test");
         
         Assert.assertEquals("Tovar1Test", tovar.getNazov());      
     }
