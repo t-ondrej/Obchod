@@ -8,11 +8,18 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
-   <children>
-      <ListView fx:id="tovarListView" layoutY="-1.0" prefHeight="632.0" prefWidth="567.0" />
-      <Button fx:id="pridatTovarButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
-      <Button fx:id="odstranitTovarButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
-      <Button fx:id="upravitTovarButton" layoutX="926.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
-      <Pane fx:id="pridatTovarPane" layoutX="583.0" layoutY="73.0" prefHeight="559.0" prefWidth="497.0" />
-   </children>
+    <children>
+        <Button fx:id="pridatTovarButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
+        <Button fx:id="odstranitTovarButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
+        <Button fx:id="upravitTovarButton" layoutX="926.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
+        <Pane fx:id="pridatTovarPane" layoutX="583.0" layoutY="73.0" prefHeight="559.0" prefWidth="497.0">
+            <fx:include fx:id="pouzivateliaContent" source="PridatTovar.fxml"/>
+        </Pane>
+        <TableView fx:id="tovarTableView" prefHeight="634.0" prefWidth="567.0">
+            <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>

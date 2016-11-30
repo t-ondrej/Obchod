@@ -14,7 +14,7 @@
     <children>
         <BorderPane fx:id="obchodBorderPane" layoutX="305.0" layoutY="132.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>            
-                <fx:include fx:id="tovarPagination" source="TovarPagination.fxml"/>                 
+                <fx:include fx:id="tovarPagination" source="TovarPagination.fxml" />                 
             </center>
             <top>
                 <Pane prefHeight="83.0" prefWidth="983.0" styleClass="pane" BorderPane.alignment="CENTER">
@@ -25,10 +25,10 @@
                             </padding>
                         </ComboBox>
                         <ComboBox fx:id="znackyComboBox" layoutX="149.0" prefHeight="84.0" prefWidth="150.0" promptText="Značky" />
-                        <Button id="button-login-reg" fx:id="registrovatButton" layoutX="923.0" layoutY="20.0" mnemonicParsing="false" text="Registrovať" />
+                        <Button id="button-login-reg" fx:id="registrovatButton" layoutX="923.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" text="Registrovať" />
                         <Button id="button-login-reg" fx:id="prihlasitButton" layoutX="803.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
-                        <Button id="button-login-reg" fx:id="odhlasitButton" disable="true" layoutX="957.0" layoutY="21.0" mnemonicParsing="false" text="Odhlásiť" visible="false" />
-                        <Button id="button-login-reg" fx:id="kosikButton" disable="true" layoutX="863.0" layoutY="20.0" mnemonicParsing="false" text="Košík" visible="false" />
+                        <Button id="button-login-reg" fx:id="odhlasitButton" disable="true" layoutX="957.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false" />
+                        <Button id="button-login-reg" fx:id="kosikButton" disable="true" layoutX="863.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onKosikButtonClicked" text="Košík" visible="false" />
                     </children>
                 </Pane>
             </top>

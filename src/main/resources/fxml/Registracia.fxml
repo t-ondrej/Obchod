@@ -13,13 +13,13 @@
          <top>
             <Pane prefHeight="83.0" prefWidth="938.0" styleClass="pane" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" text="Späť" />
+                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť" />
                </children></Pane>
          </top>
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="registrovatButton" layoutX="547.0" layoutY="273.0" mnemonicParsing="false" text="Registrovať" />
+                  <Button fx:id="registrovatButton" layoutX="547.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" text="Registrovať" />
                   <PasswordField fx:id="hesloPasswordField" layoutX="547.0" layoutY="169.0" />
                   <TextField fx:id="prihlasovacieMenoTextField" layoutX="547.0" layoutY="123.0" />
                   <TextField fx:id="emailTextField" layoutX="547.0" layoutY="220.0" prefHeight="0.0" prefWidth="187.0" />

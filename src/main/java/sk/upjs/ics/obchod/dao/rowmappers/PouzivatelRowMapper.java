@@ -18,7 +18,7 @@ public class PouzivatelRowMapper implements RowMapper<Pouzivatel> {
         pouzivatel.setPasswordHash(rs.getString("heslo"));
         pouzivatel.setSol(rs.getString("sol"));
         pouzivatel.setEmail(rs.getString("email"));
-        pouzivatel.setPoslednePrihlasenie(rs.getDate("posledne_prihlasenie"));
+        pouzivatel.setPoslednePrihlasenie(rs.getDate("posledne_prihlasenie").toLocalDate());
         pouzivatel.setKosik(kosik);
         return pouzivatel;
     }

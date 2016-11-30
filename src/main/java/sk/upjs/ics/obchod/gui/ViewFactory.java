@@ -17,8 +17,6 @@ public enum ViewFactory {
     private Scene prihlasenieScene;
 
     private Scene registraciaScene;
-    
-    private Pagination tovarPagination;
 
     public Scene getObchodScene(Stage mainStage) {
         if (obchodScene == null) {
@@ -30,6 +28,7 @@ public enum ViewFactory {
                 
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Obchod.fxml");
+                e.printStackTrace();
             }
         }
 
@@ -46,6 +45,7 @@ public enum ViewFactory {
                 
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Prihlasenie.fxml");
+                e.printStackTrace();
             }
         }
         return prihlasenieScene;
@@ -61,6 +61,7 @@ public enum ViewFactory {
                 
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Registracia.fxml");
+                e.printStackTrace();
             }
         }
 

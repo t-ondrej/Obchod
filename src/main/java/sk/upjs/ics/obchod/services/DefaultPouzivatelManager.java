@@ -1,9 +1,11 @@
 package sk.upjs.ics.obchod.services;
 
+import java.time.LocalDate;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
+import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 public enum DefaultPouzivatelManager implements PouzivatelManager {
@@ -24,6 +26,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     
     public void odhlasPouzivatela() {
         this.aktivnyPouzivatel = null;
+        prihlaseny.setValue(!prihlaseny.getValue());
     }
 
     @Override
@@ -40,7 +43,17 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     }
 
     @Override
-    public void registrujPouzivatela(Pouzivatel pouzivatel) {
+    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email) {
+        Pouzivatel pouzivatel = new Pouzivatel();
+        pouzivatel.setPrihlasovacieMeno(prihlasovacieMeno);
+        pouzivatel.setPassword(heslo);
+        pouzivatel.setEmail(email);
+        pouzivatel.setPoslednePrihlasenie(LocalDate.now());
+        
+        Kosik kosik = new Kosik();
+        kosik.setId(0L);
+        pouzivatel.setKosik(kosik);
+             
         dao.pridajPouzivatela(pouzivatel);
     }
 

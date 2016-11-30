@@ -6,5 +6,5 @@ public interface PouzivatelManager {
     
     public boolean prihlasPouzivatela(String meno, String heslo);
     
-    public void registrujPouzivatela(Pouzivatel pouzivatel);
+    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email);
 }

@@ -2,7 +2,7 @@ package sk.upjs.ics.obchod.gui.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 
 public class TovarTabController {
@@ -20,7 +20,7 @@ public class TovarTabController {
     private Pane pridatTovarPane;
     
     @FXML
-    private ListView tovarListView;
+    private TableView tovarTableView;
     
     @FXML
     public void onPridatTovarButtonClicked() {

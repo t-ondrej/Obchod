@@ -17,7 +17,7 @@ public class Pouzivatel {
         
     private String email;
      
-    private Date posledne_prihlasenie;
+    private LocalDate posledne_prihlasenie;
     
     private Kosik kosik;
       
@@ -73,11 +73,11 @@ public class Pouzivatel {
         this.email = email;
     }
 
-    public Date getPoslednePrihlasenie() {
+    public LocalDate getPoslednePrihlasenie() {
         return posledne_prihlasenie;
     }
 
-    public void setPoslednePrihlasenie(Date poslednePrihlasenie) {
+    public void setPoslednePrihlasenie(LocalDate poslednePrihlasenie) {
         this.posledne_prihlasenie = poslednePrihlasenie;
     }    
 

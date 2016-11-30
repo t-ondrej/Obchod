@@ -34,12 +34,11 @@ public class PrihlasenieController implements Initializable {
 
     private PouzivatelManager defaultPouzivatelManager;
 
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
     }
-   
+
     public void setStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
@@ -56,15 +55,17 @@ public class PrihlasenieController implements Initializable {
         String heslo = hesloPasswordField.getText();
 
         if (defaultPouzivatelManager.prihlasPouzivatela(meno, heslo)) {
+            prihlasovacieMenoTextField.clear();
+            hesloPasswordField.clear();
             Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
             mainStage.setScene(obchodScene);
-            
+
         } else {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Upozornenie");
             alert.setHeaderText("Nesprávne meno alebo heslo");
             alert.showAndWait();
         }
-        
+
     }
 }

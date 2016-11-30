@@ -8,6 +8,11 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PouzivateliaTabController">
    <children>
-      <ListView fx:id="pouzivateliaListView" layoutY="101.0" prefHeight="530.0" prefWidth="1094.0" />
+      <TableView fx:id="pouzivateliaTableView" layoutY="101.0" prefHeight="530.0" prefWidth="1094.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

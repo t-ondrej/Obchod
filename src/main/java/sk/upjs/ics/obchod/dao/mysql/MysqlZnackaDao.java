@@ -27,6 +27,13 @@ public class MysqlZnackaDao implements ZnackaDao {
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
         return jdbcTemplate.queryForObject(sql, mapper, idZnacka);
     }
+    
+    @Override
+    public Znacka najdiPodlaNazvu(String nazovZnacky) {
+        String sql = "SELECT * FROM Znacka WHERE nazov = ?";
+        BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
+        return jdbcTemplate.queryForObject(sql, mapper, nazovZnacky);
+    }
 
     @Override
     public void uloz(Znacka znacka) {
