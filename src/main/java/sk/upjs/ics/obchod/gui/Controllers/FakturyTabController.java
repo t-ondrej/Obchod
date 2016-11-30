@@ -1,14 +1,15 @@
 package sk.upjs.ics.obchod.gui.Controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 
-public class FakturyTabController implements Initializable{
+public class FakturyTabController {
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    @FXML
+    private ComboBox filterComboBox;
     
+    @FXML
+    private ListView fakturyListView;
+      
 }

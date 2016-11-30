@@ -9,8 +9,9 @@
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
    <children>
       <ListView fx:id="znackyListView" layoutY="-2.0" prefHeight="634.0" prefWidth="567.0" />
-      <Button fx:id="pridatZnackuButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="154.0" text="Pridať značku" />
-      <Button fx:id="odstranitZnackuButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku" />
-      <Button fx:id="upravitZnackuButton" layoutX="927.0" layoutY="23.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku" />
+      <Button fx:id="pridatZnackuButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku" />
+      <Button fx:id="odstranitZnackuButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onOdstranitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku" />
+      <Button fx:id="upravitZnackuButton" layoutX="927.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onUpravitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku" />
+      <Pane fx:id="znackyPane" layoutX="583.0" layoutY="80.0" prefHeight="549.0" prefWidth="498.0" />
    </children>
 </AnchorPane>

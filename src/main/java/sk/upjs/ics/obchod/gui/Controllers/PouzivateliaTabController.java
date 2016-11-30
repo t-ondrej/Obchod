@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.upjs.ics.obchod.gui.Controllers;
 
-/**
- *
- * @author Tomas
- */
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+
 public class PouzivateliaTabController {
     
+    @FXML
+    private ListView pouzivateliaListView;
 }
