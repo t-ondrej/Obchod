@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.entity.Faktura;
 

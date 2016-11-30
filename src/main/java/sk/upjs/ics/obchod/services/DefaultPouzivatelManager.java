@@ -1,11 +1,10 @@
 package sk.upjs.ics.obchod.services;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public enum DefaultPouzivatelManager implements PouzivatelManager {
 
@@ -13,22 +12,31 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
 
     private final PouzivatelDao dao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
     private Pouzivatel aktivnyPouzivatel;
+    private BooleanProperty prihlaseny = new SimpleBooleanProperty(false);
 
     public Pouzivatel getAktivnyPouzivatel() {
         return aktivnyPouzivatel;
     }
 
+    public BooleanProperty isPrihlaseny() {
+        return prihlaseny;
+    }
+    
     public void odhlasPouzivatela() {
         this.aktivnyPouzivatel = null;
     }
 
     @Override
-    public void prihlasPouzivatela(String prihlasovacieMeno, String heslo) {
+    public boolean prihlasPouzivatela(String prihlasovacieMeno, String heslo) {
         Pouzivatel pouzivatel = dao.dajPouzivatela(prihlasovacieMeno);
 
-        if (pouzivatel.checkPassword(heslo)) {
+        if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
             aktivnyPouzivatel = pouzivatel;
+            prihlaseny.set(true);
+            return true;
         }
+         
+        return false;
     }
 
     @Override

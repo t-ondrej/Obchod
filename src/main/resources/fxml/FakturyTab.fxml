@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.FakturyTabController">
+   <children>
+      <ListView fx:id="fakturyListView" layoutY="94.0" prefHeight="538.0" prefWidth="1094.0" />
+      <Label layoutX="22.0" layoutY="39.0" text="Zobraz faktúry:" />
+      <ComboBox fx:id="filterComboBox" layoutX="184.0" layoutY="31.0" prefWidth="150.0" promptText="Všetky" />
+   </children>
+</AnchorPane>

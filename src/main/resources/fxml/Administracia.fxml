@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="administraciaAnchorPane" prefHeight="669.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.AdministraciaController">
+    <children>
+        <TabPane fx:id="administraciaTabPane" layoutX="319.0" layoutY="155.0" prefHeight="669.0" prefWidth="1094.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="pouzivateliaTab" text="Pouzivatelia">
+                    <content>
+                        <fx:include fx:id="pouzivateliaContent" source="PouzivateliaTab.fxml"/>
+                    </content>
+                </Tab>
+                <Tab fx:id="tovarTab" text="Tovar">
+                    <content>
+                        <fx:include fx:id="tovarContent" source="TovarTab.fxml"/>
+                    </content>
+                </Tab>
+                
+                <Tab fx:id="znackyTab" text="Značky">
+                    <content>
+                        <fx:include fx:id="znackyContent" source="ZnackyTab.fxml"/>
+                    </content>
+                </Tab>
+                <Tab fx:id="kategorieTab" text="Kategórie">
+                    <content>
+                        <fx:include fx:id="kategorieContent" source="KategorieTab.fxml"/>
+                    </content>
+                </Tab>
+                <Tab fx:id="fakturyTab" text="Faktúry">
+                    <content>
+                        <fx:include fx:id="fakturyContent" source="FakturyTab.fxml"/>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

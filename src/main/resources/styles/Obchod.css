@@ -1,0 +1,102 @@
+.pane {
+    -fx-background-color: #1d2326;
+}
+
+#button-login-reg {
+    -fx-text-fill: #ecf0f1;
+    -fx-background-color: transparent;
+    -fx-font-family: 'Microsoft Sans Serif';
+    -fx-font-size: 24px;
+}
+
+#label-back {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 32px;
+    -fx-font-family: 'Microsoft Sans Serif';
+    -fx-font-weight: Bold;
+}
+
+.button {
+    -fx-background-radius: 0px;
+    -fx-font-family: 'Microsoft Sans Serif';
+}
+
+.text-field {
+    -fx-background-radius: 0px;
+}
+
+.label {
+    -fx-font-family: 'Microsoft Sans Serif';
+    -fx-font-size: 22px;
+}
+
+.combo-box .arrow, .combo-box .arrow-button{
+    -fx-background-color: transparent;
+}
+
+.combo-box {
+    -fx-background-color: transparent;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-family: 'Microsoft Sans Serif';
+    -fx-font-size: 24px;
+}
+
+.combo-box-base:hover {
+    -fx-color: #00d6dd;
+}
+.combo-box-popup .list-view .list-cell{
+    -fx-text-fill: #1d2326;
+    -fx-font-family: 'Microsoft Sans Serif';
+    -fx-font-size: 24px;
+    -fx-background-color: #ecf0f1;
+}
+
+
+.combo-box .scroll-bar:vertical .track{
+     -fx-background-color: transparent;
+     -fx-border-color:derive(gray,80%);
+     -fx-background-radius: 0em;
+}
+
+.combo-box .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+}
+
+.combo-box .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.combo-box .increment-button ,.mylistview .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,80%);
+}
+
+.combo-box .scroll-bar:vertical:hover .track,
+.combo-box .scroll-bar:vertical:pressed .track{
+     -fx-background-color: derive(#434343,20%);
+     -fx-opacity: 0.2;
+     -fx-background-radius: 0em;
+}
+
+.combo-box .scroll-bar .thumb:hover,
+.combo-box .scroll-bar .thumb:pressed{
+    -fx-background-color: derive(black,50%);
+}
+
+.combo-box .increment-button:hover ,
+.combo-box .decrement-button:hover {
+    -fx-background-color:derive(gray,100%);
+    -fx-border-color:derive(gray,80%); 
+    -fx-padding:10px;
+}
+
+
+
+
+
+

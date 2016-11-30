@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.RegistraciaController">
+   <children>
+      <BorderPane layoutX="397.0" layoutY="147.0" prefHeight="669.0" prefWidth="1094.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="83.0" prefWidth="938.0" styleClass="pane" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" text="Späť" />
+               </children></Pane>
+         </top>
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="registrovatButton" layoutX="547.0" layoutY="273.0" mnemonicParsing="false" text="Registrovať" />
+                  <PasswordField fx:id="hesloPasswordField" layoutX="547.0" layoutY="169.0" />
+                  <TextField fx:id="prihlasovacieMenoTextField" layoutX="547.0" layoutY="123.0" />
+                  <TextField fx:id="emailTextField" layoutX="547.0" layoutY="220.0" prefHeight="0.0" prefWidth="187.0" />
+                  <Label layoutX="313.0" layoutY="126.0" text="Prihlasovacie meno:">
+                  </Label>
+                  <Label layoutX="313.0" layoutY="172.0" text="Heslo:">
+                  </Label>
+                  <Label layoutX="313.0" layoutY="222.0" text="Email:" />
+                  <Label layoutX="504.0" layoutY="45.0" text="Registrácia" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

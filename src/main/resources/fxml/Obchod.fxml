@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import sk.upjs.ics.obchod.gui.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ObchodController">
+    <children>
+        <BorderPane fx:id="obchodBorderPane" layoutX="305.0" layoutY="132.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <center>            
+                <fx:include fx:id="tovarPagination" source="TovarPagination.fxml"/>                 
+            </center>
+            <top>
+                <Pane prefHeight="83.0" prefWidth="983.0" styleClass="pane" BorderPane.alignment="CENTER">
+                    <children>
+                        <ComboBox fx:id="kategorieComboBox" prefHeight="84.0" prefWidth="218.0" promptText="Kategórie">
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                        </ComboBox>
+                        <ComboBox fx:id="znackyComboBox" layoutX="149.0" prefHeight="84.0" prefWidth="150.0" promptText="Značky" />
+                        <Button id="button-login-reg" fx:id="registrovatButton" layoutX="923.0" layoutY="20.0" mnemonicParsing="false" text="Registrovať" />
+                        <Button id="button-login-reg" fx:id="prihlasitButton" layoutX="803.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
+                        <Button id="button-login-reg" fx:id="odhlasitButton" disable="true" layoutX="957.0" layoutY="21.0" mnemonicParsing="false" text="Odhlásiť" visible="false" />
+                        <Button id="button-login-reg" fx:id="kosikButton" disable="true" layoutX="863.0" layoutY="20.0" mnemonicParsing="false" text="Košík" visible="false" />
+                    </children>
+                </Pane>
+            </top>
+        </BorderPane>
+    </children>
+</AnchorPane>
