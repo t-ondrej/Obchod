@@ -1,6 +1,6 @@
 package sk.upjs.ics.obchod.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Faktura {
     
@@ -10,7 +10,7 @@ public class Faktura {
      
     private int suma;
     
-    private Date datumNakupu;
+    private LocalDate datumNakupu;
     
     public Long getId() {
         return id;
@@ -36,12 +36,11 @@ public class Faktura {
         this.suma = suma;
     }
 
-    public Date getDatumNakupu() {
+    public LocalDate getDatumNakupu() {
         return datumNakupu;
     }
 
-    public void setDatumNakupu(Date datumNakupu) {
+    public void setDatumNakupu(LocalDate datumNakupu) {
         this.datumNakupu = datumNakupu;
-    }
-
+    }    
 }

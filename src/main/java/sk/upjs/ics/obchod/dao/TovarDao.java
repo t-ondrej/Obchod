@@ -7,7 +7,7 @@ import sk.upjs.ics.obchod.entity.Znacka;
 
 public interface TovarDao {
     
-    List<Tovar> dajTovar();
+    List<Tovar> dajTovary();
     
     List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria);
     
@@ -19,10 +19,10 @@ public interface TovarDao {
     
     int dajPocetTovaru(Long idTovar);
     
-    void nastavTovaruPocetKusov(Tovar tovar, int pocet);    
+    void nastavTovaruPocetKusov(Long idTovar, int pocet);    
     
     void pridajTovar(Tovar tovar);
     
-    void odstranTovar(Tovar tovar);
+    void odstranTovar(Long idTovaru);
           
 }

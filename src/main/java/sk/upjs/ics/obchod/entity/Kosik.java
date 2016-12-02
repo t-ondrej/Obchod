@@ -1,33 +1,18 @@
 package sk.upjs.ics.obchod.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Kosik {
     
-    private Long id;
-    
-    // TODO: hashmapa<nazovTovaru, pocetTovaru>
-    //       celkova cena tovaru v kosiku
-    
-    private List<Tovar> zoznamTovaru = new ArrayList<>();
-    
-    public Long getId() {
-        return id;
+    // Integer je pocet kusov z daneho tovaru v kosiku
+    private Map<Tovar, Integer> tovary = new HashMap<>(); 
+
+    public Map<Tovar, Integer> getTovary() {
+        return tovary;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-   public void pridajTovar(Tovar tovar) {
-       zoznamTovaru.add(tovar);
-   }
-   
-   public void odstranTovar(Tovar tovar) {
-       for (int i = 0; i < zoznamTovaru.size(); i++) {
-           if (tovar.getId() == zoznamTovaru.get(i).getId())
-               zoznamTovaru.remove(i);
-       }
-   }
+    public void setTovary(Map<Tovar, Integer> tovary) {
+        this.tovary = tovary;
+    }   
 }

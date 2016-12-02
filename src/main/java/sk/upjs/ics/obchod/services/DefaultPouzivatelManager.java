@@ -53,8 +53,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setEmail(email);
         pouzivatel.setPoslednePrihlasenie(LocalDate.now());
         
-        Kosik kosik = new Kosik();
-        kosik.setId(0L);
+        Kosik kosik = new Kosik();        
         pouzivatel.setKosik(kosik);
              
         dao.pridajPouzivatela(pouzivatel);
