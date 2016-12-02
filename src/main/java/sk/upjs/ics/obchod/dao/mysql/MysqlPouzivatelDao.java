@@ -2,6 +2,7 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
@@ -27,12 +28,12 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     @Override
     public Pouzivatel dajPouzivatela(String meno) {
         String sql = "SELECT * FROM Pouzivatel WHERE prihlasovacie_meno = ?";
-        Pouzivatel pouzivatel = null;
+        Pouzivatel pouzivatel;
         
         try {
            pouzivatel = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper(), meno);
         }
-        catch (Exception e) {
+        catch (IncorrectResultSizeDataAccessException e) {
             return null;
         }
         
@@ -60,6 +61,8 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
         
         jdbcTemplate.update(sql, pouzivatel.getId());
     }
+    
+    // TODO: upravit pouzivatelovi posledne prihlasenie
 
 }
 

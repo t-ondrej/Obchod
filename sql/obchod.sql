@@ -67,6 +67,12 @@ CREATE TABLE IF NOT EXISTS Tovar_Faktury (
     id_tovar INT NOT NULL
 );
 
+UPDATE Tovar SET id = 1, id_kategoria = 1, id_znacka = 1, nazov = 'Tovar1Test', cena = 99, popis = 'Popis1Test', obrazok_url='@../img/2.JPG' WHERE id = 2;
+UPDATE Znacka SET id = 1, nazov = 'Znacka1Test' WHERE id = 2;
+
+ALTER TABLE tovar ADD pocet_kusov INT;
+UPDATE Tovar SET pocet_kusov = 1 WHERE id >= 0;
+
 INSERT INTO Kategoria(nazov) VALUES('Nezaradene');
 UPDATE Kategoria SET id = 0 WHERE id = 1;
 
