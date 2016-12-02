@@ -30,10 +30,12 @@ public class DefaultKosikManager implements KosikManager{
         }
         
         if(!jeVKosiku){                   
-            kosikDao.dajTovarDoKosika(tovar.getId(), kosik.getId());   
-            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
-            KosikModel.INSTANCE.pridajTovarDoKosika(tovar, 1);
+            kosikDao.dajTovarDoKosika(tovar, kosik);   
+            tovarDao.nastavTovaruPocetKusov(tovar.getId(), pocetTovaru-1);
         }else{           
+             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar, kosik);
+             kosikDao.nastavTovaruVKosikuPocetKusov(tovar, kosik, pocetVKosikuPred+1);
+             tovarDao.nastavTovaruPocetKusov(tovar.getId(), pocetTovaru-1);
         }               
         return true;
     }
