@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.KosikDao;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
@@ -12,7 +13,8 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
 
     INSTANCE;
 
-    private final PouzivatelDao dao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
+    private final PouzivatelDao pouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
+    private final KosikDao kosikDao = DaoFactory.INSTANCE.getMysqlKosikDao();
     private Pouzivatel aktivnyPouzivatel;
     private BooleanProperty prihlaseny = new SimpleBooleanProperty(false);
 
@@ -23,7 +25,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     public BooleanProperty isPrihlaseny() {
         return prihlaseny;
     }
-    
+
     public void odhlasPouzivatela() {
         this.aktivnyPouzivatel = null;
         prihlaseny.setValue(!prihlaseny.getValue());
@@ -31,17 +33,16 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
 
     @Override
     public boolean prihlasPouzivatela(String prihlasovacieMeno, String heslo) {
-        Pouzivatel pouzivatel = dao.dajPouzivatela(prihlasovacieMeno);
-        // Miesto, kde sa vytvara pre pouzivatela kosik
-        Kosik kosik = new Kosik();
-        pouzivatel.setKosik(kosik);
+        Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(prihlasovacieMeno);
 
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
+            Kosik kosik = kosikDao.dajKosikPodlaId(pouzivatel.getKosik().getId());
+            pouzivatel.setKosik(kosik);
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.set(true);
             return true;
         }
-         
+
         return false;
     }
 
@@ -52,16 +53,17 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
         pouzivatel.setPoslednePrihlasenie(LocalDate.now());
-        
+
+        Long idKosika = kosikDao.pridajKosikVratId();
         Kosik kosik = new Kosik();
-        kosik.setId(0L);
+        kosik.setId(idKosika);
         pouzivatel.setKosik(kosik);
-             
-        dao.pridajPouzivatela(pouzivatel);
+
+        pouzivatelDao.pridajPouzivatela(pouzivatel);
     }
 
     public boolean jeVolneMeno(String meno) {
-        Pouzivatel pouzivatel = dao.dajPouzivatela(meno);
+        Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(meno);
         return pouzivatel == null;
     }
 }

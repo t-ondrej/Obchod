@@ -36,12 +36,12 @@ public class MysqlKosikDaoTest {
     @Test
     public void testPridajKosikVratId() {       
         int pocetPred = dao.dajKosiky().size();        
-        Long idKosik1 = dao.pridajKosikVratId(new Kosik());        
+        Long idKosik1 = dao.pridajKosikVratId();        
         int pocetPo = dao.dajKosiky().size();
         
         Assert.assertEquals(pocetPred + 1,pocetPo);
         
-        Long idKosik2 = dao.pridajKosikVratId(new Kosik());        
+        Long idKosik2 = dao.pridajKosikVratId();        
         Assert.assertTrue(idKosik1 + 1 == idKosik2);
         
         dao.odstranKosik(idKosik1);
@@ -51,7 +51,7 @@ public class MysqlKosikDaoTest {
 
     @Test
     public void testOdstranKosik() {
-        Long idKosik = dao.pridajKosikVratId(new Kosik());
+        Long idKosik = dao.pridajKosikVratId();
         
         int pocetPred = dao.dajKosiky().size();
         dao.odstranKosik(idKosik);
@@ -123,7 +123,7 @@ public class MysqlKosikDaoTest {
         Long idKosika = 0L;       
         
         int result = dao.pocetJednehoTovaruVKosiku(idTovaru, idKosika);
-        Assert.assertEquals(1, result);
+        Assert.assertEquals(3, result);
         
     }
 

@@ -12,8 +12,20 @@
 #label-back {
     -fx-text-fill: #ecf0f1;
     -fx-font-size: 32px;
-    -fx-font-family: 'Microsoft Sans Serif';
-    -fx-font-weight: Bold;
+    -fx-font-family: 'Microsoft Sans Serif'; 
+    -fx-font-smoothing-type: lcd;
+}
+
+#label-notifikacia-kosika-uspesne {
+    -fx-text-fill: green;
+    -fx-font-family: 'Microsoft Sans Serif'; 
+    -fx-text: 'Tovar bol pridaný!';
+}
+
+#label-notifikacia-kosika-neuspesne {
+    -fx-text-fill: red;
+    -fx-font-family: 'Microsoft Sans Serif'; 
+    -fx-text: 'Tovar nie je možné pridať!';
 }
 
 .button {
@@ -56,9 +68,9 @@
 
 
 .combo-box .scroll-bar:vertical .track{
-     -fx-background-color: transparent;
-     -fx-border-color:derive(gray,80%);
-     -fx-background-radius: 0em;
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,80%);
+    -fx-background-radius: 0em;
 }
 
 .combo-box .scroll-bar:vertical .thumb {
@@ -78,9 +90,9 @@
 
 .combo-box .scroll-bar:vertical:hover .track,
 .combo-box .scroll-bar:vertical:pressed .track{
-     -fx-background-color: derive(#434343,20%);
-     -fx-opacity: 0.2;
-     -fx-background-radius: 0em;
+    -fx-background-color: derive(#434343,20%);
+    -fx-opacity: 0.2;
+    -fx-background-radius: 0em;
 }
 
 .combo-box .scroll-bar .thumb:hover,

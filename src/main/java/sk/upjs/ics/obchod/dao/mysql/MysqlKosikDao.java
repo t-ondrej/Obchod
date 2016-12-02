@@ -40,7 +40,7 @@ public class MysqlKosikDao implements KosikDao {
     }
 
     @Override
-    public Long pridajKosikVratId(Kosik kosik) {
+    public Long pridajKosikVratId() {
         String sql = "INSERT INTO kosik VALUES()";
         Long idKosik = -1L;
         

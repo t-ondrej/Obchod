@@ -10,7 +10,7 @@ public interface KosikDao {
     
     Kosik dajKosikPodlaId(Long idKosika);
     
-    Long pridajKosikVratId(Kosik kosik);
+    Long pridajKosikVratId();
     
     void odstranKosik(Long idKosik);
     

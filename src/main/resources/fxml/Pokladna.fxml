@@ -22,10 +22,12 @@
             </Pane>
          </top>
          <left>
-            <TableView prefHeight="586.0" prefWidth="701.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tovarTableView" prefHeight="586.0" prefWidth="701.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="nazovTableColumn" editable="false" prefWidth="175.0" text="Názov" />
+                <TableColumn fx:id="mnozstvoTableColumn" prefWidth="175.0" text="Množstvo" />
+                  <TableColumn fx:id="cenaTableColumn" prefWidth="175.0" text="Cena" />
+                  <TableColumn fx:id="odobratTovarTableColumn" prefWidth="175.0" text="Odobrať tovar" />
               </columns>
             </TableView>
          </left>

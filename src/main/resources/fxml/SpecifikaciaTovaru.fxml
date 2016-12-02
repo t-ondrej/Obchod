@@ -24,12 +24,13 @@
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="455.0" layoutY="42.0" text="Špecifikácia tovaru" />
-                  <ImageView fx:id="tovarImageView" fitHeight="150.0" fitWidth="200.0" layoutX="138.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label layoutX="547.0" layoutY="39.0" text="Špecifikácia tovaru" />
+                  <ImageView fx:id="tovarImageView" fitHeight="300.0" fitWidth="300.0" layoutX="86.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="nazovTovaruLabel" layoutX="547.0" layoutY="134.0" text="Názov tovaru" />
                   <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="547.0" layoutY="182.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
                   <Label fx:id="cenaLabel" layoutX="547.0" layoutY="422.0" text="Cena" />
-                  <Button fx:id="pridatDoKosikaButton" layoutX="684.0" layoutY="420.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
+                  <Button fx:id="pridatDoKosikaButton" layoutX="932.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
+                  <Label id="label-notifikacia-kosika" fx:id="pridatDoKosikaNotifikaciaLabel" layoutX="742.0" layoutY="422.0" opacity="0.0" text="Tovar bol pridaný!" />
                </children>
             </Pane>
          </center>

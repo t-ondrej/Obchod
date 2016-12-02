@@ -120,7 +120,7 @@ public class MysqlTovarDaoTest {
         Long idTovar = 0L;
         MysqlTovarDao dao = DaoFactory.INSTANCE.getMysqlTovarDao();        
         int pocet = dao.dajPocetTovaru(idTovar);
-        assertEquals(pocet, 1);
+        assertEquals(pocet, 3);
         
     } 
 }

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -85,8 +86,6 @@ public class ObchodController implements Initializable {
         mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
 
-        List<Znacka> znacky = mysqlZnackaDao.dajZnacky();
-
         BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny();
 
         jePouzivatelPrihlaseny.addListener(e -> {
@@ -111,33 +110,34 @@ public class ObchodController implements Initializable {
     private GridPane vytvorStranku(int idxStrany) {
         GridPane grid = new GridPane();
         int startIdx = idxStrany * 8, pom = 0;
-        grid.setGridLinesVisible(true);
+        grid.setMinSize(tovarPagination.getPrefWidth(), tovarPagination.getPrefHeight());
 
-        for (int i = 0; i < 3; i++) {
-            Tovar tovar = tovary.get(i);
-
+        for (int i = 0; i < 8; i++) {
             VBox vBox = new VBox();
-            vBox.setSpacing(10);
+            vBox.setSpacing(5);
             vBox.setAlignment(Pos.CENTER);
+            vBox.setPrefSize(tovarPagination.getPrefWidth() / 4 - 20, tovarPagination.getPrefHeight() / 2 - 20);
 
-            //Image obrazok = new Image("file:src/main/resources/img/1.JPG");
-            Image obrazok = new Image("file:" + tovar.getobrazokUrl());
-            ImageView l = new ImageView(obrazok);
+            if (tovary.size() - 1 > i) {
+                Tovar tovar = tovary.get(i);
 
-            Label nazovTovaru = new Label(tovar.getNazov());
+                Image obrazok = new Image("file:" + tovar.getobrazokUrl());
+                ImageView l = new ImageView(obrazok);
+                l.setPreserveRatio(true);
+                l.fitHeightProperty().bind(vBox.prefWidthProperty());
+                l.fitWidthProperty().bind(vBox.prefHeightProperty());
 
-            l.setOnMouseClicked((event) -> {
-                prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
-            });
+                Label nazovTovaru = new Label(tovar.getNazov());
 
-            vBox.getChildren().addAll(l, nazovTovaru);
+                l.setOnMouseClicked((event) -> {
+                    prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
+                });
+
+                vBox.getChildren().addAll(l, nazovTovaru);
+            }
 
             GridPane.setHgrow(vBox, Priority.ALWAYS);
             GridPane.setVgrow(vBox, Priority.ALWAYS);
-
-            l.fitHeightProperty().bind(tovarPagination.prefHeightProperty().divide(2));
-            l.fitWidthProperty().bind(tovarPagination.prefWidthProperty().divide(4));
-
             GridPane.setHalignment(vBox, HPos.CENTER);
 
             GridPane.setConstraints(vBox, pom % 4, pom / 4);
@@ -167,13 +167,14 @@ public class ObchodController implements Initializable {
 
         kategorieComboBox.setItems(kategorie);
 
-        kategorieComboBox.getSelectionModel().selectedItemProperty().addListener((event) -> {
+        kategorieComboBox.valueProperty().addListener(event -> {
             Kategoria kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
             List<Tovar> tovarPodlaKategorie = mysqlTovarDao.dajTovarPodlaKategorie(kategoria);
             obnovTovar(tovarPodlaKategorie);
         });
     }
 
+    // TODO reset
     private void inicializujZnackyComboBox() {
         ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackaDao.dajZnacky());
 
@@ -192,7 +193,7 @@ public class ObchodController implements Initializable {
 
         znackyComboBox.setItems(znacky);
 
-        znackyComboBox.getSelectionModel().selectedItemProperty().addListener((event) -> {
+        znackyComboBox.valueProperty().addListener(event -> {
             Znacka znacka = znackyComboBox.getSelectionModel().getSelectedItem();
             List<Tovar> tovarPodlaZnacky = mysqlTovarDao.dajTovarPodlaZnacky(znacka);
             obnovTovar(tovarPodlaZnacky);
@@ -206,6 +207,9 @@ public class ObchodController implements Initializable {
         pocetStranok = (tovary.size() / 8);
         tovarPagination.setPageCount(1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
+
+        kategorieComboBox.getSelectionModel().clearSelection();
+        znackyComboBox.getSelectionModel().clearSelection();
     }
 
     @FXML
@@ -252,10 +256,10 @@ public class ObchodController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SpecifikaciaTovaru.fxml"));
             Scene specifikaciaTovaruScene = new Scene(loader.load());
             SpecifikaciaTovaruController specifikaciaTovaruController = loader.getController();
-            
+
             specifikaciaTovaruController.inicializuj(nazovTovaru);
             specifikaciaTovaruController.setStage(mainStage);
-            
+
             mainStage.setScene(specifikaciaTovaruScene);
         } catch (IOException ex) {
             Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);

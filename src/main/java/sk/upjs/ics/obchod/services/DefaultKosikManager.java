@@ -7,6 +7,7 @@ import sk.upjs.ics.obchod.dao.KosikDao;
 import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.gui.KosikModel;
 
 public class DefaultKosikManager implements KosikManager{
     private KosikDao kosikDao = DaoFactory.INSTANCE.getMysqlKosikDao();
@@ -31,10 +32,12 @@ public class DefaultKosikManager implements KosikManager{
         if(!jeVKosiku){                   
             kosikDao.dajTovarDoKosika(tovar.getId(), kosik.getId());   
             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+            KosikModel.INSTANCE.pridajTovarDoKosika(tovar, 1);
         }else{           
              int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
              kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred+1);
              tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+             KosikModel.INSTANCE.pridajTovarDoKosika(tovar, pocetVKosikuPred + 1);
         }               
         return true;
     }
@@ -46,12 +49,19 @@ public class DefaultKosikManager implements KosikManager{
         
         if(pocetZTovaruVKosiku <= 1){
             kosikDao.odoberTovarZKosika(tovar.getId(), kosik.getId());           
-            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);                
+            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);      
+            KosikModel.INSTANCE.odoberTovarKosika(tovar);
         }else{            
             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
             kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred-1);
             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);
+            KosikModel.INSTANCE.odoberTovarKosika(tovar);
         }
+    }
+
+    @Override
+    public List<Tovar> dajTovarKosika(Kosik kosik) {
+        return kosikDao.dajTovaryKosika(kosik.getId());
     }
 
    
