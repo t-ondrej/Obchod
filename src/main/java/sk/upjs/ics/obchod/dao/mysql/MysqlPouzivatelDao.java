@@ -1,9 +1,6 @@
-
 package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
@@ -49,10 +46,11 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     
     @Override
     public void pridajPouzivatela(Pouzivatel pouzivatel) {
-        String sql = "INSERT INTO Pouzivatel (id_kosik, prihlasovacie_meno, heslo, sol, email, posledne_prihlasenie) VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Pouzivatel (prihlasovacie_meno, hash_hesla, sol, email, posledne_prihlasenie, je_administrator) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(sql, pouzivatel.getKosik().getId(), pouzivatel.getPrihlasovacieMeno(), 
-                pouzivatel.getPasswordHash(), pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie());
+        jdbcTemplate.update(sql, pouzivatel.getPrihlasovacieMeno(), pouzivatel.getPasswordHash(), 
+                pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie(), pouzivatel.isJeAdministrator());
     }
 
     @Override

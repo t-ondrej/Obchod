@@ -10,7 +10,7 @@ import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.KosikModel;
 
 public class DefaultKosikManager implements KosikManager{
-    private KosikDao kosikDao = DaoFactory.INSTANCE.getMysqlKosikDao();
+    private KosikDao kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
     private TovarDao tovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
 
     @Override
@@ -20,7 +20,7 @@ public class DefaultKosikManager implements KosikManager{
             return false;
         }
         
-        List<Tovar> tovaryKosika = kosikDao.dajTovaryKosika(kosik.getId());        
+        List<Tovar> tovaryKosika = kosikDao.dajTovaryKosika(kosik);        
         boolean jeVKosiku = false;
         
         for(Tovar t: tovaryKosika){
@@ -34,28 +34,21 @@ public class DefaultKosikManager implements KosikManager{
             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
             KosikModel.INSTANCE.pridajTovarDoKosika(tovar, 1);
         }else{           
-             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
-             kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred+1);
-             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
-             KosikModel.INSTANCE.pridajTovarDoKosika(tovar, pocetVKosikuPred + 1);
         }               
         return true;
     }
 
     @Override
     public void odoberTovarZKosika(Tovar tovar, Kosik kosik) {
-        int pocetZTovaruVKosiku = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
+        int pocetZTovaruVKosiku = kosikDao.pocetJednehoTovaruVKosiku(tovar, kosik);
         int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
         
         if(pocetZTovaruVKosiku <= 1){
-            kosikDao.odoberTovarZKosika(tovar.getId(), kosik.getId());           
-            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);      
-            KosikModel.INSTANCE.odoberTovarKosika(tovar);
+             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
+             kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred+1);
+             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+             KosikModel.INSTANCE.pridajTovarDoKosika(tovar, pocetVKosikuPred + 1);
         }else{            
-            int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
-            kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred-1);
-            tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru+1);
-            KosikModel.INSTANCE.odoberTovarKosika(tovar);
         }
     }
 

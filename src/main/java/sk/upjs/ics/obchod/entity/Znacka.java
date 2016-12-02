@@ -1,8 +1,4 @@
-
 package sk.upjs.ics.obchod.entity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Znacka {
     

@@ -2,7 +2,6 @@ package sk.upjs.ics.obchod.dao;
 
 import sk.upjs.ics.obchod.dao.mysql.MysqlFakturaDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlKosikDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlPouzivatelDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
@@ -20,7 +19,7 @@ public enum TestDaoFactory {
     
     private MysqlZnackaDao mysqlZnackaDao;
     
-    private MysqlKosikDao mysqlKosikDao;
+    private PamatoviKosikDao pamatoviKosikDao;
     
     private MysqlFakturaDao mysqlFakturaDao;
     
@@ -33,8 +32,8 @@ public enum TestDaoFactory {
     private MysqlDataSource getDataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/Obchod_test?serverTimezone=UTC");
-        dataSource.setUser("obchod");
-        dataSource.setPassword("obchod1");
+        dataSource.setUser("obchod_test");
+        dataSource.setPassword("obchod1_test");
         
         return dataSource;
     }
@@ -67,11 +66,11 @@ public enum TestDaoFactory {
         return mysqlZnackaDao;
     }
     
-    public MysqlKosikDao getMysqlKosikDao() {
-        if (mysqlKosikDao == null)
-            mysqlKosikDao = new MysqlKosikDao(jdbcTemplate);
+    public PamatoviKosikDao getPamatoviKosikDao() {
+        if (pamatoviKosikDao == null)
+            pamatoviKosikDao = new PamatoviKosikDao();
         
-        return mysqlKosikDao;
+        return pamatoviKosikDao;
     }
     
     public MysqlFakturaDao getMysqlFakturaDao() {
@@ -79,5 +78,9 @@ public enum TestDaoFactory {
             mysqlFakturaDao = new MysqlFakturaDao(jdbcTemplate);
         
         return mysqlFakturaDao;
+    }
+    
+    public JdbcTemplate getJdbcTemplate(){
+        return jdbcTemplate;
     }
 }

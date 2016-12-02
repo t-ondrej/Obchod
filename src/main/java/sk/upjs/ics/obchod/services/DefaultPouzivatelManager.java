@@ -53,10 +53,8 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
         pouzivatel.setPoslednePrihlasenie(LocalDate.now());
-
-        Long idKosika = kosikDao.pridajKosikVratId();
-        Kosik kosik = new Kosik();
-        kosik.setId(idKosika);
+        
+        Kosik kosik = new Kosik();        
         pouzivatel.setKosik(kosik);
 
         pouzivatelDao.pridajPouzivatela(pouzivatel);

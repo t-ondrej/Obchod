@@ -28,7 +28,7 @@ public class PamatovyTovarDAOTest {
         
         System.out.println("dajTovar");
         PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao();        
-        List<Tovar> tovary = pamatovyTovarDAO.dajTovar();
+        List<Tovar> tovary = pamatovyTovarDAO.dajTovary();
        Assert.assertTrue(tovary != null);
        
     }
@@ -41,23 +41,24 @@ public class PamatovyTovarDAOTest {
         
         System.out.println("pridajTovar");
          PamatovyTovarDao pamatovyTovarDAO = new PamatovyTovarDao(); 
-         int pocetTovarov = pamatovyTovarDAO.dajTovar().size();
+         int pocetTovarov = pamatovyTovarDAO.dajTovary().size();
          
         Tovar tovar = new Tovar();  
         tovar.setNazov("t1");
         tovar.setCena(50);       
         pamatovyTovarDAO.pridajTovar(tovar);
-        int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovar().size();
+        int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovary().size();
         
          Assert.assertEquals(pocetTovarovPoPridani, pocetTovarov+1);
          
-        pamatovyTovarDAO.odstranTovar(tovar);
+       // pamatovyTovarDAO.odstranTovar(tovar);
     }
     
 
     /**
      * Test of odstranTovar method, of class PamatovyTovarDAO.
      */    
+    /*
     @Test
     public void testOdstranTovar() {
         System.out.println("odstranTovar");
@@ -68,15 +69,15 @@ public class PamatovyTovarDAOTest {
         tovar.setCena(50);       
         pamatovyTovarDAO.pridajTovar(tovar);
        
-         int pocetTovarov = pamatovyTovarDAO.dajTovar().size();         
+         int pocetTovarov = pamatovyTovarDAO.dajTovary().size();         
         
         pamatovyTovarDAO.odstranTovar(tovar);
-        int pocetTovarovPoOdstraneni = pamatovyTovarDAO.dajTovar().size();
+        int pocetTovarovPoOdstraneni = pamatovyTovarDAO.dajTovary().size();
         
          Assert.assertEquals(pocetTovarovPoOdstraneni, pocetTovarov-1);
          
         pamatovyTovarDAO.pridajTovar(tovar);
     }
-
+*/
     
 }

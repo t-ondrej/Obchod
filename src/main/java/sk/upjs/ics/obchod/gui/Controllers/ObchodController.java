@@ -101,7 +101,7 @@ public class ObchodController implements Initializable {
 
     private void inicializujTovarPagination() {
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
-        tovary = FXCollections.observableArrayList(mysqlTovarDao.dajTovar());
+        tovary = FXCollections.observableArrayList(mysqlTovarDao.dajTovary());
         pocetStranok = (tovary.size() / 8);
         tovarPagination.setPageCount(1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));

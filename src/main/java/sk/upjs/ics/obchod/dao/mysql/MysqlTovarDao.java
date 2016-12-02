@@ -20,7 +20,7 @@ public class MysqlTovarDao implements TovarDao{
     }
     
     @Override
-    public List<Tovar> dajTovar() {
+    public List<Tovar> dajTovary() {
         String sql = "SELECT * FROM Tovar";
                     
         return jdbcTemplate.query(sql, mapper);
@@ -49,17 +49,17 @@ public class MysqlTovarDao implements TovarDao{
 
     @Override
     public void pridajTovar(Tovar tovar) {
-        String sql = "INSERT INTO Tovar (id_kategoria, nazov, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(sql, tovar.getIdKategoria(), tovar.getNazov(), 
-                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getobrazokUrl(), tovar.getPocet_kusov());
+        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
+                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getobrazokUrl(), tovar.getPocetKusov());
     }
 
     @Override
-    public void odstranTovar(Tovar tovar) {
+    public void odstranTovar(Long idTovaru) {
         String sql = "DELETE FROM Tovar WHERE id = ?";
         
-        jdbcTemplate.update(sql, tovar.getId());
+        jdbcTemplate.update(sql, idTovaru);
     }
 
     @Override
@@ -70,18 +70,16 @@ public class MysqlTovarDao implements TovarDao{
     }
 
     @Override
-    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {       
+    public void nastavTovaruPocetKusov(Long idTovar, int pocet) {       
        
        String sql = "UPDATE Tovar SET pocet_kusov = ? WHERE id = ?"; 
-       jdbcTemplate.update(sql, pocet, tovar.getId());       
+       jdbcTemplate.update(sql, pocet, idTovar);       
        
     }
 
     @Override
     public int dajPocetTovaru(Long idTovar) {
-        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
+       String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
        return jdbcTemplate.queryForObject(sql,Integer.class, idTovar);
-    }
-
-    
+    }    
 }

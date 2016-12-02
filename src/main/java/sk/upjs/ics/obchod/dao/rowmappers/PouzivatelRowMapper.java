@@ -11,14 +11,14 @@ public class PouzivatelRowMapper implements RowMapper<Pouzivatel> {
     @Override
     public Pouzivatel mapRow(ResultSet rs, int i) throws SQLException {
         Pouzivatel pouzivatel = new Pouzivatel();
-        Kosik kosik = new Kosik();
-        kosik.setId(rs.getLong("id_kosik"));
+        Kosik kosik = new Kosik();        
         pouzivatel.setId(rs.getLong("id"));
         pouzivatel.setPrihlasovacieMeno(rs.getString("prihlasovacie_meno"));
-        pouzivatel.setPasswordHash(rs.getString("heslo"));
+        pouzivatel.setPasswordHash(rs.getString("hash_hesla"));
         pouzivatel.setSol(rs.getString("sol"));
         pouzivatel.setEmail(rs.getString("email"));
         pouzivatel.setPoslednePrihlasenie(rs.getDate("posledne_prihlasenie").toLocalDate());
+        pouzivatel.setJeAdministrator(rs.getBoolean("je_administrator"));
         pouzivatel.setKosik(kosik);
         return pouzivatel;
     }

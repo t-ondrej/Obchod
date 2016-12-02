@@ -21,7 +21,7 @@ public class PamatovyTovarDao implements TovarDao {
      }
 
     @Override
-    public List<Tovar> dajTovar() {
+    public List<Tovar> dajTovary() {
        return tovary;
     }
 
@@ -31,8 +31,8 @@ public class PamatovyTovarDao implements TovarDao {
     }
 
     @Override
-    public void odstranTovar(Tovar tovar) {
-        tovary.remove(tovar);
+    public void odstranTovar(Long idTovaru) {
+        //tovary.remove(tovar);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class PamatovyTovarDao implements TovarDao {
     }    
 
     @Override
-    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {
+    public void nastavTovaruPocetKusov(Long idTovar, int pocet) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
