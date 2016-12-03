@@ -36,7 +36,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(prihlasovacieMeno);
 
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
-            Kosik kosik = new Kosik();
+            Kosik kosik = pouzivatel.getKosik();
             pouzivatel.setKosik(kosik);
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.set(true);
