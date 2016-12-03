@@ -8,7 +8,6 @@ import javafx.collections.ObservableMap;
 
 public class Kosik {
     
-    // Integer je pocet kusov z daneho tovaru v kosiku
     private final ObservableMap<Tovar, IntegerProperty> tovary = FXCollections.observableHashMap();
     
     private final IntegerProperty celkovaCena = new SimpleIntegerProperty(0);

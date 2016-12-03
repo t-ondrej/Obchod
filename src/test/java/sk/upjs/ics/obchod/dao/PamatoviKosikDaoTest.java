@@ -1,9 +1,6 @@
 package sk.upjs.ics.obchod.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javafx.collections.FXCollections;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,7 +21,9 @@ public class PamatoviKosikDaoTest {
 
     private void naplnTestovacieUdaje() {
         tovar1 = new Tovar();
+        tovar1.setId(0L);
         tovar2 = new Tovar();
+        tovar2.setId(1L);
 
         dao.dajTovarDoKosika(tovar1, kosik);
         dao.nastavTovaruVKosikuPocetKusov(tovar1, kosik, 2);
@@ -48,6 +47,7 @@ public class PamatoviKosikDaoTest {
         naplnTestovacieUdaje();
 
         Tovar tovar = new Tovar();
+        tovar.setId(2L);
         dao.dajTovarDoKosika(tovar, kosik);
 
         Assert.assertTrue(kosik.getTovary().containsKey(tovar));
@@ -87,10 +87,10 @@ public class PamatoviKosikDaoTest {
         naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar1, kosik);
-        int pocetPoOdstraneni = kosik.getTovary().size();
+        int pocetPoOdstraneni = kosik.getTovary().get(tovar1).getValue().intValue();
 
         Assert.assertEquals(1, pocetPoOdstraneni);
-        Assert.assertTrue(!(kosik.getTovary().containsKey(tovar1)));
+        //Assert.assertTrue(!(kosik.getTovary().containsKey(tovar1)));
     }
 
     /**

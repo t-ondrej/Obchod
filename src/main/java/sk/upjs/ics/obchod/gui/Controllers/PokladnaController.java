@@ -102,9 +102,9 @@ public class PokladnaController implements Initializable {
         kosikAktivnehoPouzivatela.getTovary().addListener(new MapChangeListener() {
             @Override
             public void onChanged(MapChangeListener.Change change) {
+                tovarTableView.getItems().clear();
                 tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
             }
-
         });
 
         tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
