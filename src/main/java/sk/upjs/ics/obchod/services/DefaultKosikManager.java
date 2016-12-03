@@ -46,9 +46,9 @@ public class DefaultKosikManager implements KosikManager{
         int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
         
         if(pocetZTovaruVKosiku <= 1){
-             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar.getId(), kosik.getId());
-             kosikDao.nastavTovaruVKosikuPocetKusov(tovar.getId(), kosik.getId(), pocetVKosikuPred+1);
-             tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru-1);
+             int pocetVKosikuPred = kosikDao.pocetJednehoTovaruVKosiku(tovar, kosik);
+             kosikDao.nastavTovaruVKosikuPocetKusov(tovar, kosik, pocetVKosikuPred+1);
+             tovarDao.nastavTovaruPocetKusov(tovar.getId(), pocetTovaru-1);
              KosikModel.INSTANCE.pridajTovarDoKosika(tovar, pocetVKosikuPred + 1);
         }else{            
         }
@@ -56,7 +56,7 @@ public class DefaultKosikManager implements KosikManager{
 
     @Override
     public List<Tovar> dajTovarKosika(Kosik kosik) {
-        return kosikDao.dajTovaryKosika(kosik.getId());
+        return kosikDao.dajTovaryKosika(kosik);
     }
 
    

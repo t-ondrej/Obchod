@@ -14,7 +14,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     INSTANCE;
 
     private final PouzivatelDao pouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
-    private final KosikDao kosikDao = DaoFactory.INSTANCE.getMysqlKosikDao();
+    private final KosikDao kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
     private Pouzivatel aktivnyPouzivatel;
     private BooleanProperty prihlaseny = new SimpleBooleanProperty(false);
 
@@ -36,7 +36,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(prihlasovacieMeno);
 
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
-            Kosik kosik = kosikDao.dajKosikPodlaId(pouzivatel.getKosik().getId());
+            Kosik kosik = pouzivatel.getKosik();
             pouzivatel.setKosik(kosik);
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.set(true);

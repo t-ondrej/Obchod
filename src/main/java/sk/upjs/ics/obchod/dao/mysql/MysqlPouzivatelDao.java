@@ -1,6 +1,7 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
