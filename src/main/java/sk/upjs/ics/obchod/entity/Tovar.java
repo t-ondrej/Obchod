@@ -1,85 +1,124 @@
 package sk.upjs.ics.obchod.entity;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Tovar {
     
-    private Long id;
+    private LongProperty id = new SimpleLongProperty();
     
-    private String nazov;
+    private StringProperty nazov = new SimpleStringProperty();
     
-    private Long idZnacka;
+    private LongProperty idZnacka = new SimpleLongProperty();
     
-    private Long idKategoria;
+    private LongProperty idKategoria = new SimpleLongProperty();;
     
-    private int cena;
+    private IntegerProperty cena = new SimpleIntegerProperty();
     
-    private String popis;
+    private StringProperty popis = new SimpleStringProperty();;
     
-    private String obrazokUrl;
+    private StringProperty obrazokUrl = new SimpleStringProperty();;
     
-    private int pocetKusov;
+    private IntegerProperty pocetKusov = new SimpleIntegerProperty();;
     
     public Long getId() {
-        return id;
+        return id.getValue();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setValue(id);
+    }
+    
+    public LongProperty idProperty() {
+        return id;
     }
 
     public String getNazov() {
-        return nazov;
+        return nazov.getValue();
     }
 
     public void setNazov(String nazov) {
-        this.nazov = nazov;
+        this.nazov.setValue(nazov);
     }
 
+    public StringProperty nazovProperty() {
+        return nazov;
+    }
+    
     public Long getIdZnacka() {
-        return idZnacka;
+        return idZnacka.getValue();
     }
 
     public void setIdZnacka(Long idZnacka) {
-        this.idZnacka = idZnacka;
+        this.idZnacka.setValue(idZnacka);
+    }
+    
+    public LongProperty idZnackaProperty() {
+        return idZnacka;
     }
 
     public Long getIdKategoria() {
-        return idKategoria;
+        return idKategoria.getValue();
     }
 
     public void setIdKategoria(Long idKategoria) {
-        this.idKategoria = idKategoria;
+        this.idKategoria.setValue(idKategoria);
+    }
+    
+    public LongProperty idKategoriaProperty() {
+        return idKategoria;
     }
 
     public int getCena() {
-        return cena;
+        return cena.getValue();
     }
 
     public void setCena(int cena) {
-        this.cena = cena;
+        this.cena.setValue(cena);
+    }
+    
+    public IntegerProperty cenaProperty() {
+        return cena;
     }
 
     public String getPopis() {
-        return popis;
+        return popis.getValue();
     }
 
     public void setPopis(String popis) {
-        this.popis = popis;
+        this.popis.setValue(popis);
+    }
+    
+    public StringProperty popisProperty() {
+        return popis;
     }
 
-    public String getobrazokUrl() {
+    public String getObrazokUrl() {
+        return obrazokUrl.getValue();
+    }
+
+    public void setObrazokUrl(String obrazokUrl) {
+        this.obrazokUrl.setValue(obrazokUrl);
+    }
+    
+    public StringProperty obrazokUrl() {
         return obrazokUrl;
-    }
-
-    public void setobrazokUrl(String obrazokUrl) {
-        this.obrazokUrl = obrazokUrl;
     }
     
     public int getPocetKusov() {
-        return pocetKusov;
+        return pocetKusov.getValue();
     }
 
     public void setPocetKusov(int pocetKusov) {
-        this.pocetKusov = pocetKusov;
+        this.pocetKusov.setValue(pocetKusov);
+    }
+    
+    public IntegerProperty pocetKusovProperty() {
+        return pocetKusov;
     }
     
 }

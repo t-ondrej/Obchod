@@ -52,7 +52,7 @@ public class MysqlTovarDao implements TovarDao{
         String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
         
         jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
-                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getobrazokUrl(), tovar.getPocetKusov());
+                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov());
     }
 
     @Override

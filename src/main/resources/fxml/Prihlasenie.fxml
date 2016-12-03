@@ -7,26 +7,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="669.0" prefWidth="1094.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PrihlasenieController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="1167.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PrihlasenieController">
    <children>
       <BorderPane layoutX="397.0" layoutY="147.0" prefHeight="669.0" prefWidth="1094.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="prihlasitButton" layoutX="547.0" layoutY="266.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
-                  <PasswordField fx:id="hesloPasswordField" layoutX="547.0" layoutY="204.0" />
-                  <TextField fx:id="prihlasovacieMenoTextField" layoutX="547.0" layoutY="144.0" />
-                  <Label layoutX="301.0" layoutY="147.0" text="Prihlasovacie meno:">
+                  <Button fx:id="prihlasitButton" layoutX="584.0" layoutY="262.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
+                  <PasswordField fx:id="hesloPasswordField" layoutX="584.0" layoutY="205.0" />
+                  <TextField fx:id="prihlasovacieMenoTextField" layoutX="584.0" layoutY="145.0" />
+                  <Label layoutX="348.0" layoutY="148.0" text="Prihlasovacie meno:">
                      <font>
                         <Font name="Microsoft Sans Serif" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="301.0" layoutY="207.0" text="Heslo:">
+                  <Label layoutX="348.0" layoutY="208.0" text="Heslo:">
                      <font>
                         <Font name="Microsoft Sans Serif" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="492.0" layoutY="46.0" text="Prihlásenie" />
+                  <Label layoutX="584.0" layoutY="58.0" text="Prihlásenie" />
                </children>
             </Pane>
          </center>

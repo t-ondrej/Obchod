@@ -101,7 +101,7 @@ public class MysqlTovarDaoTest {
         tovar.setIdZnacka(4L);
         tovar.setNazov("nazov1");
         tovar.setCena(42);
-        tovar.setobrazokUrl("@../img/3.JPG");
+        tovar.setObrazokUrl("@../img/3.JPG");
         tovar.setPopis("ok");
         tovar.setPocetKusov(6);
         
@@ -115,7 +115,7 @@ public class MysqlTovarDaoTest {
         Assert.assertEquals(new Long(4), t.getIdZnacka());
         Assert.assertEquals("nazov1", t.getNazov());
         Assert.assertEquals(42, t.getCena());
-        Assert.assertEquals("@../img/3.JPG", t.getobrazokUrl());
+        Assert.assertEquals("@../img/3.JPG", t.getObrazokUrl());
         Assert.assertEquals("ok", t.getPopis());
         Assert.assertEquals(6, t.getPocetKusov());        
     }
@@ -150,7 +150,7 @@ public class MysqlTovarDaoTest {
         Assert.assertEquals(new Long(1), t.getIdZnacka());
         Assert.assertEquals("test1", t.getNazov());
         Assert.assertEquals(80, t.getCena());
-        Assert.assertEquals("@../img/1.JPG", t.getobrazokUrl());
+        Assert.assertEquals("@../img/1.JPG", t.getObrazokUrl());
         Assert.assertEquals("dobre", t.getPopis());
         Assert.assertEquals(2, t.getPocetKusov()); 
     }

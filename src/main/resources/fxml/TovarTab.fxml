@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import java.util.*?>
@@ -7,18 +8,58 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
     <children>
-        <Button fx:id="pridatTovarButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
-        <Button fx:id="odstranitTovarButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
-        <Button fx:id="upravitTovarButton" layoutX="926.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
-        <Pane fx:id="pridatTovarPane" layoutX="583.0" layoutY="73.0" prefHeight="559.0" prefWidth="497.0">
-            <fx:include fx:id="pouzivateliaContent" source="PridatTovar.fxml"/>
-        </Pane>
-        <TableView fx:id="tovarTableView" prefHeight="634.0" prefWidth="567.0">
+        <Button fx:id="pridatTovarButton" layoutX="789.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
+        <Button fx:id="odstranitTovarButton" layoutX="1125.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
+        <Button fx:id="upravitTovarButton" layoutX="957.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
+        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0">
+         <children>
+            <VBox layoutY="50.0" prefHeight="509.0" prefWidth="164.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="40.0" text="Kategória:" />
+                  <Label prefHeight="40.0" text="Značka:" />
+                  <Label prefHeight="31.0" text="Názov:" />
+                  <Label prefHeight="31.0" text="Cena:" />
+                  <Label prefHeight="31.0" text="Url obrázka:" />
+                  <Label prefHeight="31.0" text="Počet kusov:" />
+                  <Label prefHeight="31.0" text="Popis:" />
+               </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </VBox>
+            <VBox layoutX="155.0" layoutY="50.0" prefHeight="566.0" prefWidth="354.0" spacing="20.0">
+               <padding>
+                  <Insets left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <ComboBox fx:id="kategorieComboBox" prefHeight="40.0" prefWidth="334.0" promptText="kategórie" />
+                  <ComboBox fx:id="znackyComboBox" prefHeight="40.0" prefWidth="334.0" promptText="značky" />
+                  <TextField fx:id="nazovTextField" prefHeight="31.0" />
+                  <TextField fx:id="cenaTextField" prefHeight="31.0" />
+                  <TextField fx:id="obrazokUrlTextField" prefHeight="31.0" />
+                  <TextField fx:id="pocetKusovTextField" prefHeight="31.0" />
+                  <TextArea fx:id="popisTovaruTextArea" prefHeight="218.0" prefWidth="334.0" />
+               </children>
+            </VBox>
+            <Label fx:id="pridatTovarLabel" layoutX="170.0" layoutY="1.0" text="Pridať tovar" visible="false" />
+            <Label fx:id="upravitTovarLabel" layoutX="170.0" layoutY="1.0" text="Upraviť tovar" visible="false" />
+            <Button fx:id="upravitButton" layoutX="385.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Upraviť" visible="false" />
+            <Button fx:id="pridatButton" layoutX="385.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Pridať" visible="false" />
+         </children></Pane>
+            
+        
+        <TableView fx:id="tovarTableView" layoutY="13.0" prefHeight="724.0" prefWidth="777.0">
             <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn fx:id="idTableColumn" prefWidth="49.0" text="Id" />
+                <TableColumn fx:id="nazovTableColumn" prefWidth="149.0" text="Názov" />
+                <TableColumn fx:id="idKategoriaTableColumn" prefWidth="98.0" text="Id kategória" />
+                <TableColumn fx:id="idZnackaTableColumn" prefWidth="79.0" text="Id značky" />
+                <TableColumn fx:id="cenaTableColumn" prefWidth="65.0" text="Cena" />
+                <TableColumn fx:id="popisTableColumn" prefWidth="99.0" text="Popis" />
+                <TableColumn fx:id="urlObrazkaTableColumn" prefWidth="124.0" text="Url obrazka" />
+                <TableColumn fx:id="pocetKusovTableColumn" prefWidth="113.0" text="Počet kusov" />
             </columns>
         </TableView>
     </children>

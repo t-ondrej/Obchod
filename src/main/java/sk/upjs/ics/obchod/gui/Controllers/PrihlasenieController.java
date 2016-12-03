@@ -32,7 +32,7 @@ public class PrihlasenieController implements Initializable {
 
     private Stage mainStage;
 
-    private PouzivatelManager defaultPouzivatelManager;
+    private DefaultPouzivatelManager defaultPouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,7 +58,13 @@ public class PrihlasenieController implements Initializable {
             prihlasovacieMenoTextField.clear();
             hesloPasswordField.clear();
             Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-            mainStage.setScene(obchodScene);
+            
+            if(defaultPouzivatelManager.getAktivnyPouzivatel().isJeAdministrator()) {
+                Scene administraciaScene = ViewFactory.INSTANCE.getAdministraciaScene(mainStage);
+                mainStage.setScene(administraciaScene);
+            } else {
+                mainStage.setScene(obchodScene);
+            }
 
         } else {
             Alert alert = new Alert(AlertType.WARNING);

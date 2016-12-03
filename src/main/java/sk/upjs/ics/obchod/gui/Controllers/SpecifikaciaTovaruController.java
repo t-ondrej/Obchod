@@ -1,14 +1,8 @@
 package sk.upjs.ics.obchod.gui.Controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.BooleanExpression;
-import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -64,7 +58,7 @@ public class SpecifikaciaTovaruController {
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
         tovar = mysqlTovarDao.dajTovarPodlaNazvu(nazovTovaru);
 
-        Image obrazok = new Image("file:" + tovar.getobrazokUrl());
+        Image obrazok = new Image("file:" + tovar.getObrazokUrl());
 
         tovarImageView.setImage(obrazok);
         nazovTovaruLabel.setText(tovar.getNazov());
@@ -88,10 +82,10 @@ public class SpecifikaciaTovaruController {
         Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
         
         if (defaultKosikManager.pridajTovarDoKosika(tovar, kosik)) {
-            pridatDoKosikaNotifikaciaLabel.setId("label-notifikacia-kosika-uspesne");
+            pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
         } else {
-            pridatDoKosikaNotifikaciaLabel.setId("label-notifikacia-kosika-neuspesne");
+            pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: red");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar nie je možné pridať!");
         }
         

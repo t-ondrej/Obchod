@@ -1,18 +1,27 @@
 package sk.upjs.ics.obchod.entity;
 
-import java.util.HashMap;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 public class Kosik {
     
     // Integer je pocet kusov z daneho tovaru v kosiku
-    private Map<Tovar, Integer> tovary = new HashMap<>(); 
-
-    public Map<Tovar, Integer> getTovary() {
+    private final ObservableMap<Tovar, IntegerProperty> tovary = FXCollections.observableHashMap();
+    
+    private final IntegerProperty celkovaCena = new SimpleIntegerProperty(0);
+    
+    public ObservableMap<Tovar, IntegerProperty> getTovary() {
         return tovary;
     }
-
-    public void setTovary(Map<Tovar, Integer> tovary) {
-        this.tovary = tovary;
-    }   
+    
+    public int getCelkovaCena() {
+        return celkovaCena.getValue();
+    }
+    
+    public IntegerProperty celkovaCenaProperty() {
+        return celkovaCena;
+    }
 }

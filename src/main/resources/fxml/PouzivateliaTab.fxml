@@ -10,8 +10,11 @@
    <children>
       <TableView fx:id="pouzivateliaTableView" layoutY="101.0" prefHeight="530.0" prefWidth="1094.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn prefWidth="90.0" text="Id" />
+          <TableColumn prefWidth="183.0" text="Prihlasovacie meno" />
+            <TableColumn prefWidth="183.0" text="Email" />
+            <TableColumn prefWidth="183.0" text="Posledné prihlasenie" />
+            <TableColumn prefWidth="183.0" text="Právomoci" />
         </columns>
       </TableView>
    </children>

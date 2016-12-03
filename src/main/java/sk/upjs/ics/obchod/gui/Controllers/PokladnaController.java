@@ -4,26 +4,24 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
-import sk.upjs.ics.obchod.gui.KosikModel;
-import sk.upjs.ics.obchod.gui.TovarModel;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultKosikManager;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
@@ -34,44 +32,51 @@ public class PokladnaController implements Initializable {
     private Button kupitButton;
 
     @FXML
-    private TableView<TovarModel> tovarTableView;
+    private Label celkovaCenaLabel;
 
     @FXML
-    private TableColumn<TovarModel, String> nazovTableColumn;
+    private TableView<Tovar> tovarTableView;
 
     @FXML
-    private TableColumn<TovarModel, Number> mnozstvoTableColumn;
+    private TableColumn<Tovar, String> nazovTableColumn;
 
     @FXML
-    private TableColumn<TovarModel, Number> cenaTableColumn;
+    private TableColumn<Tovar, Number> mnozstvoTableColumn;
+
+    @FXML
+    private TableColumn<Tovar, Number> cenaTableColumn;
 
     @FXML
     private TableColumn odobratTovarTableColumn;
 
     private Stage mainStage;
 
-    protected ObservableList<TovarModel> tovarKosika;
+    protected ObservableList<Tovar> tovarKosika;
 
     private DefaultKosikManager defaultKosikManager;
+
+    private DefaultPouzivatelManager defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         defaultKosikManager = new DefaultKosikManager();
+        Kosik kosikAktivnehoPouzivatela = defaultPouzivatelManager.getAktivnyPouzivatel().getKosik();
 
-        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().getNazov());
-        mnozstvoTableColumn.setCellValueFactory(cellData -> cellData.getValue().getPocetKusovVKosiku());
-        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getCena());
+        celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.celkovaCenaProperty()));
+
+        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
+        mnozstvoTableColumn.setCellValueFactory(cellData -> defaultKosikManager.pocetTovaruVKosikuProperty(cellData.getValue(), kosikAktivnehoPouzivatela));
+        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
 
         odobratTovarTableColumn.setCellFactory(col -> {
-            
+
             Button odstranitButton = new Button("Odstranit");
             odstranitButton.setGraphic(new ImageView(new Image("file:src/main/resources/img/square-minus-small.jpg")));
-            
-            
-            TableCell<TovarModel, TovarModel> cell = new TableCell<TovarModel, TovarModel>() {
+
+            TableCell<Tovar, Tovar> cell = new TableCell<Tovar, Tovar>() {
                 @Override
-                public void updateItem(TovarModel person, boolean empty) {
-                    super.updateItem(person, empty);
+                public void updateItem(Tovar tovar, boolean empty) {
+                    super.updateItem(tovar, empty);
                     if (empty) {
                         setGraphic(null);
                     } else {
@@ -81,19 +86,28 @@ public class PokladnaController implements Initializable {
             };
 
             odstranitButton.setOnAction(event -> {
-                TovarModel vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
+                Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
 
-                List<Tovar> tovary = defaultKosikManager.dajTovarKosika(DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik());
+                Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
 
-                Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov().getValue())).collect(Collectors.toList()).get(0);
+                List<Tovar> tovary = defaultKosikManager.dajTovarKosika(kosik);
 
-                KosikModel.INSTANCE.odoberTovarKosika(tovar);
+                Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
+
+                defaultKosikManager.odoberTovarZKosika(tovar, kosik);
             });
             return cell;
         });
 
+        kosikAktivnehoPouzivatela.getTovary().addListener(new MapChangeListener() {
+            @Override
+            public void onChanged(MapChangeListener.Change change) {
+                tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
+            }
 
-        tovarTableView.setItems(KosikModel.INSTANCE.getTovarKosika());
+        });
+
+        tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
     }
 
     public void setStage(Stage mainStage) {

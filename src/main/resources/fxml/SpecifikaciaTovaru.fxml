@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="669.0" prefWidth="1094.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
+<AnchorPane id="AnchorPane" prefHeight="737.0" prefWidth="1167.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
     <stylesheets>
         <URL value="@/styles/Obchod.css" />
     </stylesheets>
@@ -24,12 +24,12 @@
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="547.0" layoutY="39.0" text="Špecifikácia tovaru" />
-                  <ImageView fx:id="tovarImageView" fitHeight="300.0" fitWidth="300.0" layoutX="86.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label fx:id="nazovTovaruLabel" layoutX="547.0" layoutY="134.0" text="Názov tovaru" />
-                  <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="547.0" layoutY="182.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
-                  <Label fx:id="cenaLabel" layoutX="547.0" layoutY="422.0" text="Cena" />
-                  <Button fx:id="pridatDoKosikaButton" layoutX="932.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
+                  <Label layoutX="573.0" layoutY="41.0" text="Špecifikácia tovaru" />
+                  <ImageView fx:id="tovarImageView" fitHeight="300.0" fitWidth="300.0" layoutX="142.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="nazovTovaruLabel" layoutX="573.0" layoutY="130.0" text="Názov tovaru" />
+                  <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="573.0" layoutY="183.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
+                  <Label fx:id="cenaLabel" layoutX="573.0" layoutY="422.0" text="Cena" />
+                  <Button fx:id="pridatDoKosikaButton" layoutX="958.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
                   <Label id="label-notifikacia-kosika" fx:id="pridatDoKosikaNotifikaciaLabel" layoutX="742.0" layoutY="422.0" opacity="0.0" text="Tovar bol pridaný!" />
                </children>
             </Pane>

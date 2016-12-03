@@ -6,11 +6,9 @@ import sk.upjs.ics.obchod.gui.Controllers.ObchodController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Pagination;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.Controllers.AdministraciaController;
 import sk.upjs.ics.obchod.gui.Controllers.PokladnaController;
-import sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController;
 
 public enum ViewFactory {
     INSTANCE;
@@ -24,8 +22,6 @@ public enum ViewFactory {
     private Scene pokladnaScene;
     
     private Scene administraciaScene;
-    
-    private Scene specifikaciaTovaruScene;
 
     public Scene getObchodScene(Stage mainStage) {
         if (obchodScene == null) {
@@ -109,23 +105,5 @@ public enum ViewFactory {
         }
 
         return administraciaScene;
-    }
-    
- /*   public Scene getSpecifikaciaTovaruScene(Stage mainStage, String nazovTovaru) {
-        if (specifikaciaTovaruScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SpecifikaciaTovaru.fxml"));
-                specifikaciaTovaruScene = new Scene(loader.load());
-                SpecifikaciaTovaruController specifikaciaTovaruController = loader.getController();
-                specifikaciaTovaruController.setStage(mainStage);
-                specifikaciaTovaruController.setNazovTovaru(nazovTovaru);
-                
-            } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat SpecifikaciaTovaru.fxml");
-                e.printStackTrace();
-            }
-        }
-
-        return specifikaciaTovaruScene;
-    }*/
+    }   
 }
