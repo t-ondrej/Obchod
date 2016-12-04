@@ -1,46 +1,68 @@
 package sk.upjs.ics.obchod.entity;
 
 import java.time.LocalDate;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class Faktura {
     
-    private Long id;
+    private LongProperty id = new SimpleLongProperty();
     
-    private Long idPouzivatel;
+    private LongProperty idPouzivatel = new SimpleLongProperty();
      
-    private int suma;
+    private IntegerProperty suma = new SimpleIntegerProperty();
     
-    private LocalDate datumNakupu;
+    private ObjectProperty<LocalDate> datumNakupu = new SimpleObjectProperty();
     
     public Long getId() {
-        return id;
+        return id.getValue();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setValue(id);
     }
-
+    
+    public LongProperty idProperty() {
+        return id;
+    }
+    
     public Long getIdPouzivatel() {
-        return idPouzivatel;
+        return idPouzivatel.getValue();
     }
 
     public void setIdPouzivatel(Long idPouzivatel) {
-        this.idPouzivatel = idPouzivatel;
+        this.idPouzivatel.setValue(idPouzivatel);
+    }
+    
+    public LongProperty idPouzivatelProperty() {
+        return idPouzivatel;
     }
 
     public int getSuma() {
-        return suma;
+        return suma.getValue();
     }
 
     public void setSuma(int suma) {
-        this.suma = suma;
+        this.suma.setValue(suma);
     }
 
+    public IntegerProperty sumaProperty() {
+        return suma;
+    }
+    
     public LocalDate getDatumNakupu() {
-        return datumNakupu;
+        return datumNakupu.getValue();
     }
 
     public void setDatumNakupu(LocalDate datumNakupu) {
-        this.datumNakupu = datumNakupu;
+        this.datumNakupu.setValue(datumNakupu);
     }    
+    
+    public ObjectProperty datumNakupu() {
+        return datumNakupu;
+    }
 }

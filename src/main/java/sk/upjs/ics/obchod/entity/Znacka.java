@@ -1,25 +1,38 @@
 package sk.upjs.ics.obchod.entity;
 
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Znacka {
     
-    private Long id; 
+    private LongProperty id = new SimpleLongProperty(); 
     
-    private String nazov;
+    private StringProperty nazov = new SimpleStringProperty();
    
     public Long getId() {
-        return id;
+        return id.getValue();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setValue(id);
+    }
+    
+    public LongProperty idProperty() {
+        return id;
     }
 
     public String getNazov() {
-        return nazov;
+        return nazov.getValue();
     }
 
     public void setNazov(String nazov) {
-        this.nazov = nazov;
+        this.nazov.setValue(nazov);
+    }
+    
+    public StringProperty nazovProperty() {
+        return nazov;
     }
 
 }

@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,9 +34,7 @@ import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultKosikManager;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.KosikManager;
 
 public class ObchodController implements Initializable {
 
@@ -127,7 +124,7 @@ public class ObchodController implements Initializable {
                 l.setFitWidth(240);
 
                 Label nazovTovaru = new Label(tovar.getNazov());
-                // Label nazovTovaru = new Label("TEST");
+                
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
                 });

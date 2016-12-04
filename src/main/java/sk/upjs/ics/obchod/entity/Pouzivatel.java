@@ -1,40 +1,56 @@
 package sk.upjs.ics.obchod.entity;
 
 import java.time.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class Pouzivatel {
     
-    private Long id;
+    private LongProperty id = new SimpleLongProperty();
         
-    private String prihlasovacieMeno;
+    private StringProperty prihlasovacieMeno = new SimpleStringProperty();
     
     private String hashHesla;
     
     private String sol;
         
-    private String email;
+    private StringProperty email = new SimpleStringProperty();
      
-    private LocalDate poslednePrihlasenie;
+    private ObjectProperty<LocalDate> poslednePrihlasenie = new SimpleObjectProperty();
     
     private Kosik kosik;
     
-    private boolean jeAdministrator;
+    private BooleanProperty jeAdministrator = new SimpleBooleanProperty();
       
     public Long getId() {
-        return id;
+        return id.getValue();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setValue(id);
+    }
+    
+    public LongProperty idProperty() {
+        return id;
     }
 
     public String getPrihlasovacieMeno() {
-        return prihlasovacieMeno;
+        return prihlasovacieMeno.getValue();
     }
 
     public void setPrihlasovacieMeno(String prihlasovacieMeno) {
-        this.prihlasovacieMeno = prihlasovacieMeno;
+        this.prihlasovacieMeno.setValue(prihlasovacieMeno);
+    }
+    
+    public StringProperty prihlasovacieMenoProperty() {
+        return prihlasovacieMeno;
     }
 
     public String getSol() {
@@ -66,20 +82,28 @@ public class Pouzivatel {
     }
 
     public String getEmail() {
-        return email;
+        return email.getValue();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email.setValue(sol);
+    }
+    
+    public StringProperty emailProperty() {
+        return email;
     }
 
     public LocalDate getPoslednePrihlasenie() {
-        return poslednePrihlasenie;
+        return poslednePrihlasenie.getValue();
     }
 
     public void setPoslednePrihlasenie(LocalDate poslednePrihlasenie) {
-        this.poslednePrihlasenie = poslednePrihlasenie;
+        this.poslednePrihlasenie.setValue(poslednePrihlasenie);
     }    
+    
+    public ObjectProperty<LocalDate> poslednePrihlasenieProperty() {
+        return poslednePrihlasenie;
+    }
 
     public Kosik getKosik() {
         return kosik;
@@ -90,10 +114,14 @@ public class Pouzivatel {
     }   
 
     public boolean isJeAdministrator() {
-        return jeAdministrator;
+        return jeAdministrator.getValue();
     }
 
     public void setJeAdministrator(boolean jeAdministrator) {
-        this.jeAdministrator = jeAdministrator;
+        this.jeAdministrator.setValue(jeAdministrator);
     }    
+    
+    public BooleanProperty jeAdministratorProperty() {
+        return jeAdministrator;
+    }
 }

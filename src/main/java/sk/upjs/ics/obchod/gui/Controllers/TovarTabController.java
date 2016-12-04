@@ -173,7 +173,7 @@ public class TovarTabController implements Initializable {
         tovar.setPopis(popisTovaruTextArea.getText());
 
         tovarModely.add(tovar);
-        // mysqlTovarDao.pridajTovar(tovar);
+        mysqlTovarDao.pridajTovar(tovar);
     }
 
     @FXML
@@ -187,6 +187,8 @@ public class TovarTabController implements Initializable {
         Tovar.setObrazokUrl(obrazokUrlTextField.getText());
         Tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
         Tovar.setPopis(popisTovaruTextArea.getText());
+        
+        // mysqlTovarDao.upravitTovar(tovar);
     }
 
     private void inicializujTovarTableView() {
