@@ -180,4 +180,37 @@ public class MysqlTovarDaoTest {
         int pocet = dao.dajPocetTovaru(1L);
         Assert.assertEquals(2, pocet);       
     } 
+
+    /**
+     * Test of upravTovar method, of class MysqlTovarDao.
+     */
+    @Test
+    public void testUpravTovar() {
+        System.out.println("upravTovar");
+        naplnTestovacieUdaje();        
+        
+        Tovar tovar = new Tovar();
+        tovar.setId(2L);
+        tovar.setIdKategoria(3L);
+        tovar.setIdZnacka(4L);
+        tovar.setNazov("nazov1");
+        tovar.setCena(42);
+        tovar.setObrazokUrl("@../img/3.JPG");
+        tovar.setPopis("ok");
+        tovar.setPocetKusov(6);       
+        
+        dao.upravTovar(tovar);
+        String sql = "SELECT * FROM tovar WHERE id=2";
+        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
+        Tovar t = jdbcTemplate.queryForObject(sql, mapper); 
+
+        Assert.assertEquals(new Long(2), t.getId());
+        Assert.assertEquals(new Long(3), t.getIdKategoria());
+        Assert.assertEquals(new Long(4), t.getIdZnacka());
+        Assert.assertEquals("nazov1", t.getNazov());
+        Assert.assertEquals(42, t.getCena());
+        Assert.assertEquals("@../img/3.JPG", t.getObrazokUrl());
+        Assert.assertEquals("ok", t.getPopis());
+        Assert.assertEquals(6, t.getPocetKusov()); 
+    }
 }
