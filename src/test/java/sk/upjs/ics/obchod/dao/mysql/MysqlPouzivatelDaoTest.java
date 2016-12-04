@@ -26,6 +26,7 @@ public class MysqlPouzivatelDaoTest {
                 + "VALUES(?, ?, ?, ?, ?, ?)";
         
         Pouzivatel p1 = new Pouzivatel();
+        
         p1.setPrihlasovacieMeno("test1");
         p1.setEmail("test1@test.sk");
         p1.setPassword("test1");

@@ -134,9 +134,12 @@ public class TovarTabController implements Initializable {
             alert.showAndWait();
         }
 
-        Long idTovar = tovarTableView.getSelectionModel().getSelectedItem().getId();
+        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();
+        Long idTovar = oznacenyTovar.getId();
 
         mysqlTovarDao.odstranTovar(idTovar);
+        tovarModely.remove(oznacenyTovar);
+        obnovTovarTableView();
     }
 
     @FXML
@@ -174,6 +177,9 @@ public class TovarTabController implements Initializable {
 
         tovarModely.add(tovar);
         mysqlTovarDao.pridajTovar(tovar);
+        
+        obnovTovarTableView();
+        vymazTextFieldy();
     }
 
     @FXML
@@ -189,6 +195,8 @@ public class TovarTabController implements Initializable {
         Tovar.setPopis(popisTovaruTextArea.getText());
         
         // mysqlTovarDao.upravitTovar(tovar);
+        obnovTovarTableView();
+        vymazTextFieldy();
     }
 
     private void inicializujTovarTableView() {
@@ -233,6 +241,7 @@ public class TovarTabController implements Initializable {
 
         });
         
+        kategorieComboBox.getItems().clear();
         kategorieComboBox.getItems().addAll(kategorie);
     }
 
@@ -253,7 +262,21 @@ public class TovarTabController implements Initializable {
             }
         });
         
+        znackyComboBox.getItems().clear();
         znackyComboBox.getItems().addAll(znacky);
     }
 
+    
+    private void obnovTovarTableView() {
+        tovarTableView.getItems().clear();
+        tovarTableView.getItems().addAll(tovarModely);
+    }
+    
+    private void vymazTextFieldy() {
+        nazovTextField.clear();
+        cenaTextField.clear();
+        obrazokUrlTextField.clear();
+        pocetKusovTextField.clear();
+        popisTovaruTextArea.clear();
+    }
 }

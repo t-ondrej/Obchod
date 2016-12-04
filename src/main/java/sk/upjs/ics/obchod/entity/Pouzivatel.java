@@ -86,7 +86,7 @@ public class Pouzivatel {
     }
 
     public void setEmail(String email) {
-        this.email.setValue(sol);
+        this.email.setValue(email);
     }
     
     public StringProperty emailProperty() {

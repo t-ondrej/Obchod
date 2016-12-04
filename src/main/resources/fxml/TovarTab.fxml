@@ -13,7 +13,7 @@
         <Button fx:id="pridatTovarButton" layoutX="789.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
         <Button fx:id="odstranitTovarButton" layoutX="1125.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
         <Button fx:id="upravitTovarButton" layoutX="957.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
-        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0">
+        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0" visible="false">
          <children>
             <VBox layoutY="50.0" prefHeight="509.0" prefWidth="164.0" spacing="20.0">
                <children>
