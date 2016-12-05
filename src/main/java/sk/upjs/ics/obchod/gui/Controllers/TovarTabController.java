@@ -194,7 +194,7 @@ public class TovarTabController implements Initializable {
         Tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
         Tovar.setPopis(popisTovaruTextArea.getText());
         
-        // mysqlTovarDao.upravitTovar(tovar);
+        // TODO mysqlTovarDao.upravitTovar(tovar);
         obnovTovarTableView();
         vymazTextFieldy();
     }
@@ -211,16 +211,12 @@ public class TovarTabController implements Initializable {
         urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().obrazokUrl());
         pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().pocetKusovProperty());
 
-        tovarTableView.getItems().addAll(tovarModely);
+        tovarTableView.setItems(tovarModely);
     }
 
     private void naplnTovarModely() {
         List<Tovar> tovar = DaoFactory.INSTANCE.getMysqlTovarDao().dajTovary();
-        tovarModely = FXCollections.observableArrayList();
-
-        tovar.stream().forEach((t) -> {
-            tovarModely.add(t);
-        });
+        tovarModely = FXCollections.observableArrayList(tovar);
     }
 
     private void inicializujKategorieComboBox() {

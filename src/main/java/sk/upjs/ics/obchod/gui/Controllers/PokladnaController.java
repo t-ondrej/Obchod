@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

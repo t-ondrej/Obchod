@@ -10,10 +10,10 @@
 
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
     <children>
-        <Button fx:id="pridatTovarButton" layoutX="789.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
-        <Button fx:id="odstranitTovarButton" layoutX="1125.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
-        <Button fx:id="upravitTovarButton" layoutX="957.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
-        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0" visible="false">
+        <Button fx:id="pridatTovarButton" layoutX="790.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
+        <Button fx:id="odstranitTovarButton" layoutX="1130.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
+        <Button fx:id="upravitTovarButton" layoutX="960.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
+        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0">
          <children>
             <VBox layoutY="50.0" prefHeight="509.0" prefWidth="164.0" spacing="20.0">
                <children>

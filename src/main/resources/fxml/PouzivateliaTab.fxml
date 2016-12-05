@@ -6,15 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PouzivateliaTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PouzivateliaTabController">
    <children>
-      <TableView fx:id="pouzivateliaTableView" layoutY="101.0" prefHeight="530.0" prefWidth="1094.0">
+      <TableView fx:id="pouzivateliaTableView" layoutY="101.0" prefHeight="640.0" prefWidth="1300.0">
         <columns>
-          <TableColumn prefWidth="90.0" text="Id" />
-          <TableColumn prefWidth="183.0" text="Prihlasovacie meno" />
-            <TableColumn prefWidth="183.0" text="Email" />
-            <TableColumn prefWidth="183.0" text="Posledné prihlasenie" />
-            <TableColumn prefWidth="183.0" text="Právomoci" />
+          <TableColumn fx:id="idTableColumn" prefWidth="90.0" text="Id" />
+          <TableColumn fx:id="prihlasovacieMenoTableColumn" prefWidth="183.0" text="Prihlasovacie meno" />
+            <TableColumn fx:id="emailTableColumn" prefWidth="183.0" text="Email" />
+            <TableColumn fx:id="poslednePrihlasenieTableColumn" prefWidth="183.0" text="Posledné prihlasenie" />
+            <TableColumn fx:id="pravomociTableColumn" prefWidth="183.0" text="Právomoci" />
         </columns>
       </TableView>
    </children>

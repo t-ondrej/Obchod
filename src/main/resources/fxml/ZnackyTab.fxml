@@ -6,12 +6,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
    <children>
-      <ListView fx:id="znackyListView" layoutY="-2.0" prefHeight="634.0" prefWidth="567.0" />
-      <Button fx:id="pridatZnackuButton" layoutX="583.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku" />
-      <Button fx:id="odstranitZnackuButton" layoutX="755.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onOdstranitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku" />
-      <Button fx:id="upravitZnackuButton" layoutX="927.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#onUpravitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku" />
-      <Pane fx:id="znackyPane" layoutX="583.0" layoutY="80.0" prefHeight="549.0" prefWidth="498.0" />
+      <Button fx:id="pridatZnackuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku" />
+      <Button fx:id="odstranitZnackuButton" layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onOdstranitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku" />
+      <Button fx:id="upravitZnackuButton" layoutX="960.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onUpravitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku" />
+      <TableView fx:id="znackyTableView" layoutY="13.0" prefHeight="724.0" prefWidth="777.0">
+        <columns>
+          <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="nazovTableColumn" prefWidth="131.0" text="Názov" />
+        </columns>
+      </TableView>
+      <Pane fx:id="pridatUpravitZnackuPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="502.0">
+         <children>
+            <VBox layoutY="50.0" prefHeight="531.0" prefWidth="87.0">
+               <children>
+                  <Label text="Názov:" />
+               </children>
+            </VBox>
+            <VBox layoutX="170.0" layoutY="50.0" prefHeight="54.0" prefWidth="306.0" spacing="20.0">
+               <children>
+                  <TextField fx:id="nazovTextField" />
+               </children>
+            </VBox>
+            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="125.0" text="Pridať značku" />
+            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefWidth="125.0" text="Upraviť značku" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
