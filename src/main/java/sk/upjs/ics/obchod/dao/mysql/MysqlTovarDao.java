@@ -82,4 +82,13 @@ public class MysqlTovarDao implements TovarDao{
        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
        return jdbcTemplate.queryForObject(sql,Integer.class, idTovar);
     }    
+
+    @Override
+    public void upravTovar(Tovar tovar) {
+        String sql = "UPDATE tovar SET nazov=?, id_kategoria=?, id_znacka=?, cena=?, popis=?, obrazok_url=?, pocet_kusov=? "
+                + "WHERE id = ?;";
+        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
+                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov(),tovar.getId());
+
+    }
 }

@@ -64,5 +64,10 @@ public class PamatovyTovarDao implements TovarDao {
     public Tovar dajTovarPodlaNazvu(String nazov) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void upravTovar(Tovar tovar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

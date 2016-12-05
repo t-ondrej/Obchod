@@ -24,5 +24,7 @@ public interface TovarDao {
     void pridajTovar(Tovar tovar);
     
     void odstranTovar(Long idTovaru);
+    
+    void upravTovar(Tovar tovar);
           
 }
