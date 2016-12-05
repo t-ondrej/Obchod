@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.entity.Faktura;
+import sk.upjs.ics.obchod.entity.Tovar;
 
 public class MysqlFakturaDaoTest {
     
@@ -21,14 +22,20 @@ public class MysqlFakturaDaoTest {
     }
     
     private void naplnTestovacieUdaje(){
-        String sql = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES(1, 100, now()),(2, 55, now())";
-        jdbcTemplate.execute(sql);
+        String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES(1, 100, now()),(2, 55, now())";
+        jdbcTemplate.execute(sql1);
+        
+        String sql2 = "INSERT INTO Tovar_Faktury(id_tovar, id_faktura, pocet_kusov) VALUES(1,4,6)";
+        jdbcTemplate.execute(sql2);
     }
     
     @After 
     public void vymazTestovacieUdaje(){
-        String sql = "TRUNCATE TABLE faktura;";
-        jdbcTemplate.execute(sql);
+        String sql1 = "TRUNCATE TABLE faktura;";
+        jdbcTemplate.execute(sql1);
+        
+        String sql2 = "TRUNCATE TABLE Tovar_Faktury;";
+        jdbcTemplate.execute(sql2);
     }
     
     /**
@@ -54,11 +61,12 @@ public class MysqlFakturaDaoTest {
         faktura.setSuma(50);
         faktura.setDatumNakupu(LocalDate.now());
         
-        dao.pridajFakturu(faktura);
+        Long id = dao.pridajFakturu(faktura);
         String sql = "SELECT * FROM faktura";
         BeanPropertyRowMapper<Faktura> mapper = BeanPropertyRowMapper.newInstance(Faktura.class);
         Faktura f = jdbcTemplate.queryForObject(sql, mapper); 
         
+        Assert.assertEquals(new Long(1), id);
         Assert.assertEquals(new Long(1), f.getId());
         Assert.assertEquals(new Long(3), f.getIdPouzivatel());
         Assert.assertEquals(50, f.getSuma()); 
@@ -82,4 +90,33 @@ public class MysqlFakturaDaoTest {
         Assert.assertEquals(pocetOstavajucich, new Long(1)); 
         Assert.assertEquals(pocetSVymazanymId, new Long(0));
     }    
+
+    /**
+     * Test of pridajTovarFakture method, of class MysqlFakturaDao.
+     */
+    @Test
+    public void testPridajTovarFakture() {
+        System.out.println("pridajTovarFakture");
+        naplnTestovacieUdaje();
+        Tovar tovar = new Tovar(); 
+        tovar.setId(2L);
+        Faktura faktura = new Faktura();
+        faktura.setId(5L);
+        int pocetTovaru = 3;  
+        
+        String sql1 = "SELECT COUNT(*) FROM Tovar_Faktury"; 
+        Long pocetPred = jdbcTemplate.queryForObject(sql1, Long.class);
+        
+        dao.pridajTovarFakture(tovar, faktura, pocetTovaru);
+        
+        String sql2 = "SELECT pocet_kusov FROM Tovar_Faktury WHERE id_tovar = 2 and id_faktura = 5";
+        Long pocetT = jdbcTemplate.queryForObject(sql2, Long.class);
+        
+        String sql3 = "SELECT COUNT(*) FROM Tovar_Faktury";         
+        Long pocetPo = jdbcTemplate.queryForObject(sql3, Long.class);        
+        
+        Assert.assertEquals(new Long(3), pocetT);
+        Assert.assertEquals(pocetPred, new Long(1)); 
+        Assert.assertEquals(pocetPo, new Long(2));
+    }
 }

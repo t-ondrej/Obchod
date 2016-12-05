@@ -1,5 +1,10 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,9 +41,28 @@ public class MysqlKategoriaDao implements KategoriaDao {
     }
 
     @Override
-    public void uloz(Kategoria kategoria) {
-        String sql = "INSERT INTO kategoria (nazov) VALUES(?) ";
-        jdbcTemplate.update(sql, kategoria.getNazov());
+    public Long uloz(Kategoria kategoria) {
+        String sql = "INSERT INTO kategoria (nazov) VALUES(?) ";     
+        
+        Long idKategoria = -1L;
+        
+        try {
+            Connection conn = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            stm.setString(1, kategoria.getNazov());
+            stm.execute();
+
+            ResultSet rs = stm.getGeneratedKeys();            
+            if (rs.next()) {
+                idKategoria = rs.getLong(1);
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idKategoria;     
     }
 
 }

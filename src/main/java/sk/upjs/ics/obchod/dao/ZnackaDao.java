@@ -12,6 +12,6 @@ public interface ZnackaDao {
     
     Znacka najdiPodlaNazvu(String nazovZnacky);
     
-    void uloz(Znacka znacka);
+    Long uloz(Znacka znacka);
     
 }

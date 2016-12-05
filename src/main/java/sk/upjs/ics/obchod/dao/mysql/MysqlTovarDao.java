@@ -1,5 +1,10 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,11 +53,34 @@ public class MysqlTovarDao implements TovarDao{
     }   
 
     @Override
-    public void pridajTovar(Tovar tovar) {
+    public Long pridajTovar(Tovar tovar) {
         String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
         
-        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
-                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov());
+        Long idTovar = -1L;
+        
+        try {
+            Connection conn = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            stm.setString(1, tovar.getNazov());
+            stm.setLong(2, tovar.getIdKategoria());
+            stm.setLong(3, tovar.getIdZnacka());
+            stm.setInt(4, tovar.getCena());
+            stm.setString(5, tovar.getPopis());
+            stm.setString(6, tovar.getObrazokUrl());
+            stm.setInt(7, tovar.getPocetKusov());
+            stm.execute();
+
+            ResultSet rs = stm.getGeneratedKeys();            
+            if (rs.next()) {
+                idTovar = rs.getLong(1);
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idTovar;
     }
 
     @Override

@@ -109,10 +109,11 @@ public class MysqlPouzivatelDaoTest {
         Kosik k = new Kosik();
         pouzivatel.setKosik(k);
         
-        dao.pridajPouzivatela(pouzivatel);
+        Long id = dao.pridajPouzivatela(pouzivatel);
         String sql = "SELECT * FROM pouzivatel";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper()); 
         
+        Assert.assertEquals(new Long(1), id);
         Assert.assertEquals("test", p.getPrihlasovacieMeno());
         Assert.assertEquals("test@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());        

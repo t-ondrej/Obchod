@@ -11,7 +11,7 @@ public interface PouzivatelDao {
     
     Pouzivatel dajPouzivatela(String meno);
     
-    void pridajPouzivatela(Pouzivatel pouzivatel);
+    Long pridajPouzivatela(Pouzivatel pouzivatel);
     
     void odstranPouzivatela(Pouzivatel pouzivatel);
     

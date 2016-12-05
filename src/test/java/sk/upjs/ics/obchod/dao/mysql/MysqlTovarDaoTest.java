@@ -105,11 +105,12 @@ public class MysqlTovarDaoTest {
         tovar.setPopis("ok");
         tovar.setPocetKusov(6);
         
-        dao.pridajTovar(tovar);
+        Long id = dao.pridajTovar(tovar);
         String sql = "SELECT * FROM tovar";
         BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
         Tovar t = jdbcTemplate.queryForObject(sql, mapper); 
 
+        Assert.assertEquals(new Long(1), id);
         Assert.assertEquals(new Long(1), t.getId());
         Assert.assertEquals(new Long(3), t.getIdKategoria());
         Assert.assertEquals(new Long(4), t.getIdZnacka());

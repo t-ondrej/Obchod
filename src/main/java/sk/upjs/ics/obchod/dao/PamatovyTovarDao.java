@@ -26,8 +26,9 @@ public class PamatovyTovarDao implements TovarDao {
     }
 
     @Override
-    public void pridajTovar(Tovar tovar) {
+    public Long pridajTovar(Tovar tovar) {
         tovary.add(tovar);
+        return 0L;
     }
 
     @Override

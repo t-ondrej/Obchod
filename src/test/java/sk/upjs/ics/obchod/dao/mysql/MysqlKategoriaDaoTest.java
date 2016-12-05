@@ -71,15 +71,16 @@ public class MysqlKategoriaDaoTest {
      */
     @Test
     public void testUloz() {
-        System.out.println("uloz");
+        System.out.println("uloz");        
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov("skusobna");
        
-        dao.uloz(kategoria);
+        Long id = dao.uloz(kategoria);
         String sql = "SELECT * FROM kategoria";
         BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);
         Kategoria k = jdbcTemplate.queryForObject(sql, mapper);        
          
+        Assert.assertEquals(new Long(1), id);
         Assert.assertEquals(new Long(1), k.getId());
         Assert.assertEquals("skusobna", k.getNazov());        
     }    

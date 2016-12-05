@@ -26,8 +26,9 @@ public class PamatovyPouzivatelDao implements PouzivatelDao{
     }
 
     @Override
-    public void pridajPouzivatela(Pouzivatel pouzivatel) {
+    public Long pridajPouzivatela(Pouzivatel pouzivatel) {
         pouzivatelia.add(pouzivatel);
+        return 0L;
     }
 
     @Override

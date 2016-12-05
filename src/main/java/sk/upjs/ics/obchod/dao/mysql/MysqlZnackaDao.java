@@ -1,5 +1,10 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,9 +41,28 @@ public class MysqlZnackaDao implements ZnackaDao {
     }
 
     @Override
-    public void uloz(Znacka znacka) {
+    public Long uloz(Znacka znacka) {
         String sql = "INSERT INTO Znacka (nazov) VALUES(?) ";
-        jdbcTemplate.update(sql, znacka.getNazov());
+        
+        Long idZnacka = -1L;
+        
+        try {
+            Connection conn = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            stm.setString(1, znacka.getNazov());
+            stm.execute();
+
+            ResultSet rs = stm.getGeneratedKeys();            
+            if (rs.next()) {
+                idZnacka = rs.getLong(1);
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idZnacka;
     }
 
 }

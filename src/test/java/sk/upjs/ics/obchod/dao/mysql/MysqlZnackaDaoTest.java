@@ -75,11 +75,12 @@ public class MysqlZnackaDaoTest {
         Znacka znacka = new Znacka();
         znacka.setNazov("skusobna");       
         
-        dao.uloz(znacka);
+        Long id = dao.uloz(znacka);
         String sql = "SELECT * FROM znacka";
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
         Znacka z = jdbcTemplate.queryForObject(sql, mapper); 
          
+        Assert.assertEquals(new Long(1), id);
         Assert.assertEquals(new Long(1), z.getId());
         Assert.assertEquals("skusobna", z.getNazov()); 
     }
