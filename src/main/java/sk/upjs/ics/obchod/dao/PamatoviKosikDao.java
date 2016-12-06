@@ -56,4 +56,9 @@ public class PamatoviKosikDao implements KosikDao {
         return t;
     }
 
+    @Override
+    public void vyprazniKosik(Kosik kosik) {
+        kosik.getTovary().clear();
+    }
+
 }

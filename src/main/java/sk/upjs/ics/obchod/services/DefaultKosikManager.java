@@ -6,15 +6,31 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.KosikDao;
+import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 
 public class DefaultKosikManager implements KosikManager {
 
-    private final KosikDao kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
-    private final TovarDao tovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
+    private final KosikDao kosikDao;
+    private final TovarDao tovarDao;
 
+    public DefaultKosikManager(){        
+            kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
+            tovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();        
+    }
+    
+    public DefaultKosikManager(boolean preTestovaciuDatabazu){
+        if(preTestovaciuDatabazu){
+            kosikDao = TestDaoFactory.INSTANCE.getPamatoviKosikDao();
+            tovarDao = TestDaoFactory.INSTANCE.getMysqlTovarDao();
+        }else{
+            kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
+            tovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
+        }
+    }
+    
     @Override
     public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik) {
         int pocetTovaru = tovarDao.dajPocetTovaru(tovar);
@@ -38,7 +54,7 @@ public class DefaultKosikManager implements KosikManager {
     }
 
     @Override
-    public List<Tovar> dajTovarKosika(Kosik kosik) {
+    public List<Tovar> dajTovaryKosika(Kosik kosik) {
         return kosikDao.dajTovaryKosika(kosik);
     }
 
@@ -54,4 +70,14 @@ public class DefaultKosikManager implements KosikManager {
         return FXCollections.observableArrayList(kosikDao.dajTovaryKosika(kosik));
     }
 
+    @Override
+    public void vyprazdniKosik(Kosik kosik) {
+        List<Tovar> tovary = kosikDao.dajTovaryKosika(kosik);
+        for(Tovar t: tovary){
+            int pocet = kosikDao.pocetJednehoTovaruVKosiku(t, kosik);
+            int pocetPred = tovarDao.dajPocetTovaru(t);
+            tovarDao.nastavTovaruPocetKusov(t, pocetPred + pocet);            
+        }   
+        kosikDao.vyprazniKosik(kosik);        
+    }
 }

@@ -24,12 +24,14 @@ public interface KosikDao {
     void nastavTovaruVKosikuPocetKusov(Tovar tovar ,Kosik kosik, int pocet_kusov);
     
     /**
-     * Odoberie tovar z kosika bez ohladu na jeho pocet kusov
+     * Odoberie jeden tovar z kosika
      * @param idTovaru
      * @param idKosika
      */
     void odoberTovarZKosika(Tovar tovar ,Kosik kosik);
     
     List<Tovar> dajTovaryKosika(Kosik kosik);
+    
+    void vyprazniKosik(Kosik kosik);
             
 }

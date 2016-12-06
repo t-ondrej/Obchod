@@ -88,7 +88,7 @@ public class PokladnaController implements Initializable {
 
                 Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
 
-                List<Tovar> tovary = defaultKosikManager.dajTovarKosika(kosik);
+                List<Tovar> tovary = defaultKosikManager.dajTovaryKosika(kosik);
 
                 Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
 
