@@ -17,7 +17,7 @@ public class DefaultKosikManager implements KosikManager {
 
     @Override
     public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik) {
-        int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
+        int pocetTovaru = tovarDao.dajPocetTovaru(tovar);
 
         if (pocetTovaru <= 0) {
             return false;

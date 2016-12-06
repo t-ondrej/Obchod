@@ -68,9 +68,10 @@ public class MysqlZnackaDaoTest {
     
     /**
      * Test of uloz method, of class MysqlZnackaDao.
+     * Pridaj
      */
     @Test
-    public void testUloz() {
+    public void testUlozPridaj() {
         System.out.println("uloz");
         Znacka znacka = new Znacka();
         znacka.setNazov("skusobna");       
@@ -82,6 +83,29 @@ public class MysqlZnackaDaoTest {
          
         Assert.assertEquals(new Long(1), id);
         Assert.assertEquals(new Long(1), z.getId());
+        Assert.assertEquals("skusobna", z.getNazov()); 
+    }
+    
+    /**
+     * Test of uloz method, of class MysqlZnackaDao.
+     * Uprav
+     */
+    @Test
+    public void testUlozUprav() {
+        System.out.println("uloz");
+        naplnTestovacieUdaje(); 
+        
+        Znacka znacka = new Znacka();
+        znacka.setId(2L);
+        znacka.setNazov("skusobna");       
+        
+        Long id = dao.uloz(znacka);
+        String sql = "SELECT * FROM znacka WHERE id = 2";
+        BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
+        Znacka z = jdbcTemplate.queryForObject(sql, mapper); 
+         
+        Assert.assertEquals(new Long(2), id);
+        Assert.assertEquals(new Long(2), z.getId());
         Assert.assertEquals("skusobna", z.getNazov()); 
     }
 }

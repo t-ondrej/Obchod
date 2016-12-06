@@ -22,8 +22,23 @@ public class PamatoviKosikDaoTest {
     private void naplnTestovacieUdaje() {
         tovar1 = new Tovar();
         tovar1.setId(0L);
+        tovar1.setNazov("cokolada");
+        tovar1.setIdKategoria(1L);
+        tovar1.setIdZnacka(1L);
+        tovar1.setObrazokUrl("c:/files/cokolada");
+        tovar1.setPocetKusov(2);
+        tovar1.setCena(1);
+        tovar1.setPopis("creative");
+        
         tovar2 = new Tovar();
         tovar2.setId(1L);
+        tovar2.setNazov("topanky");
+        tovar2.setIdKategoria(0L);
+        tovar2.setIdZnacka(0L);
+        tovar2.setObrazokUrl("c:/files/topanky");
+        tovar2.setPocetKusov(3);
+        tovar2.setCena(20);
+        tovar2.setPopis("popis");
 
         dao.dajTovarDoKosika(tovar1, kosik);
         dao.nastavTovaruVKosikuPocetKusov(tovar1, kosik, 2);

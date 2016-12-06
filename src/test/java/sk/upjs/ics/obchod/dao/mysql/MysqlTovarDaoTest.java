@@ -91,11 +91,12 @@ public class MysqlTovarDaoTest {
     }
     
     /**
-     * Test of pridajTovar method, of class MysqlTovarDao.
+     * Test of ulozTovar method, of class MysqlTovarDao.
+     * Pridavanie
      */
     @Test
-    public void testPridajTovar() {
-        System.out.println("pridajTovar");        
+    public void testUlozTovarPridaj() {
+        System.out.println("ulozTovar");        
         Tovar tovar = new Tovar();
         tovar.setIdKategoria(3L);
         tovar.setIdZnacka(4L);
@@ -105,7 +106,7 @@ public class MysqlTovarDaoTest {
         tovar.setPopis("ok");
         tovar.setPocetKusov(6);
         
-        Long id = dao.pridajTovar(tovar);
+        Long id = dao.ulozTovar(tovar);
         String sql = "SELECT * FROM tovar";
         BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
         Tovar t = jdbcTemplate.queryForObject(sql, mapper); 
@@ -120,6 +121,41 @@ public class MysqlTovarDaoTest {
         Assert.assertEquals("ok", t.getPopis());
         Assert.assertEquals(6, t.getPocetKusov());        
     }
+    
+    /**
+     * Test of ulozTovar method, of class MysqlTovarDao.
+     * Uprav
+     */
+    @Test
+    public void testUlozTovarUprav() {
+        System.out.println("ulozTovar");
+        naplnTestovacieUdaje();        
+        
+        Tovar tovar = new Tovar();
+        tovar.setId(2L);
+        tovar.setIdKategoria(3L);
+        tovar.setIdZnacka(4L);
+        tovar.setNazov("nazov1");
+        tovar.setCena(42);
+        tovar.setObrazokUrl("@../img/3.JPG");
+        tovar.setPopis("ok");
+        tovar.setPocetKusov(6);       
+        
+        Long id = dao.ulozTovar(tovar);
+        String sql = "SELECT * FROM tovar WHERE id=2";
+        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
+        Tovar t = jdbcTemplate.queryForObject(sql, mapper); 
+
+        Assert.assertEquals(new Long(2), id);
+        Assert.assertEquals(new Long(2), t.getId());
+        Assert.assertEquals(new Long(3), t.getIdKategoria());
+        Assert.assertEquals(new Long(4), t.getIdZnacka());
+        Assert.assertEquals("nazov1", t.getNazov());
+        Assert.assertEquals(42, t.getCena());
+        Assert.assertEquals("@../img/3.JPG", t.getObrazokUrl());
+        Assert.assertEquals("ok", t.getPopis());
+        Assert.assertEquals(6, t.getPocetKusov()); 
+    }
 
     /**
      * Test of odstranTovar method, of class MysqlTovarDao.
@@ -128,8 +164,10 @@ public class MysqlTovarDaoTest {
     public void testOdstranTovar() {
         System.out.println("odstranTovar");
         naplnTestovacieUdaje();
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        dao.odstranTovar(1L);
+        dao.odstranTovar(tovar);
         String sql1 = "SELECT COUNT(*) FROM tovar"; 
         String sql2 = "SELECT COUNT(*) FROM tovar WHERE id = 1"; 
         Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
@@ -163,8 +201,10 @@ public class MysqlTovarDaoTest {
     public void testNastavTovaruPocetKusov() {
         System.out.println("nastavTovaruPocetKusov");
         naplnTestovacieUdaje();
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        dao.nastavTovaruPocetKusov(1L, 9);
+        dao.nastavTovaruPocetKusov(tovar, 9);
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 1;";
         Long pocetKusovTovaru = jdbcTemplate.queryForObject(sql, Long.class);
         Assert.assertEquals(new Long(9), pocetKusovTovaru);       
@@ -176,42 +216,11 @@ public class MysqlTovarDaoTest {
     @Test
     public void testDajPocetTovaru() {
         System.out.println("dajPocetTovaru");
-        naplnTestovacieUdaje();
+        naplnTestovacieUdaje();        
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        int pocet = dao.dajPocetTovaru(1L);
+        int pocet = dao.dajPocetTovaru(tovar);
         Assert.assertEquals(2, pocet);       
     } 
-
-    /**
-     * Test of upravTovar method, of class MysqlTovarDao.
-     */
-    @Test
-    public void testUpravTovar() {
-        System.out.println("upravTovar");
-        naplnTestovacieUdaje();        
-        
-        Tovar tovar = new Tovar();
-        tovar.setId(2L);
-        tovar.setIdKategoria(3L);
-        tovar.setIdZnacka(4L);
-        tovar.setNazov("nazov1");
-        tovar.setCena(42);
-        tovar.setObrazokUrl("@../img/3.JPG");
-        tovar.setPopis("ok");
-        tovar.setPocetKusov(6);       
-        
-        dao.upravTovar(tovar);
-        String sql = "SELECT * FROM tovar WHERE id=2";
-        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
-        Tovar t = jdbcTemplate.queryForObject(sql, mapper); 
-
-        Assert.assertEquals(new Long(2), t.getId());
-        Assert.assertEquals(new Long(3), t.getIdKategoria());
-        Assert.assertEquals(new Long(4), t.getIdZnacka());
-        Assert.assertEquals("nazov1", t.getNazov());
-        Assert.assertEquals(42, t.getCena());
-        Assert.assertEquals("@../img/3.JPG", t.getObrazokUrl());
-        Assert.assertEquals("ok", t.getPopis());
-        Assert.assertEquals(6, t.getPocetKusov()); 
-    }
 }

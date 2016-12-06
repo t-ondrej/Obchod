@@ -69,7 +69,6 @@ public class SpecifikaciaTovaruController {
 
     @FXML
     public void onPridatDoKosikaButtonClicked() {
-        tovar = mysqlTovarDao.dajTovarPodlaNazvu(nazovTovaruLabel.getText());       
         
         if (DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

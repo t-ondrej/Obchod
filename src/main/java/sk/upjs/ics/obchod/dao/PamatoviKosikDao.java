@@ -2,6 +2,8 @@ package sk.upjs.ics.obchod.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
@@ -10,15 +12,17 @@ public class PamatoviKosikDao implements KosikDao {
 
     @Override
     public void dajTovarDoKosika(Tovar tovar, Kosik kosik) {
-        for (Tovar t : kosik.getTovary().keySet()) {
-            if (t.getId().intValue() == tovar.getId().intValue()) {
-                int pocetTovaru = kosik.getTovary().get(t).getValue();
-                kosik.getTovary().put(t, new SimpleIntegerProperty(pocetTovaru + 1));
-                return;
-            }
-        }
+        Map<Tovar, IntegerProperty> tovary = kosik.getTovary();
+        
+        if (!tovary.containsKey(tovar)) {
+            tovary.put(tovar, new SimpleIntegerProperty(1));
+            System.out.println("Nenachadza sa");
 
-        kosik.getTovary().put(tovar, new SimpleIntegerProperty(1));
+        } else {
+            int pocetTovaru = tovary.get(tovar).getValue();
+            tovary.put(tovar, new SimpleIntegerProperty(pocetTovaru + 1));
+            System.out.println("Nachadza sa");
+        }
     }
 
     @Override
@@ -28,29 +32,21 @@ public class PamatoviKosikDao implements KosikDao {
 
     @Override
     public void nastavTovaruVKosikuPocetKusov(Tovar tovar, Kosik kosik, int pocet_kusov) {
-        for (Tovar t : kosik.getTovary().keySet()) {
-            if (t.getId().intValue() == tovar.getId().intValue()) {
-                kosik.getTovary().put(t, new SimpleIntegerProperty(pocet_kusov));
-            }
-        }
+        kosik.getTovary().put(tovar, new SimpleIntegerProperty(pocet_kusov));
+
     }
 
     @Override
     public void odoberTovarZKosika(Tovar tovar, Kosik kosik) {
-        for (Tovar t : kosik.getTovary().keySet()) {
-            if (t.getId().intValue() == tovar.getId().intValue()) {
+        Map<Tovar, IntegerProperty> tovary = kosik.getTovary();
 
-                if (kosik.getTovary().get(t).getValue() <= 1) {
-                    kosik.getTovary().remove(t);
-                    
-                } else {
-                    int pocetTovaru = kosik.getTovary().get(t).getValue();
-                    kosik.getTovary().put(t, new SimpleIntegerProperty(pocetTovaru - 1));
-                   
-                }
-                return;
+        if (tovary.get(tovar).getValue() <= 1) {
+            tovary.remove(tovar);
 
-            }
+        } else {
+            int pocetTovaru = tovary.get(tovar).getValue();
+            tovary.put(tovar, new SimpleIntegerProperty(pocetTovaru - 1));
+
         }
     }
 

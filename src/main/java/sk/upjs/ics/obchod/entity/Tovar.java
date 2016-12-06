@@ -1,5 +1,6 @@
 package sk.upjs.ics.obchod.entity;
 
+import java.util.Objects;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -120,5 +121,39 @@ public class Tovar {
     public IntegerProperty pocetKusovProperty() {
         return pocetKusov;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = this.getCena();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null) {
+            return false;
+        }
+        
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final Tovar other = (Tovar) obj;
+        
+        if (!this.getNazov().equals(other.getNazov())) {
+            return false;
+        }
+
+        if (!this.getObrazokUrl().equals(other.getObrazokUrl())) {
+            return false;
+        }
+        
+        return true;
+    }
+ 
     
 }

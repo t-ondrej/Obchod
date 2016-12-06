@@ -107,6 +107,11 @@ public class ZnackyTabController implements Initializable {
     public void onUpravitButtonClicked() {
         
     }
+    
+    @FXML
+    public void onPridatButtonClicked() {
+        
+    }
 
     
 }

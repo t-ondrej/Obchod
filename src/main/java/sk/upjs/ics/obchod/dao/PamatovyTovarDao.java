@@ -26,13 +26,13 @@ public class PamatovyTovarDao implements TovarDao {
     }
 
     @Override
-    public Long pridajTovar(Tovar tovar) {
+    public Long ulozTovar(Tovar tovar) {
         tovary.add(tovar);
         return 0L;
     }
 
     @Override
-    public void odstranTovar(Long idTovaru) {
+    public void odstranTovar(Tovar tovar) {
         //tovary.remove(tovar);
     }
 
@@ -52,12 +52,12 @@ public class PamatovyTovarDao implements TovarDao {
     }    
 
     @Override
-    public void nastavTovaruPocetKusov(Long idTovar, int pocet) {
+    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int dajPocetTovaru(Long idTovar) {
+    public int dajPocetTovaru(Tovar tovar) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -66,9 +66,4 @@ public class PamatovyTovarDao implements TovarDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void upravTovar(Tovar tovar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
