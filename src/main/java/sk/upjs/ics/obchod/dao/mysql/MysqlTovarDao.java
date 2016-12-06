@@ -84,10 +84,10 @@ public class MysqlTovarDao implements TovarDao{
     }
 
     @Override
-    public void odstranTovar(Long idTovaru) {
+    public void odstranTovar(Tovar tovar) {
         String sql = "DELETE FROM Tovar WHERE id = ?";
         
-        jdbcTemplate.update(sql, idTovaru);
+        jdbcTemplate.update(sql, tovar.getId());
     }
 
     @Override
@@ -98,17 +98,17 @@ public class MysqlTovarDao implements TovarDao{
     }
 
     @Override
-    public void nastavTovaruPocetKusov(Long idTovar, int pocet) {       
+    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {       
        
        String sql = "UPDATE Tovar SET pocet_kusov = ? WHERE id = ?"; 
-       jdbcTemplate.update(sql, pocet, idTovar);       
+       jdbcTemplate.update(sql, pocet, tovar.getId());       
        
     }
 
     @Override
-    public int dajPocetTovaru(Long idTovar) {
+    public int dajPocetTovaru(Tovar tovar) {
        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
-       return jdbcTemplate.queryForObject(sql,Integer.class, idTovar);
+       return jdbcTemplate.queryForObject(sql,Integer.class, tovar.getId());
     }    
 
     @Override

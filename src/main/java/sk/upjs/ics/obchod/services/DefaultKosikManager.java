@@ -17,24 +17,24 @@ public class DefaultKosikManager implements KosikManager {
 
     @Override
     public boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik) {
-        int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
+        int pocetTovaru = tovarDao.dajPocetTovaru(tovar);
 
         if (pocetTovaru <= 0) {
             return false;
         }
 
         kosikDao.dajTovarDoKosika(tovar, kosik);
-        tovarDao.nastavTovaruPocetKusov(tovar.getId(), pocetTovaru - 1);
+        tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru - 1);
 
         return true;
     }
 
     @Override
     public void odoberTovarZKosika(Tovar tovar, Kosik kosik) {
-        int pocetTovaru = tovarDao.dajPocetTovaru(tovar.getId());
+        int pocetTovaru = tovarDao.dajPocetTovaru(tovar);
         kosikDao.odoberTovarZKosika(tovar, kosik);
 
-        tovarDao.nastavTovaruPocetKusov(tovar.getId(), pocetTovaru + 1);
+        tovarDao.nastavTovaruPocetKusov(tovar, pocetTovaru + 1);
     }
 
     @Override

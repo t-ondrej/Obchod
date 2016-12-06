@@ -128,8 +128,10 @@ public class MysqlTovarDaoTest {
     public void testOdstranTovar() {
         System.out.println("odstranTovar");
         naplnTestovacieUdaje();
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        dao.odstranTovar(1L);
+        dao.odstranTovar(tovar);
         String sql1 = "SELECT COUNT(*) FROM tovar"; 
         String sql2 = "SELECT COUNT(*) FROM tovar WHERE id = 1"; 
         Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
@@ -163,8 +165,10 @@ public class MysqlTovarDaoTest {
     public void testNastavTovaruPocetKusov() {
         System.out.println("nastavTovaruPocetKusov");
         naplnTestovacieUdaje();
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        dao.nastavTovaruPocetKusov(1L, 9);
+        dao.nastavTovaruPocetKusov(tovar, 9);
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 1;";
         Long pocetKusovTovaru = jdbcTemplate.queryForObject(sql, Long.class);
         Assert.assertEquals(new Long(9), pocetKusovTovaru);       
@@ -176,9 +180,11 @@ public class MysqlTovarDaoTest {
     @Test
     public void testDajPocetTovaru() {
         System.out.println("dajPocetTovaru");
-        naplnTestovacieUdaje();
+        naplnTestovacieUdaje();        
+        Tovar tovar = new Tovar();
+        tovar.setId(1L);
         
-        int pocet = dao.dajPocetTovaru(1L);
+        int pocet = dao.dajPocetTovaru(tovar);
         Assert.assertEquals(2, pocet);       
     } 
 

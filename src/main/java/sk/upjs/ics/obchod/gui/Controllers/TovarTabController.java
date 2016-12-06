@@ -134,10 +134,9 @@ public class TovarTabController implements Initializable {
             alert.showAndWait();
         }
 
-        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();
-        Long idTovar = oznacenyTovar.getId();
+        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();        
 
-        mysqlTovarDao.odstranTovar(idTovar);
+        mysqlTovarDao.odstranTovar(oznacenyTovar);
         tovarModely.remove(oznacenyTovar);
         obnovTovarTableView();
     }

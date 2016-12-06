@@ -17,13 +17,13 @@ public interface TovarDao {
     
     Tovar najdiPodlaId(Long id);
     
-    int dajPocetTovaru(Long idTovar);
+    int dajPocetTovaru(Tovar tovar);
     
-    void nastavTovaruPocetKusov(Long idTovar, int pocet);    
+    void nastavTovaruPocetKusov(Tovar tovar, int pocet);    
     
     Long pridajTovar(Tovar tovar);
     
-    void odstranTovar(Long idTovaru);
+    void odstranTovar(Tovar tovar);
     
     void upravTovar(Tovar tovar);
           
