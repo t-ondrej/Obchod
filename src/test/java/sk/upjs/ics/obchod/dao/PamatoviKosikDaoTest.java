@@ -1,6 +1,8 @@
 package sk.upjs.ics.obchod.dao;
 
 import java.util.List;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,11 +42,8 @@ public class PamatoviKosikDaoTest {
         tovar2.setCena(20);
         tovar2.setPopis("popis");
 
-        dao.dajTovarDoKosika(tovar1, kosik);
-        dao.nastavTovaruVKosikuPocetKusov(tovar1, kosik, 2);
-        
-        dao.dajTovarDoKosika(tovar2, kosik);
-        dao.nastavTovaruVKosikuPocetKusov(tovar2, kosik, 4);
+        kosik.getTovary().put(tovar1, new SimpleIntegerProperty(2));
+        kosik.getTovary().put(tovar2, new SimpleIntegerProperty(4));        
     }
 
     
