@@ -175,7 +175,7 @@ public class TovarTabController implements Initializable {
         tovar.setPopis(popisTovaruTextArea.getText());
 
         tovarModely.add(tovar);
-        mysqlTovarDao.pridajTovar(tovar);
+        mysqlTovarDao.ulozTovar(tovar);
         
         obnovTovarTableView();
         vymazTextFieldy();

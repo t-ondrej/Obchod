@@ -51,37 +51,44 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     }
     
     @Override
-    public Long pridajPouzivatela(Pouzivatel pouzivatel) {
-        String sql = "INSERT INTO Pouzivatel (prihlasovacie_meno, hash_hesla, sol, email, posledne_prihlasenie, je_administrator) "
-                + "VALUES(?, ?, ?, ?, ?, ?)";
+    public Long ulozPouzivatela(Pouzivatel pouzivatel) {
         
-        Long idPouzivatel = -1L;
-        
-        try {
-            Connection conn = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
-            stm.setString(1, pouzivatel.getPrihlasovacieMeno());
-            stm.setString(2, pouzivatel.getPasswordHash());
-            stm.setString(3, pouzivatel.getSol());
-            stm.setString(4, pouzivatel.getEmail());
-            stm.setObject(5 ,pouzivatel.getPoslednePrihlasenie());
-            stm.setBoolean(6, pouzivatel.isJeAdministrator());
-            stm.execute();
+        if(pouzivatel.getId() == 0){
+            String sql = "INSERT INTO Pouzivatel (prihlasovacie_meno, hash_hesla, sol, email, posledne_prihlasenie, je_administrator) "
+                    + "VALUES(?, ?, ?, ?, ?, ?)";
 
-            ResultSet rs = stm.getGeneratedKeys();            
-            if (rs.next()) {
-                idPouzivatel = rs.getLong(1);
+            Long idPouzivatel = -1L;
+
+            try {
+                Connection conn = jdbcTemplate.getDataSource().getConnection();
+                PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                stm.setString(1, pouzivatel.getPrihlasovacieMeno());
+                stm.setString(2, pouzivatel.getPasswordHash());
+                stm.setString(3, pouzivatel.getSol());
+                stm.setString(4, pouzivatel.getEmail());
+                stm.setObject(5 ,pouzivatel.getPoslednePrihlasenie());
+                stm.setBoolean(6, pouzivatel.isJeAdministrator());
+                stm.execute();
+
+                ResultSet rs = stm.getGeneratedKeys();            
+                if (rs.next()) {
+                    idPouzivatel = rs.getLong(1);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-        return idPouzivatel;
-        
-        //jdbcTemplate.update(sql, pouzivatel.getPrihlasovacieMeno(), pouzivatel.getPasswordHash(), 
-           //     pouzivatel.getSol(), pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie(), pouzivatel.isJeAdministrator());
+            return idPouzivatel;
+        }else{
+            String sql = "UPDATE Pouzivatel SET prihlasovacie_meno = ?, hash_hesla = ?, sol = ?, email = ?, posledne_prihlasenie = ?, "
+                    + "je_administrator = ? WHERE id = ?;";
+            jdbcTemplate.update(sql, pouzivatel.getPrihlasovacieMeno(), pouzivatel.getPasswordHash(), pouzivatel.getSol(),
+                pouzivatel.getEmail(), pouzivatel.getPoslednePrihlasenie(), pouzivatel.isJeAdministrator(), pouzivatel.getId());               
+            
+            return pouzivatel.getId();
+        }
     }
 
     @Override

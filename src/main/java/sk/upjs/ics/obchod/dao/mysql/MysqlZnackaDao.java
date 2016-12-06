@@ -42,27 +42,35 @@ public class MysqlZnackaDao implements ZnackaDao {
 
     @Override
     public Long uloz(Znacka znacka) {
-        String sql = "INSERT INTO Znacka (nazov) VALUES(?) ";
         
-        Long idZnacka = -1L;
-        
-        try {
-            Connection conn = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
-            stm.setString(1, znacka.getNazov());
-            stm.execute();
+        if(znacka.getId() == 0){
+            String sql = "INSERT INTO Znacka (nazov) VALUES(?) ";
 
-            ResultSet rs = stm.getGeneratedKeys();            
-            if (rs.next()) {
-                idZnacka = rs.getLong(1);
+            Long idZnacka = -1L;
+
+            try {
+                Connection conn = jdbcTemplate.getDataSource().getConnection();
+                PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                stm.setString(1, znacka.getNazov());
+                stm.execute();
+
+                ResultSet rs = stm.getGeneratedKeys();            
+                if (rs.next()) {
+                    idZnacka = rs.getLong(1);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-        return idZnacka;
+            return idZnacka;
+        }else{
+            String sql = "UPDATE znacka SET nazov=? WHERE id = ?;";
+            jdbcTemplate.update(sql, znacka.getNazov(), znacka.getId());           
+            
+            return znacka.getId();
+        }
     }
 
 }

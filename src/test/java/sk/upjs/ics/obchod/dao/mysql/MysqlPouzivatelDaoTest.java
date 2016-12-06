@@ -95,11 +95,12 @@ public class MysqlPouzivatelDaoTest {
     }   
 
     /**
-     * Test of pridajPouzivatela method, of class MysqlPouzivatelDao.
+     * Test of ulozPouzivatela method, of class MysqlPouzivatelDao.
+     * Pridaj
      */
     @Test
-    public void testPridajPouzivatela() {
-        System.out.println("pridajPouzivatela");
+    public void testUlozPouzivatelaPridaj() {
+        System.out.println("ulozPouzivatela");
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setPrihlasovacieMeno("test");
         pouzivatel.setEmail("test@test.sk");
@@ -109,11 +110,41 @@ public class MysqlPouzivatelDaoTest {
         Kosik k = new Kosik();
         pouzivatel.setKosik(k);
         
-        Long id = dao.pridajPouzivatela(pouzivatel);
+        Long id = dao.ulozPouzivatela(pouzivatel);
         String sql = "SELECT * FROM pouzivatel";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper()); 
         
         Assert.assertEquals(new Long(1), id);
+        Assert.assertEquals("test", p.getPrihlasovacieMeno());
+        Assert.assertEquals("test@test.sk", p.getEmail());
+        Assert.assertEquals(false, p.isJeAdministrator());        
+    }
+    
+    /**
+     * Test of ulozPouzivatela method, of class MysqlPouzivatelDao.
+     * Uprav
+     */
+    @Test
+    public void testUlozPouzivatelaUprav() {
+        System.out.println("ulozPouzivatela");
+        naplnTestovacieUdaje();
+        
+        Pouzivatel pouzivatel = new Pouzivatel();
+        pouzivatel.setId(2L);
+        pouzivatel.setPrihlasovacieMeno("test");
+        pouzivatel.setEmail("test@test.sk");
+        pouzivatel.setPassword("test");
+        pouzivatel.setPoslednePrihlasenie(LocalDate.now());
+        pouzivatel.setJeAdministrator(false);
+        Kosik k = new Kosik();
+        pouzivatel.setKosik(k);
+        
+        Long id = dao.ulozPouzivatela(pouzivatel);
+        String sql = "SELECT * FROM pouzivatel WHERE id = 2";
+        Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper()); 
+        
+        Assert.assertEquals(new Long(2), id);
+        Assert.assertEquals(new Long(2), p.getId());
         Assert.assertEquals("test", p.getPrihlasovacieMeno());
         Assert.assertEquals("test@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());        

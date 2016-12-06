@@ -53,34 +53,44 @@ public class MysqlTovarDao implements TovarDao{
     }   
 
     @Override
-    public Long pridajTovar(Tovar tovar) {
-        String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
-        
-        Long idTovar = -1L;
-        
-        try {
-            Connection conn = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
-            stm.setString(1, tovar.getNazov());
-            stm.setLong(2, tovar.getIdKategoria());
-            stm.setLong(3, tovar.getIdZnacka());
-            stm.setInt(4, tovar.getCena());
-            stm.setString(5, tovar.getPopis());
-            stm.setString(6, tovar.getObrazokUrl());
-            stm.setInt(7, tovar.getPocetKusov());
-            stm.execute();
+    public Long ulozTovar(Tovar tovar) {
+                
+        if(tovar.getId() == 0){
+            String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-            ResultSet rs = stm.getGeneratedKeys();            
-            if (rs.next()) {
-                idTovar = rs.getLong(1);
+            Long idTovar = -1L;
+
+            try {
+                Connection conn = jdbcTemplate.getDataSource().getConnection();
+                PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                stm.setString(1, tovar.getNazov());
+                stm.setLong(2, tovar.getIdKategoria());
+                stm.setLong(3, tovar.getIdZnacka());
+                stm.setInt(4, tovar.getCena());
+                stm.setString(5, tovar.getPopis());
+                stm.setString(6, tovar.getObrazokUrl());
+                stm.setInt(7, tovar.getPocetKusov());
+                stm.execute();
+
+                ResultSet rs = stm.getGeneratedKeys();            
+                if (rs.next()) {
+                    idTovar = rs.getLong(1);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
+            return idTovar;
             
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }else{
+            String sql = "UPDATE tovar SET nazov=?, id_kategoria=?, id_znacka=?, cena=?, popis=?, obrazok_url=?, pocet_kusov=? "
+                + "WHERE id = ?;";
+        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
+                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov(),tovar.getId());
+            
+        return tovar.getId();
         }
-
-        return idTovar;
     }
 
     @Override
@@ -110,13 +120,4 @@ public class MysqlTovarDao implements TovarDao{
        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
        return jdbcTemplate.queryForObject(sql,Integer.class, tovar.getId());
     }    
-
-    @Override
-    public void upravTovar(Tovar tovar) {
-        String sql = "UPDATE tovar SET nazov=?, id_kategoria=?, id_znacka=?, cena=?, popis=?, obrazok_url=?, pocet_kusov=? "
-                + "WHERE id = ?;";
-        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
-                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov(),tovar.getId());
-
-    }
 }

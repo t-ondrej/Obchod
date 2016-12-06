@@ -21,10 +21,8 @@ public interface TovarDao {
     
     void nastavTovaruPocetKusov(Tovar tovar, int pocet);    
     
-    Long pridajTovar(Tovar tovar);
+    Long ulozTovar(Tovar tovar);
     
-    void odstranTovar(Tovar tovar);
-    
-    void upravTovar(Tovar tovar);
+    void odstranTovar(Tovar tovar);   
           
 }

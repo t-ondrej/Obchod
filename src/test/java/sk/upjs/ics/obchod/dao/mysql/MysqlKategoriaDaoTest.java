@@ -68,9 +68,10 @@ public class MysqlKategoriaDaoTest {
     
     /**
      * Test of uloz method, of class MysqlKategoriaDao.
+     * Pridaj
      */
     @Test
-    public void testUloz() {
+    public void testUlozPridaj() {
         System.out.println("uloz");        
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov("skusobna");
@@ -84,4 +85,27 @@ public class MysqlKategoriaDaoTest {
         Assert.assertEquals(new Long(1), k.getId());
         Assert.assertEquals("skusobna", k.getNazov());        
     }    
+    
+    /**
+     * Test of uloz method, of class MysqlKategoriaDao.
+     * Uprav
+     */
+    @Test
+    public void testUlozUprav() {
+        System.out.println("uloz");  
+        naplnTestovacieUdaje(); 
+        
+        Kategoria kategoria = new Kategoria();
+        kategoria.setId(2L);
+        kategoria.setNazov("skusobna");
+       
+        Long id = dao.uloz(kategoria);
+        String sql = "SELECT * FROM kategoria WHERE id=2";
+        BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);
+        Kategoria k = jdbcTemplate.queryForObject(sql, mapper);        
+         
+        Assert.assertEquals(new Long(2), id);
+        Assert.assertEquals(new Long(2), k.getId());
+        Assert.assertEquals("skusobna", k.getNazov());        
+    }   
 }

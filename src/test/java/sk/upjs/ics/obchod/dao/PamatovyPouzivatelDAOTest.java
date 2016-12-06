@@ -54,7 +54,7 @@ public class PamatovyPouzivatelDAOTest {
         pouzivatel.setPrihlasovacieMeno("Igi");
         pouzivatel.setEmail("igi@m.sk");
         pouzivatel.setPassword("igi");        
-        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+        pamatovyPouzivatelDAO.ulozPouzivatela(pouzivatel);
         int pocetPouzivatelovPoPridani = pamatovyPouzivatelDAO.dajPouzivatelov().size();
        
         Assert.assertEquals(pocetPouzivatelovPoPridani, pocetPouzivatelov+1);
@@ -76,7 +76,7 @@ public class PamatovyPouzivatelDAOTest {
         pouzivatel.setPrihlasovacieMeno("Igi");
         pouzivatel.setEmail("igi@m.sk");
         pouzivatel.setPassword("igi");        
-        pamatovyPouzivatelDAO.pridajPouzivatela(pouzivatel);
+        pamatovyPouzivatelDAO.ulozPouzivatela(pouzivatel);
         
         int pocetPouzivatelov = pamatovyPouzivatelDAO.dajPouzivatelov().size();
               

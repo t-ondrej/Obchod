@@ -26,7 +26,7 @@ public class PamatovyTovarDao implements TovarDao {
     }
 
     @Override
-    public Long pridajTovar(Tovar tovar) {
+    public Long ulozTovar(Tovar tovar) {
         tovary.add(tovar);
         return 0L;
     }
@@ -66,9 +66,4 @@ public class PamatovyTovarDao implements TovarDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void upravTovar(Tovar tovar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

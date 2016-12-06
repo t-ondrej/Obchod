@@ -57,7 +57,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         Kosik kosik = new Kosik();        
         pouzivatel.setKosik(kosik);
 
-        pouzivatelDao.pridajPouzivatela(pouzivatel);
+        pouzivatelDao.ulozPouzivatela(pouzivatel);
     }
 
     public boolean jeVolneMeno(String meno) {

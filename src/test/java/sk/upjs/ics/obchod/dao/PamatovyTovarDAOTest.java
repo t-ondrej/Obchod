@@ -46,7 +46,7 @@ public class PamatovyTovarDAOTest {
         Tovar tovar = new Tovar();  
         tovar.setNazov("t1");
         tovar.setCena(50);       
-        pamatovyTovarDAO.pridajTovar(tovar);
+        pamatovyTovarDAO.ulozTovar(tovar);
         int pocetTovarovPoPridani = pamatovyTovarDAO.dajTovary().size();
         
          Assert.assertEquals(pocetTovarovPoPridani, pocetTovarov+1);
