@@ -61,8 +61,7 @@ public class PouzivateliaTabController implements Initializable {
                     super.updateItem(jeAdmin, empty);
 
                     if (jeAdmin == null || empty) {
-                        setText(null);
-                        setStyle("");
+                        setText("");
                     } else {                 
                         if (jeAdmin) {
                             setText("administrátor");

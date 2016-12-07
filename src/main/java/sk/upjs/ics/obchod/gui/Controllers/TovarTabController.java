@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -22,6 +23,7 @@ import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 
@@ -55,10 +57,10 @@ public class TovarTabController implements Initializable {
     private TableColumn<Tovar, String> nazovTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> idKategoriaTableColumn;
+    private TableColumn<Tovar, String> kategoriaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> idZnackaTableColumn;
+    private TableColumn<Tovar, String> znackaTableColumn;
 
     @FXML
     private TableColumn<Tovar, Number> cenaTableColumn;
@@ -103,9 +105,16 @@ public class TovarTabController implements Initializable {
 
     private MysqlTovarDao mysqlTovarDao;
 
+    private MysqlKategoriaDao mysqlKategoriaDao;
+
+    private MysqlZnackaDao mysqlZnackaDao;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
+        mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
+        mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
+
         inicializujTovarTableView();
     }
 
@@ -128,13 +137,11 @@ public class TovarTabController implements Initializable {
         pridatUpravitTovarPane.setVisible(false);
 
         if (tovarTableView.getSelectionModel().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Upozornenie");
-            alert.setHeaderText("Vyberte tovar v tabuľke.");
-            alert.showAndWait();
+            ukazVyberTovarUpozornenie();
+            return;
         }
 
-        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();        
+        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();
 
         mysqlTovarDao.odstranTovar(oznacenyTovar);
         tovarModely.remove(oznacenyTovar);
@@ -149,6 +156,11 @@ public class TovarTabController implements Initializable {
 
         pridatTovarLabel.setVisible(false);
         upravitTovarLabel.setVisible(true);
+
+        if (tovarTableView.getSelectionModel().isEmpty()) {
+            ukazVyberTovarUpozornenie();
+            return;
+        }
 
         Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
@@ -177,7 +189,7 @@ public class TovarTabController implements Initializable {
         tovarModely.add(tovar);
         Long idTovaru = mysqlTovarDao.ulozTovar(tovar);
         tovar.setId(idTovaru);
-        
+
         obnovTovarTableView();
         vymazTextFieldy();
     }
@@ -193,8 +205,8 @@ public class TovarTabController implements Initializable {
         Tovar.setObrazokUrl(obrazokUrlTextField.getText());
         Tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
         Tovar.setPopis(popisTovaruTextArea.getText());
-        
-        // TODO mysqlTovarDao.upravitTovar(tovar);
+
+        mysqlTovarDao.ulozTovar(Tovar);
         obnovTovarTableView();
         vymazTextFieldy();
     }
@@ -204,8 +216,8 @@ public class TovarTabController implements Initializable {
 
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        idKategoriaTableColumn.setCellValueFactory(cellData -> cellData.getValue().idKategoriaProperty());
-        idZnackaTableColumn.setCellValueFactory(cellData -> cellData.getValue().idZnackaProperty());
+        kategoriaTableColumn.setCellValueFactory(cellData -> mysqlKategoriaDao.najdiPodlaId(cellData.getValue().getIdKategoria()).nazovProperty());
+        znackaTableColumn.setCellValueFactory(cellData -> mysqlZnackaDao.najdiPodlaId(cellData.getValue().getIdZnacka()).nazovProperty());
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
         popisTableColumn.setCellValueFactory(cellData -> cellData.getValue().popisProperty());
         urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().obrazokUrl());
@@ -220,8 +232,6 @@ public class TovarTabController implements Initializable {
     }
 
     private void inicializujKategorieComboBox() {
-        MysqlKategoriaDao mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
-
         ObservableList<Kategoria> kategorie = FXCollections.observableArrayList(mysqlKategoriaDao.dajKategorie());
 
         kategorieComboBox.setConverter(new StringConverter<Kategoria>() {
@@ -236,15 +246,13 @@ public class TovarTabController implements Initializable {
             }
 
         });
-        
+
         kategorieComboBox.getItems().clear();
         kategorieComboBox.getItems().addAll(kategorie);
     }
 
     private void inicializujZnackyComboBox() {
-        MysqlZnackaDao mysqlZnackyDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
-
-        ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackyDao.dajZnacky());
+        ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackaDao.dajZnacky());
 
         znackyComboBox.setConverter(new StringConverter<Znacka>() {
             @Override
@@ -254,25 +262,30 @@ public class TovarTabController implements Initializable {
 
             @Override
             public Znacka fromString(String nazovZnacky) {
-                return mysqlZnackyDao.najdiPodlaNazvu(nazovZnacky);
+                return mysqlZnackaDao.najdiPodlaNazvu(nazovZnacky);
             }
         });
-        
+
         znackyComboBox.getItems().clear();
         znackyComboBox.getItems().addAll(znacky);
     }
 
-    
     private void obnovTovarTableView() {
-        tovarTableView.getItems().clear();
-        tovarTableView.getItems().addAll(tovarModely);
+        tovarTableView.setItems(tovarModely);
     }
-    
+
     private void vymazTextFieldy() {
         nazovTextField.clear();
         cenaTextField.clear();
         obrazokUrlTextField.clear();
         pocetKusovTextField.clear();
         popisTovaruTextArea.clear();
+    }
+
+    private void ukazVyberTovarUpozornenie() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Upozornenie");
+        alert.setHeaderText("Vyberte tovar v tabuľke.");
+        alert.showAndWait();
     }
 }

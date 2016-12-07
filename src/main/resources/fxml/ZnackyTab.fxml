@@ -17,7 +17,7 @@
           <TableColumn fx:id="nazovTableColumn" prefWidth="131.0" text="Názov" />
         </columns>
       </TableView>
-      <Pane fx:id="pridatUpravitZnackuPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="502.0">
+      <Pane fx:id="pridatUpravitZnackuPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="502.0" visible="false">
          <children>
             <VBox layoutY="50.0" prefHeight="531.0" prefWidth="87.0">
                <children>
@@ -29,8 +29,8 @@
                   <TextField fx:id="nazovTextField" />
                </children>
             </VBox>
-            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="125.0" text="Pridať značku" />
-            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefWidth="125.0" text="Upraviť značku" />
+            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="135.0" text="Pridať značku" />
+            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefWidth="135.0" text="Upraviť značku" />
          </children>
       </Pane>
    </children>

@@ -27,8 +27,12 @@
                         <ComboBox fx:id="znackyComboBox" layoutX="149.0" prefHeight="84.0" prefWidth="150.0" promptText="Značky" />
                         <Button id="button-login-reg" fx:id="registrovatButton" layoutX="997.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" text="Registrovať" />
                         <Button id="button-login-reg" fx:id="prihlasitButton" layoutX="877.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
-                        <Button id="button-login-reg" fx:id="odhlasitButton" disable="true" layoutX="997.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false" />
-                        <Button id="button-login-reg" fx:id="kosikButton" disable="true" layoutX="887.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#onKosikButtonClicked" text="Košík" visible="false" />
+                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1022.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false" />
+                  <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="932.0" layoutY="3.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
+                     <image>
+                        <Image url="@../img/empty-cart-light.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </Pane>
             </top>

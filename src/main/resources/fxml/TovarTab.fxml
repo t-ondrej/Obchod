@@ -13,7 +13,7 @@
         <Button fx:id="pridatTovarButton" layoutX="790.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar" />
         <Button fx:id="odstranitTovarButton" layoutX="1130.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onOdstranitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť tovar" />
         <Button fx:id="upravitTovarButton" layoutX="960.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onUpravitTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť tovar" />
-        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0">
+        <Pane fx:id="pridatUpravitTovarPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="503.0" visible="false">
          <children>
             <VBox layoutY="50.0" prefHeight="509.0" prefWidth="164.0" spacing="20.0">
                <children>
@@ -45,8 +45,8 @@
             </VBox>
             <Label fx:id="pridatTovarLabel" layoutX="170.0" layoutY="1.0" text="Pridať tovar" visible="false" />
             <Label fx:id="upravitTovarLabel" layoutX="170.0" layoutY="1.0" text="Upraviť tovar" visible="false" />
-            <Button fx:id="upravitButton" layoutX="385.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Upraviť" visible="false" />
-            <Button fx:id="pridatButton" layoutX="385.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Pridať" visible="false" />
+            <Button fx:id="upravitButton" layoutX="362.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Upraviť" />
+            <Button fx:id="pridatButton" layoutX="362.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Pridať" visible="false" />
          </children></Pane>
             
         
@@ -54,8 +54,8 @@
             <columns>
                 <TableColumn fx:id="idTableColumn" prefWidth="49.0" text="Id" />
                 <TableColumn fx:id="nazovTableColumn" prefWidth="149.0" text="Názov" />
-                <TableColumn fx:id="idKategoriaTableColumn" prefWidth="98.0" text="Id kategória" />
-                <TableColumn fx:id="idZnackaTableColumn" prefWidth="79.0" text="Id značky" />
+                <TableColumn fx:id="kategoriaTableColumn" prefWidth="98.0" text="Kategória" />
+                <TableColumn fx:id="znackaTableColumn" prefWidth="79.0" text="Značka" />
                 <TableColumn fx:id="cenaTableColumn" prefWidth="65.0" text="Cena" />
                 <TableColumn fx:id="popisTableColumn" prefWidth="99.0" text="Popis" />
                 <TableColumn fx:id="urlObrazkaTableColumn" prefWidth="124.0" text="Url obrazka" />

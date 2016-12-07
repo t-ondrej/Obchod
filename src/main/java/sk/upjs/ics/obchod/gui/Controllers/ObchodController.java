@@ -62,7 +62,7 @@ public class ObchodController implements Initializable {
     private Button odhlasitButton;
 
     @FXML
-    private Button kosikButton;
+    private ImageView kosikImageView;
 
     @FXML
     private Pagination tovarPagination;
@@ -170,7 +170,6 @@ public class ObchodController implements Initializable {
         });
     }
 
-    // TODO reset
     private void inicializujZnackyComboBox() {
         ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackaDao.dajZnacky());
 
@@ -228,22 +227,16 @@ public class ObchodController implements Initializable {
     }
 
     @FXML
-    public void onKosikButtonClicked() {
+    public void onKosikImageViewClicked() {
         Scene pokladnaScene = ViewFactory.INSTANCE.getPokladnaScene(mainStage);
         mainStage.setScene(pokladnaScene);
     }
 
     private void zmenButtony() {
-        prihlasitButton.setDisable(!prihlasitButton.isDisabled());
         prihlasitButton.setVisible(!prihlasitButton.isVisible());
-
-        registrovatButton.setDisable(!registrovatButton.isDisabled());
         registrovatButton.setVisible(!registrovatButton.isVisible());
 
-        kosikButton.setDisable(!kosikButton.isDisabled());
-        kosikButton.setVisible(!kosikButton.isVisible());
-
-        odhlasitButton.setDisable(!odhlasitButton.isDisabled());
+        kosikImageView.setVisible(!kosikImageView.isVisible());
         odhlasitButton.setVisible(!odhlasitButton.isVisible());
     }
 
