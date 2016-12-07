@@ -23,6 +23,8 @@ public class PamatoviKosikDao implements KosikDao {
             tovary.put(tovar, new SimpleIntegerProperty(pocetTovaru + 1));
             System.out.println("Nachadza sa");
         }
+        int celkovaCenaPred = kosik.getCelkovaCena();
+        kosik.setCelkovaCena(celkovaCenaPred + tovar.getCena());
     }
 
     @Override
@@ -46,8 +48,9 @@ public class PamatoviKosikDao implements KosikDao {
         } else {
             int pocetTovaru = tovary.get(tovar).getValue();
             tovary.put(tovar, new SimpleIntegerProperty(pocetTovaru - 1));
-
         }
+        int celkovaCenaPred = kosik.getCelkovaCena();
+        kosik.setCelkovaCena(celkovaCenaPred - tovar.getCena());
     }
 
     @Override

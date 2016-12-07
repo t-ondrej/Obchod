@@ -20,6 +20,10 @@ public class Kosik {
         return celkovaCena.getValue();
     }
     
+    public void setCelkovaCena(int celkovaCena) {
+        this.celkovaCena.set(celkovaCena);
+    }
+    
     public IntegerProperty celkovaCenaProperty() {
         return celkovaCena;
     }

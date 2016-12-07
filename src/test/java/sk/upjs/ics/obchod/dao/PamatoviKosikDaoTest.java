@@ -15,6 +15,7 @@ public class PamatoviKosikDaoTest {
     private Kosik kosik;
     private Tovar tovar1;
     private Tovar tovar2;
+    private Tovar tovar3;
 
     public PamatoviKosikDaoTest() {
         dao = TestDaoFactory.INSTANCE.getPamatoviKosikDao();
@@ -23,7 +24,7 @@ public class PamatoviKosikDaoTest {
 
     private void naplnTestovacieUdaje() {
         tovar1 = new Tovar();
-        tovar1.setId(0L);
+        tovar1.setId(1L);
         tovar1.setNazov("cokolada");
         tovar1.setIdKategoria(1L);
         tovar1.setIdZnacka(1L);
@@ -33,7 +34,7 @@ public class PamatoviKosikDaoTest {
         tovar1.setPopis("creative");
         
         tovar2 = new Tovar();
-        tovar2.setId(1L);
+        tovar2.setId(2L);
         tovar2.setNazov("topanky");
         tovar2.setIdKategoria(0L);
         tovar2.setIdZnacka(0L);
@@ -41,9 +42,20 @@ public class PamatoviKosikDaoTest {
         tovar2.setPocetKusov(3);
         tovar2.setCena(20);
         tovar2.setPopis("popis");
+        
+        tovar3 = new Tovar();
+        tovar3.setId(3L);
+        tovar3.setNazov("vec");
+        tovar3.setIdKategoria(2L);
+        tovar3.setIdZnacka(3L);
+        tovar3.setObrazokUrl("c:/files/vec");
+        tovar3.setPocetKusov(5);
+        tovar3.setCena(10);
+        tovar3.setPopis("popis");
 
-        kosik.getTovary().put(tovar1, new SimpleIntegerProperty(2));
-        kosik.getTovary().put(tovar2, new SimpleIntegerProperty(4));        
+        kosik.getTovary().put(tovar1, new SimpleIntegerProperty(1));
+        kosik.getTovary().put(tovar2, new SimpleIntegerProperty(4));
+        kosik.setCelkovaCena(81);
     }
 
     
@@ -54,18 +66,34 @@ public class PamatoviKosikDaoTest {
 
     /**
      * Test of dajTovarDoKosika method, of class PamatoviKosikDao.
+     * Este nie je v kosiku
      */
     @Test
-    public void testDajTovarDoKosika() {
-        System.out.println("dajTovarDoKosika");
+    public void testDajTovarDoKosikaNieJeV() {
+        System.out.println("dajTovarDoKosikaNieJeV");
         naplnTestovacieUdaje();
-
-        Tovar tovar = new Tovar();
-        tovar.setId(2L);
-        dao.dajTovarDoKosika(tovar, kosik);
-
-        Assert.assertTrue(kosik.getTovary().containsKey(tovar));
-        Assert.assertEquals(1, kosik.getTovary().get(tovar).intValue());
+        
+        dao.dajTovarDoKosika(tovar3, kosik);
+        
+        Assert.assertTrue(kosik.getTovary().containsKey(tovar3));
+        Assert.assertEquals(1, kosik.getTovary().get(tovar3).intValue());
+        Assert.assertEquals(91, kosik.getCelkovaCena());        
+    }
+    
+    /**
+     * Test of dajTovarDoKosika method, of class PamatoviKosikDao.
+     * Uz je v kosiku
+     */
+    @Test
+    public void testDajTovarDoKosikaUzJeV() {
+        System.out.println("dajTovarDoKosikaUzJeV");
+        naplnTestovacieUdaje();
+        
+        dao.dajTovarDoKosika(tovar2, kosik);
+        
+        Assert.assertTrue(kosik.getTovary().containsKey(tovar2));
+        Assert.assertEquals(5, kosik.getTovary().get(tovar2).intValue());
+        Assert.assertEquals(101, kosik.getCelkovaCena());        
     }
 
     /**
@@ -77,7 +105,7 @@ public class PamatoviKosikDaoTest {
         naplnTestovacieUdaje();
 
         int pocet = dao.pocetJednehoTovaruVKosiku(tovar1, kosik);
-        Assert.assertEquals(2, pocet);
+        Assert.assertEquals(1, pocet);
     }
 
     /**
@@ -94,17 +122,36 @@ public class PamatoviKosikDaoTest {
 
     /**
      * Test of odoberTovarZKosika method, of class PamatoviKosikDao.
+     * Je tam jeden kus
      */
     @Test
-    public void testOdoberTovarZKosika() {
-        System.out.println("odoberTovarZKosika");
+    public void testOdoberTovarZKosikaJedenKusJeTam() {
+        System.out.println("odoberTovarZKosikaJedenKusJeTam");
         naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar1, kosik);
-        int pocetPoOdstraneni = kosik.getTovary().get(tovar1).getValue().intValue();
+        IntegerProperty pocet = kosik.getTovary().get(tovar1);
 
-        Assert.assertEquals(1, pocetPoOdstraneni);
-        //Assert.assertTrue(!(kosik.getTovary().containsKey(tovar1)));
+        Assert.assertEquals(null, pocet);        
+        Assert.assertEquals(80, kosik.getCelkovaCena());
+        Assert.assertEquals(1, kosik.getTovary().size());
+    }
+    
+    /**
+     * Test of odoberTovarZKosika method, of class PamatoviKosikDao.
+     * Je tam viac kusov
+     */
+    @Test
+    public void testOdoberTovarZKosikaViacKusovJeTam() {
+        System.out.println("odoberTovarZKosikaViacKusovJeTam");
+        naplnTestovacieUdaje();
+
+        dao.odoberTovarZKosika(tovar2, kosik);
+        IntegerProperty pocet = kosik.getTovary().get(tovar2);
+
+        Assert.assertEquals(new SimpleIntegerProperty(3).getValue(), pocet.getValue());        
+        Assert.assertEquals(61, kosik.getCelkovaCena());
+        Assert.assertEquals(2, kosik.getTovary().size());
     }
 
     /**
