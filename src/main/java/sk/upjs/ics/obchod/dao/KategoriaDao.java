@@ -13,5 +13,7 @@ public interface KategoriaDao {
     Kategoria najdiPodlaNazvu(String nazovKategorie);
     
     Long uloz(Kategoria kategoria);
+    
+    void odstranKategoriu(Kategoria kategoria);
      
 }

@@ -107,5 +107,25 @@ public class MysqlKategoriaDaoTest {
         Assert.assertEquals(new Long(2), id);
         Assert.assertEquals(new Long(2), k.getId());
         Assert.assertEquals("skusobna", k.getNazov());        
-    }   
+    }      
+
+    /**
+     * Test of odstranKategoriu method, of class MysqlKategoriaDao.
+     */
+    @Test
+    public void testOdstranKategoriu() {
+        System.out.println("odstranKategoriu");
+        naplnTestovacieUdaje();
+        
+        Kategoria kategoria = new Kategoria();
+        kategoria.setId(1L);        
+        dao.odstranKategoriu(kategoria);
+        
+        String sql1 = "SELECT COUNT(*) FROM kategoria"; 
+        String sql2 = "SELECT COUNT(*) FROM kategoria WHERE id = 1"; 
+        Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
+        Long pocetSVymazanymId = jdbcTemplate.queryForObject(sql2, Long.class);
+        Assert.assertEquals(pocetOstavajucich, new Long(1)); 
+        Assert.assertEquals(pocetSVymazanymId, new Long(0));
+    }
 }

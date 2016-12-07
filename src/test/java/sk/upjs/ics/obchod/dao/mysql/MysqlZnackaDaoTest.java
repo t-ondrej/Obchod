@@ -108,4 +108,24 @@ public class MysqlZnackaDaoTest {
         Assert.assertEquals(new Long(2), z.getId());
         Assert.assertEquals("skusobna", z.getNazov()); 
     }
+
+    /**
+     * Test of odstranZnacku method, of class MysqlZnackaDao.
+     */
+    @Test
+    public void testOdstranZnacku() {
+        System.out.println("odstranZnacku");
+        naplnTestovacieUdaje();
+        
+        Znacka znacka = new Znacka();
+        znacka.setId(1L);        
+        dao.odstranZnacku(znacka);
+        
+        String sql1 = "SELECT COUNT(*) FROM znacka"; 
+        String sql2 = "SELECT COUNT(*) FROM znacka WHERE id = 1"; 
+        Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
+        Long pocetSVymazanymId = jdbcTemplate.queryForObject(sql2, Long.class);
+        Assert.assertEquals(pocetOstavajucich, new Long(1)); 
+        Assert.assertEquals(pocetSVymazanymId, new Long(0));        
+    }
 }

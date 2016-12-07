@@ -73,4 +73,10 @@ public class MysqlKategoriaDao implements KategoriaDao {
         }
     }
 
+    @Override
+    public void odstranKategoriu(Kategoria kategoria) {
+       String sql = "DELETE FROM kategoria WHERE id = ?";                
+       jdbcTemplate.update(sql, kategoria.getId());
+    }
+
 }

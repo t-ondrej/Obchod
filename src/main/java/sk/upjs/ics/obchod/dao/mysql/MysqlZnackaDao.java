@@ -73,4 +73,10 @@ public class MysqlZnackaDao implements ZnackaDao {
         }
     }
 
+    @Override
+    public void odstranZnacku(Znacka znacka) {
+        String sql = "DELETE FROM znacka WHERE id = ?";                
+        jdbcTemplate.update(sql, znacka.getId());
+    }
+
 }

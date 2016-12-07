@@ -14,4 +14,6 @@ public interface ZnackaDao {
     
     Long uloz(Znacka znacka);
     
+    void odstranZnacku(Znacka znacka);
+    
 }
