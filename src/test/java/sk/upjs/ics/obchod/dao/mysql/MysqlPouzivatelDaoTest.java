@@ -168,4 +168,20 @@ public class MysqlPouzivatelDaoTest {
         Assert.assertEquals(pocetOstavajucich, new Long(1)); 
         Assert.assertEquals(pocetSVymazanymId, new Long(0));       
     }    
+    
+    /**
+     * Test of novePoslednePrihlasenie method, of class MysqlPouzivatelDao.
+     */
+    @Test
+    public void testNovePoslednePrihlasenie() {
+        System.out.println("novePoslednePrihlasenie");
+        naplnTestovacieUdaje();
+        
+        Pouzivatel pouzivatel = new Pouzivatel();
+        pouzivatel.setId(1L);       
+        dao.novePoslednePrihlasenie(pouzivatel);
+        String sql = "SELECT posledne_prihlasenie FROM pouzivatel WHERE id = 1"; 
+        LocalDate poslednePrihlasenie = jdbcTemplate.queryForObject(sql, LocalDate.class);
+        Assert.assertTrue(null != poslednePrihlasenie);
+    }
 }

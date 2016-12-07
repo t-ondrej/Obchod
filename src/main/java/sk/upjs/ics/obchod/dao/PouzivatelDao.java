@@ -15,4 +15,6 @@ public interface PouzivatelDao {
     
     void odstranPouzivatela(Pouzivatel pouzivatel);
     
+    void novePoslednePrihlasenie(Pouzivatel pouzivatel);
+    
 }

@@ -45,5 +45,10 @@ public class PamatovyPouzivatelDao implements PouzivatelDao{
     public Pouzivatel dajPouzivatela(String meno) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void novePoslednePrihlasenie(Pouzivatel pouzivatel) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
