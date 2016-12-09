@@ -30,7 +30,7 @@ public class MysqlPouzivatelDaoTest {
         p1.setPrihlasovacieMeno("test1");
         p1.setEmail("test1@test.sk");
         p1.setPassword("test1");
-        p1.setPoslednePrihlasenie(LocalDate.now());
+        p1.setPoslednePrihlasenie(LocalDate.of(2016,11,23));
         p1.setJeAdministrator(true);
         Kosik k1 = new Kosik();
         p1.setKosik(k1);
@@ -39,7 +39,7 @@ public class MysqlPouzivatelDaoTest {
         p2.setPrihlasovacieMeno("test2");
         p2.setEmail("test2@test.sk");
         p2.setPassword("test2");
-        p2.setPoslednePrihlasenie(LocalDate.now());
+        p2.setPoslednePrihlasenie(LocalDate.of(2016,10,13));
         p2.setJeAdministrator(false);
         Kosik k2 = new Kosik();
         p2.setKosik(k2);
@@ -65,7 +65,7 @@ public class MysqlPouzivatelDaoTest {
         naplnTestovacieUdaje();
         
         List<Pouzivatel> pouzivatelia = dao.dajPouzivatelov();
-        Assert.assertEquals(2, pouzivatelia.size());        
+        Assert.assertEquals(2, pouzivatelia.size());
     }
     
     /**
@@ -88,7 +88,7 @@ public class MysqlPouzivatelDaoTest {
         System.out.println("dajPouzivatelaPodlaId");
         naplnTestovacieUdaje();
                 
-        Pouzivatel p = dao.dajPouzivatela(2L);
+        Pouzivatel p = dao.dajPouzivatela(2L);       
         Assert.assertEquals("test2", p.getPrihlasovacieMeno());
         Assert.assertEquals("test2@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());        

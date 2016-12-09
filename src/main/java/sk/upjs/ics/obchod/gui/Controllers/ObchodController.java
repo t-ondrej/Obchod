@@ -35,6 +35,7 @@ import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.services.PouzivatelManager;
 
 public class ObchodController implements Initializable {
 
@@ -44,7 +45,7 @@ public class ObchodController implements Initializable {
 
     private TovarDao mysqlTovarDao;
 
-    private DefaultPouzivatelManager pouzivatelManager;
+    private PouzivatelManager pouzivatelManager;
 
     @FXML
     private ComboBox<Kategoria> kategorieComboBox;

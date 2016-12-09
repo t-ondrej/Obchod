@@ -58,14 +58,17 @@ public class DefaultKosikManager implements KosikManager {
         return kosikDao.dajTovaryKosika(kosik);
     }
 
+    @Override
     public int dajPocetTovaruVKosiku(Tovar tovar, Kosik kosik) {
         return kosikDao.pocetJednehoTovaruVKosiku(tovar, kosik);
     }
 
+    @Override
     public IntegerProperty pocetTovaruVKosikuProperty(Tovar tovar, Kosik kosik) {
         return kosik.getTovary().get(tovar);
     }
 
+    @Override
     public ObservableList<Tovar> tovarKosikaObservableList(Kosik kosik) {
         return FXCollections.observableArrayList(kosikDao.dajTovaryKosika(kosik));
     }

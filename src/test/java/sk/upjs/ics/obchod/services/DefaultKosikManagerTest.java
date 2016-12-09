@@ -16,8 +16,8 @@ import sk.upjs.ics.obchod.entity.Tovar;
 
 public class DefaultKosikManagerTest {
 
-    private DefaultKosikManager manazer;
-    private JdbcTemplate jdbcTemplate;
+    private KosikManager manazer;
+    private JdbcTemplate jdbcTemplate;    
     private Kosik kosik;
     private Tovar tovar1;
     private Tovar tovar2;

@@ -32,7 +32,7 @@ public class PrihlasenieController implements Initializable {
 
     private Stage mainStage;
 
-    private DefaultPouzivatelManager defaultPouzivatelManager;
+    private PouzivatelManager defaultPouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

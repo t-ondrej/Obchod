@@ -100,7 +100,7 @@ public class MysqlPouzivatelDao implements PouzivatelDao{
     }
     
     @Override
-    public void novePoslednePrihlasenie(Pouzivatel pouzivatel) {
+    public void novePoslednePrihlasenie(Pouzivatel pouzivatel) {       
        String sql = "UPDATE Pouzivatel SET posledne_prihlasenie = ? WHERE id = ?;";
        jdbcTemplate.update(sql, LocalDate.now(), pouzivatel.getId());            
     }

@@ -23,6 +23,8 @@ import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultKosikManager;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.services.KosikManager;
+import sk.upjs.ics.obchod.services.PouzivatelManager;
 
 public class PokladnaController implements Initializable {
 
@@ -51,9 +53,9 @@ public class PokladnaController implements Initializable {
 
     protected ObservableList<Tovar> tovarKosika;
 
-    private DefaultKosikManager defaultKosikManager;
+    private KosikManager defaultKosikManager;
 
-    private DefaultPouzivatelManager defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
+    private PouzivatelManager defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

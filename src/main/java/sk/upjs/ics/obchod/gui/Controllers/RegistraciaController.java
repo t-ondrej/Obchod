@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.services.PouzivatelManager;
 
 public class RegistraciaController implements Initializable {
 
@@ -31,7 +32,7 @@ public class RegistraciaController implements Initializable {
     @FXML
     private Label spatLabel;
 
-    private DefaultPouzivatelManager defaultPouzivatelManager;
+    private PouzivatelManager defaultPouzivatelManager;
 
     private Stage mainStage;
 

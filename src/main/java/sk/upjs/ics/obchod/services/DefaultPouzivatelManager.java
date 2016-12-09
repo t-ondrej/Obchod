@@ -6,26 +6,41 @@ import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.KosikDao;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
+import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 public enum DefaultPouzivatelManager implements PouzivatelManager {
 
-    INSTANCE;
+    INSTANCETEST(true),
+    INSTANCE(false);
 
-    private final PouzivatelDao pouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
-    private final KosikDao kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao();
+    private final PouzivatelDao pouzivatelDao;
+    private final KosikDao kosikDao;
     private Pouzivatel aktivnyPouzivatel;
     private BooleanProperty prihlaseny = new SimpleBooleanProperty(false);
+    
+    private DefaultPouzivatelManager(boolean preTestovaciuDatabazu){
+        if(preTestovaciuDatabazu){
+            pouzivatelDao = TestDaoFactory.INSTANCE.getMysqlPouzivatelDao();
+            kosikDao = TestDaoFactory.INSTANCE.getPamatoviKosikDao();
+        }else{
+            pouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
+            kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao(); 
+        }
+    }
 
+    @Override
     public Pouzivatel getAktivnyPouzivatel() {
         return aktivnyPouzivatel;
     }
 
+    @Override
     public BooleanProperty isPrihlaseny() {
         return prihlaseny;
     }
 
+    @Override
     public void odhlasPouzivatela() {
         this.aktivnyPouzivatel = null;
         prihlaseny.setValue(!prihlaseny.getValue());
@@ -60,6 +75,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatelDao.ulozPouzivatela(pouzivatel);
     }
 
+    @Override
     public boolean jeVolneMeno(String meno) {
         Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(meno);
         return pouzivatel == null;
