@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.KosikDao;
 import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.entity.Kosik;
@@ -16,17 +15,14 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     INSTANCE(false);
 
     private final PouzivatelDao pouzivatelDao;
-    private final KosikDao kosikDao;
     private Pouzivatel aktivnyPouzivatel;
     private BooleanProperty prihlaseny = new SimpleBooleanProperty(false);
-    
-    private DefaultPouzivatelManager(boolean preTestovaciuDatabazu){
-        if(preTestovaciuDatabazu){
+
+    private DefaultPouzivatelManager(boolean preTestovaciuDatabazu) {
+        if (preTestovaciuDatabazu) {
             pouzivatelDao = TestDaoFactory.INSTANCE.getMysqlPouzivatelDao();
-            kosikDao = TestDaoFactory.INSTANCE.getPamatoviKosikDao();
-        }else{
+        } else {
             pouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
-            kosikDao = DaoFactory.INSTANCE.getPamatoviKosikDao(); 
         }
     }
 
@@ -53,6 +49,9 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
             Kosik kosik = pouzivatel.getKosik();
             pouzivatel.setKosik(kosik);
+            pouzivatel.setPoslednePrihlasenie(LocalDate.now());
+            pouzivatelDao.novePoslednePrihlasenie(pouzivatel);
+
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.set(true);
             return true;
@@ -68,8 +67,8 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
         pouzivatel.setPoslednePrihlasenie(LocalDate.now());
-        
-        Kosik kosik = new Kosik();        
+
+        Kosik kosik = new Kosik();
         pouzivatel.setKosik(kosik);
 
         pouzivatelDao.ulozPouzivatela(pouzivatel);

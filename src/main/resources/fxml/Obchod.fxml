@@ -10,28 +10,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="1167.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ObchodController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ObchodController">
     <children>
-        <BorderPane fx:id="obchodBorderPane" layoutX="305.0" layoutY="132.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane fx:id="obchodBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="938.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <center>            
                 <fx:include fx:id="tovarPagination" source="TovarPagination.fxml" />                 
             </center>
             <top>
                 <Pane prefHeight="83.0" prefWidth="1167.0" styleClass="pane" BorderPane.alignment="CENTER">
                     <children>
-                        <ComboBox fx:id="kategorieComboBox" prefHeight="84.0" prefWidth="218.0" promptText="Kategórie">
+                        <ComboBox fx:id="kategorieComboBox" prefHeight="84.0" prefWidth="218.0" promptText="Kategórie" styleClass="kategorie-znacky">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                         </ComboBox>
-                        <ComboBox fx:id="znackyComboBox" layoutX="149.0" prefHeight="84.0" prefWidth="150.0" promptText="Značky" />
-                        <Button id="button-login-reg" fx:id="registrovatButton" layoutX="997.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" text="Registrovať" />
-                        <Button id="button-login-reg" fx:id="prihlasitButton" layoutX="877.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
-                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1022.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false" />
+                        <ComboBox fx:id="znackyComboBox" layoutX="175.0" layoutY="2.0" prefHeight="82.0" prefWidth="168.0" promptText="Značky" styleClass="kategorie-znacky">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></ComboBox>
+                        <Button id="button-login-reg" fx:id="registrovatButton" layoutX="1094.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" prefHeight="83.0" prefWidth="204.0" text="Registrovať">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <Button id="button-login-reg" fx:id="prihlasitButton" layoutX="952.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1022.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="932.0" layoutY="3.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../img/empty-cart-light.png" />
                      </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                     </children>
                 </Pane>

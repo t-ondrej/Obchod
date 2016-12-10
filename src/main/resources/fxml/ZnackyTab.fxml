@@ -6,11 +6,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="737.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
    <children>
-      <Button fx:id="pridatZnackuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku" />
-      <Button fx:id="odstranitZnackuButton" layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onOdstranitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku" />
-      <Button fx:id="upravitZnackuButton" layoutX="960.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onUpravitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku" />
+      <Button fx:id="pridatZnackuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="odstranitZnackuButton" layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onOdstranitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť značku">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="upravitZnackuButton" layoutX="960.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onUpravitZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť značku">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <TableView fx:id="znackyTableView" layoutY="13.0" prefHeight="724.0" prefWidth="777.0">
         <columns>
           <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="Id" />
@@ -29,8 +38,14 @@
                   <TextField fx:id="nazovTextField" />
                </children>
             </VBox>
-            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="135.0" text="Pridať značku" />
-            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefWidth="135.0" text="Upraviť značku" />
+            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="135.0" text="Pridať značku">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefWidth="135.0" text="Upraviť značku">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
       </Pane>
    </children>

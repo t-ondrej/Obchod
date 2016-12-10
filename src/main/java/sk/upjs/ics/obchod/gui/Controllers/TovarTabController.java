@@ -50,6 +50,9 @@ public class TovarTabController implements Initializable {
     @FXML
     private TableView<Tovar> tovarTableView;
 
+    /* 
+     * Stlpce tabulky tovar 
+     */
     @FXML
     private TableColumn<Tovar, Number> idTableColumn;
 

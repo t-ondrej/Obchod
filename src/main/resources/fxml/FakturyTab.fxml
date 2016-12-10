@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.FakturyTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.FakturyTabController">
    <children>
-      <Label layoutX="22.0" layoutY="39.0" text="Zobraz faktúry:" />
-      <ComboBox fx:id="filterComboBox" layoutX="184.0" layoutY="31.0" prefWidth="150.0" promptText="Všetky" />
-      <TableView fx:id="fakturyTableView" layoutY="94.0" prefHeight="538.0" prefWidth="1094.0">
+      <Label layoutX="22.0" layoutY="39.0" text="Zobraz faktúry za:" />
+      <ComboBox fx:id="filterComboBox" layoutX="230.0" layoutY="38.0" prefWidth="150.0" promptText="Všetky">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ComboBox>
+      <TableView fx:id="fakturyTableView" layoutY="94.0" prefHeight="667.0" prefWidth="591.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="idFakturyTableColumn" prefWidth="111.0" text="Id" />
+          <TableColumn fx:id="pouzivatelTableColumn" prefWidth="186.0" text="Pouzivatel" />
+            <TableColumn fx:id="sumaTableColumn" prefWidth="112.0" text="Suma" />
+            <TableColumn fx:id="datumNakupuTableColumn" prefWidth="180.0" text="Dátum nákupu" />
         </columns>
       </TableView>
+      <TableView fx:id="tovarFakturyTableView" layoutX="650.0" layoutY="94.0" prefHeight="667.0" prefWidth="650.0">
+        <columns>
+          <TableColumn fx:id="idTovaruFakturyTableColumn" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="nazovTovaruTableColumn" prefWidth="112.0" text="Názov" />
+            <TableColumn fx:id="kategoriaTovaruTableColumn" prefWidth="126.0" text="Kategória" />
+            <TableColumn fx:id="znackaTovaruTableColumn" prefWidth="114.0" text="Značka" />
+            <TableColumn fx:id="cenaTovaruTableColumn" prefWidth="75.0" text="Cena" />
+            <TableColumn fx:id="pocetKusovTableColumn" prefWidth="147.0" text="Počet kusov" />
+        </columns>
+      </TableView>
+      <Button fx:id="zobrazTovarFakturyButton" layoutX="650.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#onZobrazTovarFakturyButtonClicked" text="Zobraz tovar faktúry">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

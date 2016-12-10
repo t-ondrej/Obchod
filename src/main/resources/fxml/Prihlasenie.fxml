@@ -7,33 +7,39 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="737.0" prefWidth="1167.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PrihlasenieController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PrihlasenieController">
    <children>
       <BorderPane layoutX="397.0" layoutY="147.0" prefHeight="669.0" prefWidth="1094.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="prihlasitButton" layoutX="584.0" layoutY="262.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť" />
-                  <PasswordField fx:id="hesloPasswordField" layoutX="584.0" layoutY="205.0" />
-                  <TextField fx:id="prihlasovacieMenoTextField" layoutX="584.0" layoutY="145.0" />
-                  <Label layoutX="348.0" layoutY="148.0" text="Prihlasovacie meno:">
+                  <Button fx:id="prihlasitButton" layoutX="659.0" layoutY="263.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <PasswordField fx:id="hesloPasswordField" layoutX="659.0" layoutY="204.0" />
+                  <TextField fx:id="prihlasovacieMenoTextField" layoutX="659.0" layoutY="144.0" />
+                  <Label layoutX="404.0" layoutY="146.0" text="Prihlasovacie meno:">
                      <font>
                         <Font name="Microsoft Sans Serif" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="348.0" layoutY="208.0" text="Heslo:">
+                  <Label layoutX="404.0" layoutY="206.0" text="Heslo:">
                      <font>
                         <Font name="Microsoft Sans Serif" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="584.0" layoutY="58.0" text="Prihlásenie" />
+                  <Label layoutX="659.0" layoutY="58.0" text="Prihlásenie" />
                </children>
             </Pane>
          </center>
          <top>
             <Pane prefHeight="83.0" prefWidth="938.0" styleClass="pane" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť" />
+                  <Label id="label-back" fx:id="spatLabel" layoutX="28.0" layoutY="21.0" onMouseClicked="#onSpatLabelClicked" text="Späť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Label>
                </children>
             </Pane>
          </top>

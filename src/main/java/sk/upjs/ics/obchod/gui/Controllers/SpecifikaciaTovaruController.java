@@ -63,8 +63,7 @@ public class SpecifikaciaTovaruController {
         tovarImageView.setImage(obrazok);
         nazovTovaruLabel.setText(tovar.getNazov());
         specifikaciaTovaruTextArea.setText(tovar.getPopis());
-        cenaLabel.setText(Integer.toString(tovar.getCena()) + " €");
-        
+        cenaLabel.setText(Integer.toString(tovar.getCena()) + " €");    
     }
 
     @FXML

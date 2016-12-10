@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="737.0" prefWidth="1167.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
     <stylesheets>
         <URL value="@/styles/Obchod.css" />
     </stylesheets>
@@ -17,7 +17,10 @@
          <top>
             <Pane prefHeight="83.0" prefWidth="938.0" styleClass="pane" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatButtonClicked" text="Späť" />
+                  <Label id="label-back" fx:id="spatLabel" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatButtonClicked" text="Späť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Label>
                </children>
             </Pane>
          </top>
@@ -29,7 +32,10 @@
                   <Label fx:id="nazovTovaruLabel" layoutX="573.0" layoutY="130.0" text="Názov tovaru" />
                   <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="573.0" layoutY="183.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
                   <Label fx:id="cenaLabel" layoutX="573.0" layoutY="422.0" text="Cena" />
-                  <Button fx:id="pridatDoKosikaButton" layoutX="958.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka" />
+                  <Button fx:id="pridatDoKosikaButton" layoutX="958.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Label id="label-notifikacia-kosika" fx:id="pridatDoKosikaNotifikaciaLabel" layoutX="742.0" layoutY="422.0" opacity="0.0" text="Tovar bol pridaný!" />
                </children>
             </Pane>

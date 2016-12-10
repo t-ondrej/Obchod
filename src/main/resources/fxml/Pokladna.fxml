@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="737.0" prefWidth="1167.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PokladnaController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PokladnaController">
     <stylesheets>
         <URL value="@/styles/Obchod.css" />
     </stylesheets>
@@ -17,7 +17,10 @@
          <top>
             <Pane prefHeight="83.0" prefWidth="1094.0" styleClass="pane" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="label-back" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť" />
+                  <Label id="label-back" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Label>
                </children>
             </Pane>
          </top>
@@ -32,20 +35,23 @@
             </TableView>
          </left>
          <right>
-            <VBox prefHeight="654.0" prefWidth="295.0" spacing="15.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="677.0" prefWidth="393.0" spacing="20.0" BorderPane.alignment="CENTER">
                <padding>
                   <Insets top="28.0" />
                </padding>
                <children>
                   <Label fx:id="celkovaCenaLabel" />
+                  <Button mnemonicParsing="false" onMouseClicked="#onKupitButtonClicked" prefHeight="27.0" prefWidth="138.0" text="Kúpiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </VBox>
          </right>
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Celková cena:" />
-                  <Button mnemonicParsing="false" onMouseClicked="#onKupitButtonClicked" prefHeight="27.0" prefWidth="138.0" text="Kúpiť" />
+                  <Label prefHeight="28.0" prefWidth="176.0" text="Celková cena:" />
                </children>
                <padding>
                   <Insets left="20.0" top="28.0" />

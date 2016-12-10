@@ -1,6 +1,9 @@
 package sk.upjs.ics.obchod.services;
 
+import java.util.List;
+import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
+import sk.upjs.ics.obchod.entity.Tovar;
 
 public interface FakturaManager {
     
@@ -11,4 +14,9 @@ public interface FakturaManager {
      */
     Long vytvorFakturu(Pouzivatel pouzivatel);
     
+    List<Faktura> dajFaktury();
+    
+    List<Faktura> dajFakturyZaObdobie(String obdobie);
+    
+    List<Tovar> dajTovarFaktury(Faktura faktura);
 }

@@ -62,7 +62,7 @@ public class Faktura {
         this.datumNakupu.setValue(datumNakupu);
     }    
     
-    public ObjectProperty datumNakupu() {
+    public ObjectProperty datumNakupuProperty() {
         return datumNakupu;
     }
 }

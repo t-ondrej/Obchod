@@ -108,31 +108,35 @@ public class ObchodController implements Initializable {
     private GridPane vytvorStranku(int idxStrany) {
         GridPane grid = new GridPane();
         int startIdx = idxStrany * 8, pom = 0;
-
+        
         for (int i = 0; i < 8; i++) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
             vBox.setAlignment(Pos.CENTER);
 
+            ImageView l = new ImageView();
+            l.setPreserveRatio(true);
+            l.setFitHeight(270);
+            l.setFitWidth(270);
+
             if (tovary.size() - 1 > i) {
                 Tovar tovar = tovary.get(i);
-                
+
                 // TODO
                 Image obrazok = new Image("file:src/main/resources/img/1.JPG");
-                ImageView l = new ImageView(obrazok);
-                l.setPreserveRatio(true);
-                l.setFitHeight(240);
-                l.setFitWidth(240);
-
-                Label nazovTovaru = new Label(tovar.getNazov());
+                l.setImage(obrazok);
                 
+                Label nazovTovaru = new Label(tovar.getNazov());
+
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
-                });
-
-                vBox.getChildren().addAll(l, nazovTovaru);
+                });             
+                
+                vBox.getChildren().add(nazovTovaru);
             }
 
+            vBox.getChildren().add(l);
+            
             GridPane.setHgrow(vBox, Priority.ALWAYS);
             GridPane.setVgrow(vBox, Priority.ALWAYS);
             GridPane.setHalignment(vBox, HPos.CENTER);
