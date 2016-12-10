@@ -53,7 +53,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
             pouzivatelDao.novePoslednePrihlasenie(pouzivatel);
 
             aktivnyPouzivatel = pouzivatel;
-            prihlaseny.set(true);
+            prihlaseny.setValue(!prihlaseny.getValue());
             return true;
         }
 

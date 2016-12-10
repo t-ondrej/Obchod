@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.FakturaDao;
+import sk.upjs.ics.obchod.dao.rowmappers.TovarFakturyRowMapper;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Tovar;
 
@@ -95,9 +96,16 @@ public class MysqlFakturaDao implements FakturaDao {
 
     @Override
     public List<Tovar> dajTovarFaktury(Faktura faktura) {
-        String sql = "SELECT * FROM tovar_faktury TF JOIN tovar T ON T.id = TF.id_tovar WHERE TF.id_faktura = ?";
-        BeanPropertyRowMapper<Tovar> tovarMapper = BeanPropertyRowMapper.newInstance(Tovar.class);
-        return jdbcTemplate.query(sql, tovarMapper, faktura.getId());
+        String sql = "SELECT "
+                + "T.id AS id_tovar, "
+                + "T.nazov AS nazov, "
+                + "T.id_kategoria AS id_kategoria, "
+                + "T.id_znacka AS id_znacka, "
+                + "T.cena AS cena, "
+                + "TF.pocet_kusov AS pocet_kusov_vo_fakture"
+                + " FROM tovar_faktury TF JOIN tovar T ON T.id = TF.id_tovar WHERE TF.id_faktura = ?";
+ 
+        return jdbcTemplate.query(sql, new TovarFakturyRowMapper(), faktura.getId());
     }
 
 }

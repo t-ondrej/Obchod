@@ -72,8 +72,5 @@ public class DefaultFakturaManager implements FakturaManager {
     public List<Tovar> dajTovarFaktury(Faktura faktura) {
         return fakturaDao.dajTovarFaktury(faktura);
     }
-    
-    
    
-
 }

@@ -87,6 +87,7 @@ public class ObchodController implements Initializable {
         BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny();
 
         jePouzivatelPrihlaseny.addListener(e -> {
+            System.out.println("Zmena pouzivatela");
             zmenButtony();
         });
 
@@ -119,6 +120,8 @@ public class ObchodController implements Initializable {
             l.setFitHeight(270);
             l.setFitWidth(270);
 
+            vBox.getChildren().add(l);
+            
             if (tovary.size() - 1 > i) {
                 Tovar tovar = tovary.get(i);
 
@@ -134,8 +137,7 @@ public class ObchodController implements Initializable {
                 
                 vBox.getChildren().add(nazovTovaru);
             }
-
-            vBox.getChildren().add(l);
+            
             
             GridPane.setHgrow(vBox, Priority.ALWAYS);
             GridPane.setVgrow(vBox, Priority.ALWAYS);

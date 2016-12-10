@@ -16,12 +16,10 @@ public class PamatoviKosikDao implements KosikDao {
         
         if (!tovary.containsKey(tovar)) {
             tovary.put(tovar, new SimpleIntegerProperty(1));
-            System.out.println("Nenachadza sa");
 
         } else {
             int pocetTovaru = tovary.get(tovar).getValue();
             tovary.put(tovar, new SimpleIntegerProperty(pocetTovaru + 1));
-            System.out.println("Nachadza sa");
         }
         int celkovaCenaPred = kosik.getCelkovaCena();
         kosik.setCelkovaCena(celkovaCenaPred + tovar.getCena());

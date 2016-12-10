@@ -38,5 +38,9 @@
                 </Tab>
             </tabs>
         </TabPane>
+      <Label id="label-odhlasit" onMouseClicked="#onOdhlasitLabelClicked" text="Odhlásiť" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="5.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Label>
     </children>
 </AnchorPane>

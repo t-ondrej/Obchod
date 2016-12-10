@@ -39,11 +39,11 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1022.0" layoutY="21.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" text="Odhlásiť" visible="false">
+                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1128.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" prefHeight="61.0" prefWidth="158.0" text="Odhlásiť" visible="false">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="932.0" layoutY="3.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="1040.0" layoutY="4.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../img/empty-cart-light.png" />
                      </image>

@@ -1,5 +1,6 @@
 .text{
     -fx-font-smoothing-type: gray;
+    -fx-font-family: 'Microsoft Sans Serif'; 
 }
 
 .pane {
@@ -33,11 +34,19 @@
 
 #label-back {
     -fx-text-fill: #ecf0f1;
-    -fx-font-size: 28px;
-    -fx-font-family: 'Microsoft Sans Serif'; 
+    -fx-font-size: 28px;   
 }
 
 #label-back:hover {
+    -fx-text-fill: #FA9600;
+}
+
+#label-odhlasit {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 25px;
+}
+
+#label-odhlasit:hover {
     -fx-text-fill: #FA9600;
 }
 
@@ -110,8 +119,13 @@
 
 
 /* Administracia tab pane */
+.tab-pane .tab-header-area .stack-pane {
+    -fx-background-size: 2000px, 200px;
+}
+
 .tab-header-background {
     -fx-background-color: #1d2326;
+    -fx-background-size: 2000px, 200px;
 }
 
 .tab-pane

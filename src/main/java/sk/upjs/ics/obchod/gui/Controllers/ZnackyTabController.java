@@ -97,7 +97,7 @@ public class ZnackyTabController implements Initializable {
         Znacka oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
         System.out.println(oznacenaZnacka.getNazov());
         
-        //  mysqlZnackaDao.odstranZnacku(oznacenaZnacka);
+        mysqlZnackaDao.odstranZnacku(oznacenaZnacka);
         znackaModely.remove(oznacenaZnacka);
         obnovZnackyTableView();
     }
