@@ -24,6 +24,21 @@ public class PouzivateliaTabController implements Initializable {
 
     @FXML
     private TableColumn<Pouzivatel, String> prihlasovacieMenoTableColumn;
+    
+    @FXML
+    private TableColumn<Pouzivatel, String> menoTableColumn;
+    
+    @FXML
+    private TableColumn<Pouzivatel, String> priezviskoTableColumn;
+    
+    @FXML
+    private TableColumn<Pouzivatel, String> mestoTableColumn;
+    
+    @FXML
+    private TableColumn<Pouzivatel, String> ulicaTableColumn;
+    
+    @FXML
+    private TableColumn<Pouzivatel, Number> pscTableColumn;
 
     @FXML
     private TableColumn<Pouzivatel, String> emailTableColumn;
@@ -50,6 +65,11 @@ public class PouzivateliaTabController implements Initializable {
     private void inicializujPouzivatelTableView() {
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         prihlasovacieMenoTableColumn.setCellValueFactory(cellData -> cellData.getValue().prihlasovacieMenoProperty());
+        menoTableColumn.setCellValueFactory(cellData -> cellData.getValue().menoProperty());
+        priezviskoTableColumn.setCellValueFactory(cellData -> cellData.getValue().priezviskoProperty());
+        mestoTableColumn.setCellValueFactory(cellData -> cellData.getValue().mestoProperty());
+        ulicaTableColumn.setCellValueFactory(cellData -> cellData.getValue().ulicaProperty());
+        pscTableColumn.setCellValueFactory(cellData -> cellData.getValue().pscProperty());
         emailTableColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         poslednePrihlasenieTableColumn.setCellValueFactory(cellData -> cellData.getValue().poslednePrihlasenieProperty());
         pravomociTableColumn.setCellValueFactory(cellData -> cellData.getValue().jeAdministratorProperty());

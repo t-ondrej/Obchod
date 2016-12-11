@@ -122,7 +122,7 @@ public class ObchodController implements Initializable {
 
             vBox.getChildren().add(l);
             
-            if (tovary.size() - 1 > i) {
+            if (tovary.size() > i) {
                 Tovar tovar = tovary.get(i);
 
                 // TODO

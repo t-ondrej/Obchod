@@ -25,6 +25,21 @@ public class RegistraciaController implements Initializable {
 
     @FXML
     private TextField emailTextField;
+    
+    @FXML
+    private TextField menoTextField;
+    
+    @FXML
+    private TextField priezviskoTextField;
+    
+    @FXML
+    private TextField mestoTextField;
+    
+    @FXML
+    private TextField ulicaTextField;
+    
+    @FXML
+    private TextField pscTextField;
 
     @FXML
     private Button registrovatButton;
