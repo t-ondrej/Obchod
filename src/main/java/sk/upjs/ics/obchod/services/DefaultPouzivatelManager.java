@@ -79,4 +79,15 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(meno);
         return pouzivatel == null;
     }
+    
+    @Override
+    public void ulozPouzivatela(Pouzivatel pouzivatel) {
+        pouzivatelDao.ulozPouzivatela(pouzivatel);
+    }
+
+    @Override
+    public void zmenHeslo(Pouzivatel pouzivatel, String heslo) {
+        aktivnyPouzivatel.setPassword(heslo);
+        pouzivatelDao.ulozPouzivatela(pouzivatel);
+    }
 }

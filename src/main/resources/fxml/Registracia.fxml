@@ -32,7 +32,7 @@
                   <TextField fx:id="emailTextField" layoutX="650.0" layoutY="218.0" prefHeight="0.0" prefWidth="250.0" promptText="Povinný údaj" />
                   <Label layoutX="399.0" layoutY="128.0" text="Prihlasovacie meno:">
                   </Label>
-                  <Label layoutX="399.0" layoutY="174.0" text="Heslo:">
+                  <Label layoutX="402.0" layoutY="174.0" text="Heslo:">
                   </Label>
                   <Label layoutX="400.0" layoutY="224.0" text="Email:" />
                   <Label layoutX="650.0" layoutY="56.0" text="Registrácia" />

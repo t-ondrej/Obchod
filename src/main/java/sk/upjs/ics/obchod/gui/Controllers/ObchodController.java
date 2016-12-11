@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -134,6 +135,8 @@ public class ObchodController implements Initializable {
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
                 });             
+                
+                l.setCursor(Cursor.HAND);
                 
                 vBox.getChildren().add(nazovTovaru);
             }

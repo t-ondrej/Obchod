@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ProfilPouzivatelaController">
+   <children>
+      <BorderPane layoutX="335.0" layoutY="155.0" prefHeight="760.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <Pane prefHeight="83.0" prefWidth="200.0" styleClass="pane" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="label-back" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť" />
+               </children>
+            </Pane>
+         </top>
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="ulozitButton" layoutX="650.0" layoutY="467.0" mnemonicParsing="false" onMouseClicked="#onUlozitButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Uložiť">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <TextField fx:id="prihlasovacieMenoTextField" editable="false" layoutX="650.0" layoutY="126.0" prefWidth="250.0" />
+                  <TextField fx:id="emailTextField" layoutX="650.0" layoutY="172.0" prefHeight="0.0" prefWidth="250.0" />
+                  <Label layoutX="399.0" layoutY="128.0" text="Prihlasovacie meno:" />
+                  <Label layoutX="399.0" layoutY="174.0" text="Email:" />
+                  <Label layoutX="650.0" layoutY="56.0" text="Vaše údaje" />
+                  <TextField fx:id="menoTextField" layoutX="650.0" layoutY="218.0" prefWidth="250.0" />
+                  <TextField fx:id="priezviskoTextField" layoutX="650.0" layoutY="264.0" prefWidth="250.0" />
+                  <TextField fx:id="mestoTextField" layoutX="650.0" layoutY="310.0" prefWidth="250.0" />
+                  <TextField fx:id="ulicaTextField" layoutX="650.0" layoutY="356.0" prefWidth="250.0" />
+                  <TextField fx:id="pscTextField" layoutX="650.0" layoutY="402.0" prefWidth="250.0" />
+                  <Label layoutX="399.0" layoutY="220.0" text="Meno:" />
+                  <Label layoutX="399.0" layoutY="266.0" text="Priezvisko:" />
+                  <Label layoutX="399.0" layoutY="312.0" text="Mesto:" />
+                  <Label layoutX="399.0" layoutY="358.0" text="Ulica:" />
+                  <Label layoutX="399.0" layoutY="404.0" text="PSČ:" />
+                  <Button layoutX="789.0" layoutY="467.0" mnemonicParsing="false" onMouseClicked="#onZmenitHesloButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Zmeniť heslo" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

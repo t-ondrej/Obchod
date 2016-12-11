@@ -16,4 +16,8 @@ public interface PouzivatelManager {
     void odhlasPouzivatela();
     
     boolean jeVolneMeno(String meno);
+    
+    void ulozPouzivatela(Pouzivatel pouzivatel);
+    
+    void zmenHeslo(Pouzivatel pouzivatel, String heslo);
 }
