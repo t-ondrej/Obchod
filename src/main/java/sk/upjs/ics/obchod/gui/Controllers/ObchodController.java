@@ -2,6 +2,7 @@ package sk.upjs.ics.obchod.gui.Controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -55,6 +56,9 @@ public class ObchodController implements Initializable {
     private ComboBox<Znacka> znackyComboBox;
 
     @FXML
+    private ComboBox<String> profilComboBox;
+    
+    @FXML
     private Button prihlasitButton;
 
     @FXML
@@ -69,6 +73,7 @@ public class ObchodController implements Initializable {
     @FXML
     private Pagination tovarPagination;
 
+    
     private ObservableList<Tovar> tovary;
 
     private int pocetStranok;
@@ -96,6 +101,8 @@ public class ObchodController implements Initializable {
 
         inicializujKategoriaComboBox();
         inicializujZnackyComboBox();
+        
+        incializujProfilComboBox();
 
     }
 
@@ -204,6 +211,35 @@ public class ObchodController implements Initializable {
             obnovTovar(tovarPodlaZnacky);
         });
     }
+    
+    private void incializujProfilComboBox() {
+        ObservableList<String> profil = FXCollections.observableArrayList(Arrays.asList("Upraviť", "Odhlásiť"));
+        profilComboBox.setItems(profil);
+        
+        profilComboBox.valueProperty().addListener(event -> {
+            int vybranyIdx = profilComboBox.getSelectionModel().getSelectedIndex();
+            
+            profilComboBox.getSelectionModel().clearSelection();
+            
+            if (vybranyIdx == 0) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProfilPouzivatela.fxml"));
+                    Scene profilPouzivatelaScene = new Scene(loader.load());
+                    ProfilPouzivatelaController profilPouzivatelaController = loader.getController();
+                    profilPouzivatelaController.setStage(mainStage);
+                    mainStage.setScene(profilPouzivatelaScene);
+                } catch (IOException ex) {
+                    Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            if (vybranyIdx == 1) {
+                DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
+            }
+            
+            
+        });
+    }
 
     public void obnovTovar(List<Tovar> tovar) {
         tovary.removeAll(tovary);
@@ -225,8 +261,6 @@ public class ObchodController implements Initializable {
 
     @FXML
     public void onOdhlasitButtonClicked() {
-        Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-        mainStage.setScene(obchodScene);
         DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
     }
 
@@ -247,7 +281,7 @@ public class ObchodController implements Initializable {
         registrovatButton.setVisible(!registrovatButton.isVisible());
 
         kosikImageView.setVisible(!kosikImageView.isVisible());
-        odhlasitButton.setVisible(!odhlasitButton.isVisible());
+        profilComboBox.setVisible(!profilComboBox.isVisible());
     }
 
     private void prejdiNaSpecifikaciuTovaru(String nazovTovaru) {

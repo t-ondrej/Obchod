@@ -3,6 +3,7 @@ package sk.upjs.ics.obchod.gui.Controllers;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
@@ -85,9 +87,10 @@ public class ProfilPouzivatelaController implements Initializable {
     @FXML
     public void onZmenitHesloButtonClicked() {
         Optional<String> noveHeslo = ukazZmenitHesloDialog();
-        
+
         if (noveHeslo.isPresent()) {
             DefaultPouzivatelManager.INSTANCE.zmenHeslo(aktivnyPouzivatel, noveHeslo.get());
+            System.out.println(noveHeslo.get());
         }
     }
 
@@ -99,7 +102,7 @@ public class ProfilPouzivatelaController implements Initializable {
     public void setStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
-    
+
     private Optional<String> ukazZmenitHesloDialog() {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Zmena hesla");
@@ -107,6 +110,7 @@ public class ProfilPouzivatelaController implements Initializable {
 
         ButtonType zmenitButtonType = new ButtonType("Zmeniť", ButtonData.OK_DONE);
         ButtonType zrusitButtonType = new ButtonType("Zrušiť", ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().clear();
         dialog.getDialogPane().getButtonTypes().addAll(zmenitButtonType, zrusitButtonType);
 
         GridPane grid = new GridPane();
@@ -129,14 +133,23 @@ public class ProfilPouzivatelaController implements Initializable {
 
         noveHeslo.textProperty().addListener((observable, staraHodnota, novaHodnota) -> {
             zmenitHeslo.setDisable(novaHodnota.trim().isEmpty());
-            zmenitHeslo.setDisable(!noveHeslo.getText().equals(noveHesloOpat.getText()));
-                });
+            zmenitHeslo.disableProperty().bind(Bindings.equal(noveHeslo.textProperty(), noveHesloOpat.textProperty()).not());        
+        });
+        
+       //  zmenitHeslo.setDisable(!noveHeslo.getText().equals(noveHesloOpat.getText()));
+        
         noveHesloOpat.textProperty().addListener((observable, staraHodnota, novaHodnota) -> zmenitHeslo.setDisable(novaHodnota.trim().isEmpty()));
-        
+
         dialog.getDialogPane().setContent(grid);
-        
-        dialog.setResult(noveHeslo.getText());
-        
+
+        dialog.setResultConverter((ButtonType b) -> {
+            if (b == zmenitButtonType) {
+                return noveHeslo.getText();
+            }
+            
+            return null;
+        });
+
         return dialog.showAndWait();
     }
 }

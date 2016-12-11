@@ -19,7 +19,7 @@
             <top>
                 <Pane prefHeight="83.0" prefWidth="1167.0" styleClass="pane" BorderPane.alignment="CENTER">
                     <children>
-                        <ComboBox fx:id="kategorieComboBox" prefHeight="84.0" prefWidth="218.0" promptText="Kategórie" styleClass="kategorie-znacky">
+                        <ComboBox fx:id="kategorieComboBox" prefHeight="83.0" prefWidth="218.0" promptText="Kategórie" styleClass="kategorie-znacky">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
@@ -27,7 +27,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                         </ComboBox>
-                        <ComboBox fx:id="znackyComboBox" layoutX="175.0" layoutY="2.0" prefHeight="82.0" prefWidth="168.0" promptText="Značky" styleClass="kategorie-znacky">
+                        <ComboBox fx:id="znackyComboBox" layoutX="175.0" prefHeight="83.0" prefWidth="168.0" promptText="Značky" styleClass="kategorie-znacky">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ComboBox>
@@ -39,11 +39,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                        <Button id="button-login-reg" fx:id="odhlasitButton" layoutX="1128.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#onOdhlasitButtonClicked" prefHeight="61.0" prefWidth="158.0" text="Odhlásiť" visible="false">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-                  <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="1040.0" layoutY="4.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="kosikImageView" fitHeight="79.0" fitWidth="105.0" layoutX="1065.0" layoutY="3.0" onMouseClicked="#onKosikImageViewClicked" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../img/empty-cart-light.png" />
                      </image>
@@ -51,6 +47,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <ComboBox fx:id="profilComboBox" layoutX="1157.0" prefHeight="83.0" prefWidth="144.0" promptText="Profil" styleClass="kategorie-znacky" visible="false" />
                     </children>
                 </Pane>
             </top>
