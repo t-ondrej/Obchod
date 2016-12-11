@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -111,7 +113,7 @@ public class MysqlPouzivatelDao implements PouzivatelDao {
     @Override
     public void novePoslednePrihlasenie(Pouzivatel pouzivatel) {
         String sql = "UPDATE Pouzivatel SET posledne_prihlasenie = ? WHERE id = ?;";
-        jdbcTemplate.update(sql, LocalDate.now(), pouzivatel.getId());
+        jdbcTemplate.update(sql, LocalDateTime.now(), pouzivatel.getId());
     }
 
 }

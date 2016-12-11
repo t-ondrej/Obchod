@@ -2,6 +2,8 @@ package sk.upjs.ics.obchod.dao.rowmappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import org.springframework.jdbc.core.RowMapper;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
@@ -22,7 +24,8 @@ public class PouzivatelRowMapper implements RowMapper<Pouzivatel> {
         pouzivatel.setPasswordHash(rs.getString("hash_hesla"));
         pouzivatel.setSol(rs.getString("sol"));
         pouzivatel.setEmail(rs.getString("email"));
-        pouzivatel.setPoslednePrihlasenie(rs.getDate("posledne_prihlasenie").toLocalDate());
+        LocalTime time = LocalTime.now();
+        pouzivatel.setPoslednePrihlasenie(LocalDateTime.of(rs.getDate("posledne_prihlasenie").toLocalDate(), time));
         pouzivatel.setJeAdministrator(rs.getBoolean("je_administrator"));
         pouzivatel.setKosik(kosik);
         return pouzivatel;

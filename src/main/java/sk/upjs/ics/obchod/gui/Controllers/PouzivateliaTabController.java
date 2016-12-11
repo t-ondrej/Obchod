@@ -2,6 +2,7 @@ package sk.upjs.ics.obchod.gui.Controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,7 +45,7 @@ public class PouzivateliaTabController implements Initializable {
     private TableColumn<Pouzivatel, String> emailTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, LocalDate> poslednePrihlasenieTableColumn;
+    private TableColumn<Pouzivatel, LocalDateTime> poslednePrihlasenieTableColumn;
 
     @FXML
     private TableColumn<Pouzivatel, Boolean> pravomociTableColumn;

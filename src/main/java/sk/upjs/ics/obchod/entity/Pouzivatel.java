@@ -35,7 +35,7 @@ public class Pouzivatel {
 
     private StringProperty email = new SimpleStringProperty();
 
-    private ObjectProperty<LocalDate> poslednePrihlasenie = new SimpleObjectProperty();
+    private ObjectProperty<LocalDateTime> poslednePrihlasenie = new SimpleObjectProperty();
 
     private Kosik kosik;
 
@@ -165,15 +165,15 @@ public class Pouzivatel {
         return email;
     }
 
-    public LocalDate getPoslednePrihlasenie() {
+    public LocalDateTime getPoslednePrihlasenie() {
         return poslednePrihlasenie.getValue();
     }
 
-    public void setPoslednePrihlasenie(LocalDate poslednePrihlasenie) {
+    public void setPoslednePrihlasenie(LocalDateTime poslednePrihlasenie) {
         this.poslednePrihlasenie.setValue(poslednePrihlasenie);
     }
 
-    public ObjectProperty<LocalDate> poslednePrihlasenieProperty() {
+    public ObjectProperty<LocalDateTime> poslednePrihlasenieProperty() {
         return poslednePrihlasenie;
     }
 

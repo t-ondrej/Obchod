@@ -1,6 +1,8 @@
 package sk.upjs.ics.obchod.services;
 
+import java.time.Clock;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import sk.upjs.ics.obchod.dao.DaoFactory;
@@ -49,9 +51,13 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         if (pouzivatel != null && pouzivatel.checkPassword(heslo)) {
             Kosik kosik = pouzivatel.getKosik();
             pouzivatel.setKosik(kosik);
-            pouzivatel.setPoslednePrihlasenie(LocalDate.now());
+            pouzivatel.setPoslednePrihlasenie(LocalDateTime.now());
             pouzivatelDao.novePoslednePrihlasenie(pouzivatel);
 
+            System.out.println(LocalDate.now(Clock.systemUTC()));
+            System.out.println(LocalDate.now(Clock.systemUTC()).toString());
+            
+            
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.setValue(!prihlaseny.getValue());
             return true;
@@ -66,7 +72,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setPrihlasovacieMeno(prihlasovacieMeno);
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
-        pouzivatel.setPoslednePrihlasenie(LocalDate.now());
+        pouzivatel.setPoslednePrihlasenie(LocalDateTime.now());
 
         Kosik kosik = new Kosik();
         pouzivatel.setKosik(kosik);
