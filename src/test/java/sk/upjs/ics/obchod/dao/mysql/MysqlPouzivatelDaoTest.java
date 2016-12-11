@@ -136,6 +136,10 @@ public class MysqlPouzivatelDaoTest {
         Assert.assertEquals(new Long(1), id);
         Assert.assertEquals("test", p.getPrihlasovacieMeno());
         Assert.assertEquals("Tomáš", p.getMeno());
+        Assert.assertEquals("Jedno", p.getPriezvisko());
+        Assert.assertEquals("Košice", p.getMesto());
+        Assert.assertEquals("Jantárová 8", p.getUlica());
+        Assert.assertEquals(04023, p.getPsc());
         Assert.assertEquals("test@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());
     }
@@ -170,6 +174,10 @@ public class MysqlPouzivatelDaoTest {
         Assert.assertEquals("Tomáš", p.getMeno());
         Assert.assertEquals(new Long(2), id);
         Assert.assertEquals(new Long(2), p.getId());
+        Assert.assertEquals("Tak", p.getPriezvisko());
+        Assert.assertEquals("Prešov", p.getMesto());
+        Assert.assertEquals("Zimná 8", p.getUlica());
+        Assert.assertEquals(04021, p.getPsc());
         Assert.assertEquals("test", p.getPrihlasovacieMeno());
         Assert.assertEquals("test@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());
@@ -207,6 +215,6 @@ public class MysqlPouzivatelDaoTest {
         dao.novePoslednePrihlasenie(pouzivatel);
         String sql = "SELECT posledne_prihlasenie FROM pouzivatel WHERE id = 1";
         LocalDate poslednePrihlasenie = jdbcTemplate.queryForObject(sql, LocalDate.class);
-        Assert.assertTrue(null != poslednePrihlasenie);
+        Assert.assertEquals(poslednePrihlasenie, LocalDate.now());
     }
 }

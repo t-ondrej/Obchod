@@ -7,7 +7,6 @@ import javafx.collections.ObservableMap;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
@@ -55,6 +54,14 @@ public class DefaultFakturaManagerTest {
         
         String sql4 = "INSERT INTO Tovar_Faktury(id_tovar, id_faktura, pocet_kusov) VALUES(2,1,4), (3,2,6)";
         jdbcTemplate.execute(sql4);
+    }
+    
+    private void naplnTestovacieUdaje2(){
+        String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES(1, 100, date_add(now(), interval -3 minute)),"
+                + "(2, 55, date_add(now(), interval -5 minute)), (3, 64, date_add(now(), interval -1 year)),"
+                + "(3, 60,date_add(now(), interval -1 week)), (3, 65,date_add(now(), interval -1 day)), "
+                + "(3, 60,date_add(now(), interval -1 month))";
+        jdbcTemplate.execute(sql1);
     }
     
     @After 
@@ -106,5 +113,25 @@ public class DefaultFakturaManagerTest {
         Assert.assertEquals(new Long(2), pocet4);
         Assert.assertEquals(0, tovary.size());
     }
-    
+
+    /**
+     * Test of dajFakturyZaObdobie method, of class DefaultFakturaManager.
+     */
+    @Test
+    public void testDajFakturyZaObdobie() {
+        System.out.println("dajFakturyZaObdobie");
+        naplnTestovacieUdaje2();
+        
+        List<Faktura> den = manager.dajFakturyZaObdobie("posledný deň");
+        List<Faktura> tyzden = manager.dajFakturyZaObdobie("posledný týždeň");
+        List<Faktura> mesiac = manager.dajFakturyZaObdobie("posledný mesiac");
+        List<Faktura> rok = manager.dajFakturyZaObdobie("posledný rok");
+        List<Faktura> nic = manager.dajFakturyZaObdobie("neni");
+        
+        Assert.assertEquals(1, den.size());  
+        Assert.assertEquals(2, tyzden.size());
+        Assert.assertEquals(3, mesiac.size());
+        Assert.assertEquals(4, rok.size());
+        Assert.assertEquals(null, nic);
+    }
 }

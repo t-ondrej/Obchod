@@ -1,6 +1,7 @@
 package sk.upjs.ics.obchod.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
@@ -16,7 +17,7 @@ public class Faktura {
      
     private IntegerProperty suma = new SimpleIntegerProperty();
     
-    private ObjectProperty<LocalDate> datumNakupu = new SimpleObjectProperty();
+    private ObjectProperty<LocalDateTime> datumNakupu = new SimpleObjectProperty();
     
     public Long getId() {
         return id.getValue();
@@ -52,13 +53,13 @@ public class Faktura {
 
     public IntegerProperty sumaProperty() {
         return suma;
-    }
+    }   
     
-    public LocalDate getDatumNakupu() {
+    public LocalDateTime getDatumNakupu() {
         return datumNakupu.getValue();
     }
 
-    public void setDatumNakupu(LocalDate datumNakupu) {
+    public void setDatumNakupu(LocalDateTime datumNakupu) {
         this.datumNakupu.setValue(datumNakupu);
     }    
     
