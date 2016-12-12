@@ -89,6 +89,7 @@ public class DefaultKosikManager implements KosikManager {
         List<Tovar> tovary = kosikDao.dajTovaryKosika(kosik);
         for (Tovar t : tovary) {
             int pocet = kosikDao.pocetJednehoTovaruVKosiku(t, kosik);
+            System.out.println(pocet);
             int pocetPred = tovarDao.dajPocetTovaru(t);
             tovarDao.nastavTovaruPocetKusov(t, pocetPred + pocet);
         }

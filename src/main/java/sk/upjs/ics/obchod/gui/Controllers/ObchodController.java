@@ -36,7 +36,9 @@ import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 import sk.upjs.ics.obchod.gui.ViewFactory;
+import sk.upjs.ics.obchod.services.DefaultKosikManager;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.services.KosikManager;
 import sk.upjs.ics.obchod.services.PouzivatelManager;
 
 public class ObchodController implements Initializable {
@@ -47,7 +49,9 @@ public class ObchodController implements Initializable {
 
     private TovarDao mysqlTovarDao;
 
-    private PouzivatelManager pouzivatelManager;
+    private PouzivatelManager defaultPouzivatelManager;
+
+    private KosikManager defaultKosikManager;
 
     @FXML
     private ComboBox<Kategoria> kategorieComboBox;
@@ -57,7 +61,7 @@ public class ObchodController implements Initializable {
 
     @FXML
     private ComboBox<String> profilComboBox;
-    
+
     @FXML
     private Button prihlasitButton;
 
@@ -73,7 +77,6 @@ public class ObchodController implements Initializable {
     @FXML
     private Pagination tovarPagination;
 
-    
     private ObservableList<Tovar> tovary;
 
     private int pocetStranok;
@@ -86,11 +89,12 @@ public class ObchodController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = DefaultPouzivatelManager.INSTANCE;
+        defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
+        defaultKosikManager = new DefaultKosikManager();
         mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
 
-        BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny();
+        BooleanProperty jePouzivatelPrihlaseny = defaultPouzivatelManager.isPrihlaseny();
 
         jePouzivatelPrihlaseny.addListener(e -> {
             System.out.println("Zmena pouzivatela");
@@ -101,7 +105,7 @@ public class ObchodController implements Initializable {
 
         inicializujKategoriaComboBox();
         inicializujZnackyComboBox();
-        
+
         incializujProfilComboBox();
 
     }
@@ -117,7 +121,7 @@ public class ObchodController implements Initializable {
     private GridPane vytvorStranku(int idxStrany) {
         GridPane grid = new GridPane();
         int startIdx = idxStrany * 8, pom = 0;
-        
+
         for (int i = 0; i < 8; i++) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
@@ -129,26 +133,25 @@ public class ObchodController implements Initializable {
             l.setFitWidth(270);
 
             vBox.getChildren().add(l);
-            
+
             if (tovary.size() > i) {
                 Tovar tovar = tovary.get(i);
 
                 // TODO
                 Image obrazok = new Image("file:src/main/resources/img/1.JPG");
                 l.setImage(obrazok);
-                
+
                 Label nazovTovaru = new Label(tovar.getNazov());
 
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
-                });             
-                
+                });
+
                 l.setCursor(Cursor.HAND);
-                
+
                 vBox.getChildren().add(nazovTovaru);
             }
-            
-            
+
             GridPane.setHgrow(vBox, Priority.ALWAYS);
             GridPane.setVgrow(vBox, Priority.ALWAYS);
             GridPane.setHalignment(vBox, HPos.CENTER);
@@ -211,16 +214,16 @@ public class ObchodController implements Initializable {
             obnovTovar(tovarPodlaZnacky);
         });
     }
-    
+
     private void incializujProfilComboBox() {
         ObservableList<String> profil = FXCollections.observableArrayList(Arrays.asList("Upraviť", "Odhlásiť"));
         profilComboBox.setItems(profil);
-        
+
         profilComboBox.valueProperty().addListener(event -> {
             int vybranyIdx = profilComboBox.getSelectionModel().getSelectedIndex();
-            
+
             profilComboBox.getSelectionModel().clearSelection();
-            
+
             if (vybranyIdx == 0) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProfilPouzivatela.fxml"));
@@ -232,12 +235,12 @@ public class ObchodController implements Initializable {
                     Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             if (vybranyIdx == 1) {
-                DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
+                defaultKosikManager.vyprazdniKosik();
+                defaultPouzivatelManager.odhlasPouzivatela();
             }
-            
-            
+
         });
     }
 
@@ -260,11 +263,6 @@ public class ObchodController implements Initializable {
     }
 
     @FXML
-    public void onOdhlasitButtonClicked() {
-        DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
-    }
-
-    @FXML
     public void onRegistrovatButtonClicked() {
         Scene registraciaScene = ViewFactory.INSTANCE.getRegistraciaScene(mainStage);
         mainStage.setScene(registraciaScene);
@@ -272,8 +270,15 @@ public class ObchodController implements Initializable {
 
     @FXML
     public void onKosikImageViewClicked() {
-        Scene pokladnaScene = ViewFactory.INSTANCE.getPokladnaScene(mainStage);
-        mainStage.setScene(pokladnaScene);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pokladna.fxml"));
+            Scene pokladnaScene = new Scene(loader.load());
+            PokladnaController pokladnaController = loader.getController();
+            pokladnaController.setStage(mainStage);
+            mainStage.setScene(pokladnaScene);
+        } catch (IOException ex) {
+            Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void zmenButtony() {
