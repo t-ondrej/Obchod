@@ -6,8 +6,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.entity.Znacka;
 
 public class PamatoviKosikDaoTest {
 
@@ -26,8 +28,17 @@ public class PamatoviKosikDaoTest {
         tovar1 = new Tovar();
         tovar1.setId(1L);
         tovar1.setNazov("cokolada");
-        tovar1.setIdKategoria(1L);
-        tovar1.setIdZnacka(1L);
+        
+        Kategoria kategoria1 = new Kategoria();
+        kategoria1.setId(1L);
+        kategoria1.setNazov("Nezaradene1");      
+        tovar1.setKategoria(kategoria1);
+        
+        Znacka znacka1 = new Znacka();
+        znacka1.setId(1L);
+        znacka1.setNazov("Nezaradene1");
+        tovar1.setZnacka(znacka1);
+        
         tovar1.setObrazokUrl("c:/files/cokolada");
         tovar1.setPocetKusov(2);
         tovar1.setCena(1);
@@ -36,8 +47,17 @@ public class PamatoviKosikDaoTest {
         tovar2 = new Tovar();
         tovar2.setId(2L);
         tovar2.setNazov("topanky");
-        tovar2.setIdKategoria(0L);
-        tovar2.setIdZnacka(0L);
+        
+        Kategoria kategoria0 = new Kategoria();
+        kategoria0.setId(0L);
+        kategoria0.setNazov("Nezaradene0");      
+        tovar2.setKategoria(kategoria0);
+        
+        Znacka znacka0 = new Znacka();
+        znacka0.setId(0L);
+        znacka0.setNazov("Nezaradene0");
+        tovar2.setZnacka(znacka0);
+        
         tovar2.setObrazokUrl("c:/files/topanky");
         tovar2.setPocetKusov(3);
         tovar2.setCena(20);
@@ -46,8 +66,17 @@ public class PamatoviKosikDaoTest {
         tovar3 = new Tovar();
         tovar3.setId(3L);
         tovar3.setNazov("vec");
-        tovar3.setIdKategoria(2L);
-        tovar3.setIdZnacka(3L);
+        
+        Kategoria kategoria2 = new Kategoria();
+        kategoria2.setId(2L);
+        kategoria2.setNazov("Nezaradene2");      
+        tovar3.setKategoria(kategoria2);
+        
+        Znacka znacka3 = new Znacka();
+        znacka3.setId(1L);
+        znacka3.setNazov("Nezaradene3");
+        tovar3.setZnacka(znacka3);
+        
         tovar3.setObrazokUrl("c:/files/vec");
         tovar3.setPocetKusov(5);
         tovar3.setCena(10);

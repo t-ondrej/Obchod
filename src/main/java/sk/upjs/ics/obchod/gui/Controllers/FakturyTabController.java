@@ -55,17 +55,15 @@ public class FakturyTabController implements Initializable {
     /**
      * * Stlpce tabulky tovaru faktury **
      */
-    @FXML
-    private TableColumn<Tovar, Number> idTovaruFakturyTableColumn;
 
     @FXML
     private TableColumn<Tovar, String> nazovTovaruTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> kategoriaTovaruTableColumn;
+    private TableColumn<Tovar, String> kategoriaTovaruTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> znackaTovaruTableColumn;
+    private TableColumn<Tovar, String> znackaTovaruTableColumn;
 
     @FXML
     private TableColumn<Tovar, Number> cenaTovaruTableColumn;
@@ -112,10 +110,9 @@ public class FakturyTabController implements Initializable {
     }
 
     private void inicializujTovarFakturyTableView() {
-        idTovaruFakturyTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         nazovTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        kategoriaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().idKategoriaProperty());
-        znackaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().idZnackaProperty());
+        kategoriaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
+        znackaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
         cenaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
         pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().pocetKusovProperty());
 

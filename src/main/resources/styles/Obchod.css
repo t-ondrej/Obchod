@@ -119,9 +119,6 @@
 
 
 /* Administracia tab pane */
-.tab-pane .tab-header-area .stack-pane {
-    -fx-background-size: 2000px, 200px;
-}
 
 .tab-header-background {
     -fx-background-color: #1d2326;
@@ -131,4 +128,35 @@
 .tab-pane
 {
     -fx-tab-min-width: 110px;
+}
+
+
+/* Tovar pagination */
+.pagination .pagination-control .number-button {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-border-color: #1d2326;
+}
+
+.pagination .pagination-control .number-button:hover {
+    -fx-text-fill: #FA9600;
+}
+
+.pagination .pagination-control .number-button:selected {
+    -fx-background-color: #1d2326;
+    -fx-text-fill: #ecf0f1;
+}
+
+.pagination .pagination-control .left-arrow-button,
+.pagination .pagination-control .right-arrow-button{
+    -fx-background-color: transparent;  
+}
+
+.pagination .pagination-control .left-arrow, .right-arrow{
+    -fx-background-color: #1d2326;
+}
+
+.pagination .control-box {
+    -fx-spacing: 8;
 }

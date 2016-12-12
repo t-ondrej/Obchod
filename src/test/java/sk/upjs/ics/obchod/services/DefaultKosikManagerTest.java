@@ -6,10 +6,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 
@@ -29,17 +31,31 @@ public class DefaultKosikManagerTest {
         kosik = new Kosik();
     }
     
-    private void naplnTestovacieUdaje(){
-        String sql = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
-                + " values ('test1', 2, 1, 80, 'dobre', '@../img/1.JPG', 0), "
-                        + "('test2', 1, 1, 40, 'skvele', '@../img/2.JPG', 2),"
-                        + "('test3', 3, 2, 23, 'ok', '@../img/3.JPG', 5)";
-        jdbcTemplate.execute(sql);
+    @Before
+    public void naplnTestovacieUdaje(){
+        String sql1 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
+                + " values ('test1', 2, 1, 80, 'popis1', '@../img/1.JPG', 0), "
+                        + "('test2', 1, 1, 40, 'popis2', '@../img/2.JPG', 2),"
+                        + "('test3', 3, 2, 23, 'popis3', '@../img/3.JPG', 5)";
+        jdbcTemplate.execute(sql1);
         
-        String sql2 = "SELECT * FROM tovar";
-        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
-        List<Tovar> tovary= jdbcTemplate.query(sql2, mapper);
+        String sql2 = "INSERT INTO kategoria (nazov) VALUES('Kategoria1'), ('Kategoria2'), ('Kategoria3')";
+        jdbcTemplate.execute(sql2);
         
+        String sql3 = "INSERT INTO znacka (nazov) VALUES ('Znacka1'), ('Znacka2')";
+        jdbcTemplate.execute(sql3);
+        
+        String sql4 = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
+            + "T.id_kategoria AS id_kategoria, T.id_znacka AS id_znacka, "
+            + "T.cena AS cena, T.popis AS popis, T.obrazok_url AS obrazok_url, "
+            + "T.pocet_kusov AS pocet_kusov, K.nazov AS nazov_kategoria, Z.nazov AS nazov_znacka "
+            + "FROM Tovar T JOIN Kategoria K ON T.id_kategoria = K.id "
+            + "JOIN Znacka Z ON T.id_znacka = Z.id ";
+        
+        TovarRowMapper mapper  = new TovarRowMapper();
+        
+        List<Tovar> tovary= jdbcTemplate.query(sql4, mapper);
+              
         tovar1 = tovary.get(0);        
         tovar2 = tovary.get(1);
         tovar3 = tovary.get(2);
@@ -62,7 +78,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testPridajTovarDoKosikaNepridaSa() {
         System.out.println("pridajTovarDoKosikaNepridaSa");
-        naplnTestovacieUdaje();
                 
         boolean pridaloSa = manazer.pridajTovarDoKosika(tovar1, kosik);
         int pocetPo = kosik.getTovary().size();  
@@ -81,7 +96,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testPridajTovarDoKosikaPridaSaJeTamUz() {
         System.out.println("pridajTovarDoKosikaPridaSaJeTamUz");
-        naplnTestovacieUdaje();
                 
         boolean pridaloSa = manazer.pridajTovarDoKosika(tovar2, kosik);
         int pocetPo = kosik.getTovary().size();  
@@ -102,7 +116,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testPridajTovarDoKosikaPridaSaNieJeTam() {
         System.out.println("pridajTovarDoKosikaPridaSaNieJeTam");
-        naplnTestovacieUdaje();
                 
         boolean pridaloSa = manazer.pridajTovarDoKosika(tovar3, kosik);
         int pocetPo = kosik.getTovary().size();  
@@ -123,7 +136,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testOdoberTovarZKosikaMaJedenKus() {
         System.out.println("odoberTovarZKosikaMaJedenKus");
-        naplnTestovacieUdaje();
                 
         manazer.odoberTovarZKosika(tovar1, kosik);
         int pocetPo = kosik.getTovary().size();  
@@ -141,7 +153,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testOdoberTovarZKosikaMaViacKusov() {
         System.out.println("odoberTovarZKosikaMaViacKusov");
-        naplnTestovacieUdaje();
                 
         manazer.odoberTovarZKosika(tovar2, kosik);
         int pocetPo = kosik.getTovary().size();  
@@ -160,7 +171,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testDajTovaryKosika() {
         System.out.println("dajTovaryKosika");
-        naplnTestovacieUdaje();
         
         List<Tovar> tovary = manazer.dajTovaryKosika(kosik);
         int pocet = tovary.size();        
@@ -173,8 +183,7 @@ public class DefaultKosikManagerTest {
      */
     @Test
     public void testDajPocetTovaruVKosiku() {
-        System.out.println("dajPocetTovaruVKosiku");
-        naplnTestovacieUdaje();        
+        System.out.println("dajPocetTovaruVKosiku");        
         
         int pocet = manazer.dajPocetTovaruVKosiku(tovar1, kosik);       
         Assert.assertEquals(1, pocet);
@@ -185,8 +194,7 @@ public class DefaultKosikManagerTest {
      */
     @Test
     public void testPocetTovaruVKosikuProperty() {
-        System.out.println("pocetTovaruVKosikuProperty");       
-        naplnTestovacieUdaje();        
+        System.out.println("pocetTovaruVKosikuProperty");             
         
         IntegerProperty  pocet = manazer.pocetTovaruVKosikuProperty(tovar1, kosik);      
         Assert.assertEquals(1, pocet.getValue().intValue());
@@ -198,7 +206,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testTovarKosikaObservableList() {
         System.out.println("tovarKosikaObservableList");
-        naplnTestovacieUdaje();
         
         ObservableList<Tovar> tovary = manazer.tovarKosikaObservableList(kosik);
         int pocet = tovary.size();        
@@ -212,7 +219,6 @@ public class DefaultKosikManagerTest {
     @Test
     public void testVyprazdniKosik() {
         System.out.println("vyprazdniKosik");       
-        naplnTestovacieUdaje();
         
         manazer.vyprazdniKosik(kosik);
         

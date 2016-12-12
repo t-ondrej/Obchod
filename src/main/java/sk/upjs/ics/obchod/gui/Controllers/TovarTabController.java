@@ -167,8 +167,8 @@ public class TovarTabController implements Initializable {
 
         Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        kategorieComboBox.getSelectionModel().select((tovar.getIdKategoria().intValue()));
-        znackyComboBox.getSelectionModel().select(tovar.getIdZnacka().intValue());
+        kategorieComboBox.getSelectionModel().select((tovar.getKategoria().getId().intValue()));
+        znackyComboBox.getSelectionModel().select(tovar.getZnacka().getId().intValue());
 
         nazovTextField.setText(tovar.getNazov());
         cenaTextField.setText(Integer.toString(tovar.getCena()));
@@ -181,8 +181,8 @@ public class TovarTabController implements Initializable {
     public void onPridatButtonClicked() {
         Tovar tovar = new Tovar();
 
-        tovar.setIdKategoria(kategorieComboBox.getSelectionModel().getSelectedItem().getId());
-        tovar.setIdZnacka(znackyComboBox.getSelectionModel().getSelectedItem().getId());
+        tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
+        tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
         tovar.setNazov(nazovTextField.getText());
         tovar.setCena(Integer.parseInt(cenaTextField.getText()));
         tovar.setObrazokUrl(obrazokUrlTextField.getText());
@@ -201,8 +201,8 @@ public class TovarTabController implements Initializable {
     public void onUpravitButtonClicked() {
         Tovar Tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        Tovar.setIdKategoria(kategorieComboBox.getSelectionModel().getSelectedItem().getId());
-        Tovar.setIdZnacka(znackyComboBox.getSelectionModel().getSelectedItem().getId());
+        Tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
+        Tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
         Tovar.setNazov(nazovTextField.getText());
         Tovar.setCena(Integer.parseInt(cenaTextField.getText()));
         Tovar.setObrazokUrl(obrazokUrlTextField.getText());
@@ -219,8 +219,8 @@ public class TovarTabController implements Initializable {
 
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
         nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        kategoriaTableColumn.setCellValueFactory(cellData -> mysqlKategoriaDao.najdiPodlaId(cellData.getValue().getIdKategoria()).nazovProperty());
-        znackaTableColumn.setCellValueFactory(cellData -> mysqlZnackaDao.najdiPodlaId(cellData.getValue().getIdZnacka()).nazovProperty());
+        kategoriaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getKategoria().nazovProperty());
+        znackaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getZnacka().nazovProperty());
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
         popisTableColumn.setCellValueFactory(cellData -> cellData.getValue().popisProperty());
         urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().obrazokUrl());

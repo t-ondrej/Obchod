@@ -24,12 +24,11 @@
       </TableView>
       <TableView fx:id="tovarFakturyTableView" layoutX="650.0" layoutY="94.0" prefHeight="667.0" prefWidth="650.0">
         <columns>
-          <TableColumn fx:id="idTovaruFakturyTableColumn" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="nazovTovaruTableColumn" prefWidth="112.0" text="Názov" />
-            <TableColumn fx:id="kategoriaTovaruTableColumn" prefWidth="126.0" text="Kategória" />
-            <TableColumn fx:id="znackaTovaruTableColumn" prefWidth="114.0" text="Značka" />
-            <TableColumn fx:id="cenaTovaruTableColumn" prefWidth="75.0" text="Cena" />
-            <TableColumn fx:id="pocetKusovTableColumn" prefWidth="147.0" text="Počet kusov" />
+          <TableColumn fx:id="nazovTovaruTableColumn" prefWidth="161.0" text="Názov" />
+            <TableColumn fx:id="kategoriaTovaruTableColumn" prefWidth="133.0" text="Kategória" />
+            <TableColumn fx:id="znackaTovaruTableColumn" prefWidth="115.0" text="Značka" />
+            <TableColumn fx:id="cenaTovaruTableColumn" prefWidth="91.0" text="Cena" />
+            <TableColumn fx:id="pocetKusovTableColumn" prefWidth="149.0" text="Počet kusov" />
         </columns>
       </TableView>
       <Button fx:id="zobrazTovarFakturyButton" layoutX="650.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#onZobrazTovarFakturyButtonClicked" text="Zobraz tovar faktúry">

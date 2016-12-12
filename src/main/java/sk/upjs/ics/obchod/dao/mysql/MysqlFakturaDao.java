@@ -90,21 +90,14 @@ public class MysqlFakturaDao implements FakturaDao {
 
     @Override
     public void pridajTovarFakture(Tovar tovar, Faktura faktura, int pocetTovaru) {
-        String sql = "INSERT INTO Tovar_Faktury(id_tovar, id_faktura, pocet_kusov) VALUES(?,?,?)";
-        jdbcTemplate.update(sql, tovar.getId(), faktura.getId(), pocetTovaru);
+        String sql = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, nazov_znacky, pocet_kusov_tovaru, cena) VALUES(?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, faktura.getId(), tovar.getNazov(), tovar.getKategoria().getNazov(), tovar.getZnacka().getNazov(), pocetTovaru, tovar.getCena() * pocetTovaru);
     }
 
     @Override
     public List<Tovar> dajTovarFaktury(Faktura faktura) {
-        String sql = "SELECT "
-                + "T.id AS id_tovar, "
-                + "T.nazov AS nazov, "
-                + "T.id_kategoria AS id_kategoria, "
-                + "T.id_znacka AS id_znacka, "
-                + "T.cena AS cena, "
-                + "TF.pocet_kusov AS pocet_kusov_vo_fakture"
-                + " FROM tovar_faktury TF JOIN tovar T ON T.id = TF.id_tovar WHERE TF.id_faktura = ?";
- 
+        String sql = "SELECT * FROM tovar_faktury WHERE id_faktura = ?";
+
         return jdbcTemplate.query(sql, new TovarFakturyRowMapper(), faktura.getId());
     }
 

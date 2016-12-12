@@ -9,53 +9,58 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TovarDao;
+import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 
-
-public class MysqlTovarDao implements TovarDao{
+public class MysqlTovarDao implements TovarDao {
 
     private final JdbcTemplate jdbcTemplate;
-    
-    private final BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);
-           
+
+    private final TovarRowMapper mapper = new TovarRowMapper();
+
+    private final String vyberTovarySql = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
+            + "T.id_kategoria AS id_kategoria, T.id_znacka AS id_znacka, "
+            + "T.cena AS cena, T.popis AS popis, T.obrazok_url AS obrazok_url, "
+            + "T.pocet_kusov AS pocet_kusov, K.nazov AS nazov_kategoria, Z.nazov AS nazov_znacka "
+            + "FROM Tovar T JOIN Kategoria K ON T.id_kategoria = K.id "
+            + "JOIN Znacka Z ON T.id_znacka = Z.id ";
+
     public MysqlTovarDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
+
     @Override
     public List<Tovar> dajTovary() {
-        String sql = "SELECT * FROM Tovar";
-                    
-        return jdbcTemplate.query(sql, mapper);
+        return jdbcTemplate.query(this.vyberTovarySql, mapper);
     }
-    
-      @Override
+
+    @Override
     public List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria) {
-        String sql = "SELECT * FROM Tovar WHERE id_kategoria = ?";
-        
+        String sql = vyberTovarySql + "WHERE id_kategoria = ?";
+
         return jdbcTemplate.query(sql, mapper, kategoria.getId());
     }
 
     @Override
     public Tovar dajTovarPodlaNazvu(String nazov) {
-        String sql = "SELECT * FROM Tovar WHERE nazov = ?";
-        
-        return jdbcTemplate.queryForObject(sql, mapper, nazov);
+        String sql = vyberTovarySql + "WHERE T.nazov = ?";
+
+        return (Tovar) jdbcTemplate.queryForObject(sql, mapper, nazov);
     }
 
     @Override
     public List<Tovar> dajTovarPodlaZnacky(Znacka znacka) {
-        String sql = "SELECT * FROM Tovar WHERE id_znacka = ?";
-        
+        String sql = vyberTovarySql + "WHERE id_znacka = ?";
+
         return jdbcTemplate.query(sql, mapper, znacka.getId());
-    }   
+    }
 
     @Override
     public Long ulozTovar(Tovar tovar) {
-                
-        if(tovar.getId() == 0){
+
+        if (tovar.getId() == 0) {
             String sql = "INSERT INTO Tovar ( nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
             Long idTovar = -1L;
@@ -65,15 +70,15 @@ public class MysqlTovarDao implements TovarDao{
                 PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
                 stm.setString(1, tovar.getNazov());
-                stm.setLong(2, tovar.getIdKategoria());
-                stm.setLong(3, tovar.getIdZnacka());
+                stm.setLong(2, tovar.getKategoria().getId());
+                stm.setLong(3, tovar.getZnacka().getId());
                 stm.setInt(4, tovar.getCena());
                 stm.setString(5, tovar.getPopis());
                 stm.setString(6, tovar.getObrazokUrl());
                 stm.setInt(7, tovar.getPocetKusov());
                 stm.execute();
 
-                ResultSet rs = stm.getGeneratedKeys();            
+                ResultSet rs = stm.getGeneratedKeys();
                 if (rs.next()) {
                     idTovar = rs.getLong(1);
                 }
@@ -82,42 +87,43 @@ public class MysqlTovarDao implements TovarDao{
                 throw new RuntimeException(e);
             }
             return idTovar;
-            
-        }else{
-            String sql = "UPDATE tovar SET nazov=?, id_kategoria=?, id_znacka=?, cena=?, popis=?, obrazok_url=?, pocet_kusov=? "
-                + "WHERE id = ?;";
-        jdbcTemplate.update(sql, tovar.getNazov(), tovar.getIdKategoria(),  
-                tovar.getIdZnacka(), tovar.getCena(), tovar.getPopis(), tovar.getObrazokUrl(), tovar.getPocetKusov(),tovar.getId());
-            
-        return tovar.getId();
+
+        } else {
+            String sql = "UPDATE tovar SET nazov = ?, id_kategoria = ?, id_znacka = ?, c"
+                    + "ena = ?, popis = ?, obrazok_url = ?, pocet_kusov = ? "
+                    + "WHERE id = ?;";
+            jdbcTemplate.update(sql, tovar.getNazov(), tovar.getKategoria().getId(),
+                    tovar.getZnacka().getId(), tovar.getCena(), tovar.getPopis(), 
+                    tovar.getObrazokUrl(), tovar.getPocetKusov(), tovar.getId());
+
+            return tovar.getId();
         }
     }
 
     @Override
     public void odstranTovar(Tovar tovar) {
         String sql = "DELETE FROM Tovar WHERE id = ?";
-        
+
         jdbcTemplate.update(sql, tovar.getId());
     }
 
     @Override
     public Tovar najdiPodlaId(Long id) {
-        String sql = "SELECT * FROM tovar WHERE id = ?";        
-        BeanPropertyRowMapper<Tovar> mapper = BeanPropertyRowMapper.newInstance(Tovar.class);        
-        return jdbcTemplate.queryForObject(sql, mapper, id);
+        String sql = vyberTovarySql + "WHERE T.id = ?";
+        return (Tovar) jdbcTemplate.queryForObject(sql, mapper, id);
     }
 
     @Override
-    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {       
-       
-       String sql = "UPDATE Tovar SET pocet_kusov = ? WHERE id = ?"; 
-       jdbcTemplate.update(sql, pocet, tovar.getId());       
-       
+    public void nastavTovaruPocetKusov(Tovar tovar, int pocet) {
+
+        String sql = "UPDATE Tovar SET pocet_kusov = ? WHERE id = ?";
+        jdbcTemplate.update(sql, pocet, tovar.getId());
+
     }
 
     @Override
     public int dajPocetTovaru(Tovar tovar) {
-       String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
-       return jdbcTemplate.queryForObject(sql,Integer.class, tovar.getId());
-    }    
+        String sql = "SELECT pocet_kusov FROM tovar WHERE id = ?;";
+        return jdbcTemplate.queryForObject(sql, Integer.class, tovar.getId());
+    }
 }

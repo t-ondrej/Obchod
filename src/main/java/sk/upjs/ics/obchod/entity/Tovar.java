@@ -3,8 +3,10 @@ package sk.upjs.ics.obchod.entity;
 import java.util.Objects;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -14,9 +16,9 @@ public class Tovar {
     
     private StringProperty nazov = new SimpleStringProperty();
     
-    private LongProperty idZnacka = new SimpleLongProperty();
+    private ObjectProperty<Znacka> znacka = new SimpleObjectProperty<>();
     
-    private LongProperty idKategoria = new SimpleLongProperty();;
+    private ObjectProperty<Kategoria> kategoria = new SimpleObjectProperty<>();
     
     private IntegerProperty cena = new SimpleIntegerProperty();
     
@@ -50,28 +52,28 @@ public class Tovar {
         return nazov;
     }
     
-    public Long getIdZnacka() {
-        return idZnacka.getValue();
+    public Znacka getZnacka() {
+        return znacka.getValue();
     }
 
-    public void setIdZnacka(Long idZnacka) {
-        this.idZnacka.setValue(idZnacka);
+    public void setZnacka(Znacka znacka) {
+        this.znacka.setValue(znacka);
     }
     
-    public LongProperty idZnackaProperty() {
-        return idZnacka;
+    public ObjectProperty<Znacka> znackaProperty() {
+        return znacka;
     }
 
-    public Long getIdKategoria() {
-        return idKategoria.getValue();
+    public Kategoria getKategoria() {
+        return kategoria.getValue();
     }
 
-    public void setIdKategoria(Long idKategoria) {
-        this.idKategoria.setValue(idKategoria);
+    public void setKategoria(Kategoria kategoria) {
+        this.kategoria.setValue(kategoria);
     }
     
-    public LongProperty idKategoriaProperty() {
-        return idKategoria;
+    public ObjectProperty<Kategoria> kategoriaProperty() {
+        return kategoria;
     }
 
     public int getCena() {
