@@ -27,7 +27,7 @@ public class ObchodStage extends Application {
             Pouzivatel aktivnyPouzivatel = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel();
             if (aktivnyPouzivatel != null) {
                 KosikManager defaultKosikManager = new DefaultKosikManager();
-                defaultKosikManager.vyprazdniKosik(aktivnyPouzivatel.getKosik());
+                defaultKosikManager.vyprazdniKosik();
             }
             stage.close();
         });

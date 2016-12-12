@@ -237,7 +237,7 @@ public class ObchodController implements Initializable {
             }
 
             if (vybranyIdx == 1) {
-                defaultKosikManager.vyprazdniKosik(defaultPouzivatelManager.getAktivnyPouzivatel().getKosik());
+                defaultKosikManager.vyprazdniKosik();
                 defaultPouzivatelManager.odhlasPouzivatela();
             }
 
