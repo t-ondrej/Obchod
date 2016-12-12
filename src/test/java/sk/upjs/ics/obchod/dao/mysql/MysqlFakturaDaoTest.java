@@ -24,18 +24,28 @@ public class MysqlFakturaDaoTest {
     }
     
     private void naplnTestovacieUdaje(){
-        String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES(1, 100, date_add(now(), interval -3 minute)),"
-                + "(2, 55, date_add(now(), interval -5 minute)), (3, 64, date_add(now(), interval -1 year)),"
-                + "(3, 60,date_add(now(), interval -1 week)), (3, 65,date_add(now(), interval -1 day)), "
-                + "(3, 60,date_add(now(), interval -1 month))";
+        String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
+                + "(1, 100, date_add(now(), interval -3 minute)),"
+                + "(2, 55, date_add(now(), interval -5 minute)), "
+                + "(3, 64, date_add(now(), interval -1 year)), "
+                + "(3, 60, date_add(now(), interval -1 week)), "
+                + "(3, 65, date_add(now(), interval -1 day)), "
+                + "(3, 60, date_add(now(), interval -1 month))";
         jdbcTemplate.execute(sql1);
-        
-        String sql2 = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, nazov_znacky, pocet_kusov_tovaru, cena) VALUES(4, 'Test', 'Nezaradene', 'Nezaradene', 6, 90)";
+             
+        String sql2 = "INSERT INTO Kategoria (nazov) VALUES ('Nezaradene')";
         jdbcTemplate.execute(sql2);
         
-        String sql3 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
-                + " values ('test1', 2, 1, 80, 'dobre', '@../img/1.JPG', 2)";
+        String sql3 = "INSERT INTO Znacka (nazov) VALUES ('Nezaradene')";
         jdbcTemplate.execute(sql3);
+        
+        String sql4 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
+                + " values ('test1', 1, 1, 80, 'dobre', '@../img/1.JPG', 2)";
+        jdbcTemplate.execute(sql4);
+        
+        String sql5 = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, "
+                + "nazov_znacky, pocet_kusov_tovaru, cena) VALUES(4, 'test1', 'Nezaradene', 'Nezaradene', 6, 80)";
+        jdbcTemplate.execute(sql5);
     }
     
     @After 
@@ -204,10 +214,10 @@ public class MysqlFakturaDaoTest {
         faktura.setId(4L);
         
         List<Tovar> tovar = dao.dajTovarFaktury(faktura);
-        
-        Assert.assertEquals(new Long(1), tovar.get(0).getId()); 
-        Assert.assertEquals(new Long(2), tovar.get(0).getKategoria().getId());
-        Assert.assertEquals(new Long(1), tovar.get(0).getZnacka().getId());
+
+        Assert.assertEquals("test1", tovar.get(0).getNazov()); 
+        Assert.assertEquals("Nezaradene", tovar.get(0).getKategoria().getNazov());
+        Assert.assertEquals("Nezaradene", tovar.get(0).getZnacka().getNazov());
         Assert.assertEquals("test1", tovar.get(0).getNazov());
         Assert.assertEquals(80, tovar.get(0).getCena()); 
         Assert.assertEquals(6, tovar.get(0).getPocetKusov());        
