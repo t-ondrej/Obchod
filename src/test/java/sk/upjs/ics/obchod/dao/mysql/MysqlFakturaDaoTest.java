@@ -206,8 +206,8 @@ public class MysqlFakturaDaoTest {
         List<Tovar> tovar = dao.dajTovarFaktury(faktura);
         
         Assert.assertEquals(new Long(1), tovar.get(0).getId()); 
-        Assert.assertEquals(new Long(2), tovar.get(0).getIdKategoria());
-        Assert.assertEquals(new Long(1), tovar.get(0).getIdZnacka());
+        Assert.assertEquals(new Long(2), tovar.get(0).getKategoria().getId());
+        Assert.assertEquals(new Long(1), tovar.get(0).getZnacka().getId());
         Assert.assertEquals("test1", tovar.get(0).getNazov());
         Assert.assertEquals(80, tovar.get(0).getCena()); 
         Assert.assertEquals(6, tovar.get(0).getPocetKusov());        

@@ -135,7 +135,7 @@ public class DefaultFakturaManagerTest {
     @Test
     public void testDajFakturyZaObdobie() {
         System.out.println("dajFakturyZaObdobie");
-        naplnTestovacieUdaje2();
+      //  naplnTestovacieUdaje2();
         
         List<Faktura> den = manager.dajFakturyZaObdobie("posledný deň");
         List<Faktura> tyzden = manager.dajFakturyZaObdobie("posledný týždeň");
