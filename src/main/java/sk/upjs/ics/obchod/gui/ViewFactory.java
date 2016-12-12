@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.Controllers.AdministraciaController;
-import sk.upjs.ics.obchod.gui.Controllers.PokladnaController;
 
 public enum ViewFactory {
     INSTANCE;
@@ -18,8 +17,6 @@ public enum ViewFactory {
     private Scene prihlasenieScene;
 
     private Scene registraciaScene;
-    
-    private Scene pokladnaScene;
     
     private Scene administraciaScene;
 
@@ -71,23 +68,6 @@ public enum ViewFactory {
         }
 
         return registraciaScene;
-    }
-    
-    public Scene getPokladnaScene(Stage mainStage) {
-        if (pokladnaScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pokladna.fxml"));
-                pokladnaScene = new Scene(loader.load());
-                PokladnaController pokladnaController = loader.getController();
-                pokladnaController.setStage(mainStage);
-                
-            } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat Pokladna.fxml");
-                e.printStackTrace();
-            }
-        }
-
-        return pokladnaScene;
     }
     
     public Scene getAdministraciaScene(Stage mainStage) {
