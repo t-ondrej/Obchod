@@ -1,6 +1,5 @@
 package sk.upjs.ics.obchod.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Assert;

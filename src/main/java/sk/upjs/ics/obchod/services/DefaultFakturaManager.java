@@ -1,6 +1,6 @@
 package sk.upjs.ics.obchod.services;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.FakturaDao;
@@ -31,7 +31,7 @@ public class DefaultFakturaManager implements FakturaManager {
         Faktura faktura = new Faktura();
         faktura.setIdPouzivatel(pouzivatel.getId());
         faktura.setSuma(pouzivatel.getKosik().getCelkovaCena());
-        faktura.setDatumNakupu(LocalDate.now());
+        faktura.setDatumNakupu(LocalDateTime.now());
 
         Long idFaktury = fakturaDao.pridajFakturu(faktura);
         faktura.setId(idFaktury);

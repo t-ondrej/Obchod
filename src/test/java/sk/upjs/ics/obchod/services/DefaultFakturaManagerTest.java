@@ -128,5 +128,25 @@ public class DefaultFakturaManagerTest {
         Assert.assertEquals(new Long(2), pocet4);
         Assert.assertEquals(0, tovary.size());
     }
-    
+
+    /**
+     * Test of dajFakturyZaObdobie method, of class DefaultFakturaManager.
+     */
+    @Test
+    public void testDajFakturyZaObdobie() {
+        System.out.println("dajFakturyZaObdobie");
+        naplnTestovacieUdaje2();
+        
+        List<Faktura> den = manager.dajFakturyZaObdobie("posledný deň");
+        List<Faktura> tyzden = manager.dajFakturyZaObdobie("posledný týždeň");
+        List<Faktura> mesiac = manager.dajFakturyZaObdobie("posledný mesiac");
+        List<Faktura> rok = manager.dajFakturyZaObdobie("posledný rok");
+        List<Faktura> nic = manager.dajFakturyZaObdobie("neni");
+        
+        Assert.assertEquals(1, den.size());  
+        Assert.assertEquals(2, tyzden.size());
+        Assert.assertEquals(3, mesiac.size());
+        Assert.assertEquals(4, rok.size());
+        Assert.assertEquals(null, nic);
+    }
 }
