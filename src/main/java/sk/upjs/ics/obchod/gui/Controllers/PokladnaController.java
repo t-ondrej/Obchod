@@ -68,7 +68,7 @@ public class PokladnaController implements Initializable {
         celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.celkovaCenaProperty()));
 
         nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        mnozstvoTableColumn.setCellValueFactory(cellData -> defaultKosikManager.pocetTovaruVKosikuProperty(cellData.getValue(), kosikAktivnehoPouzivatela));
+        mnozstvoTableColumn.setCellValueFactory(cellData -> defaultKosikManager.pocetTovaruVKosikuProperty(cellData.getValue()));
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
 
         odobratTovarTableColumn.setCellFactory(col -> {
@@ -90,14 +90,12 @@ public class PokladnaController implements Initializable {
 
             odstranitButton.setOnAction(event -> {
                 Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
-
-                Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
-
-                List<Tovar> tovary = defaultKosikManager.dajTovaryKosika(kosik);
+                
+                List<Tovar> tovary = defaultKosikManager.dajTovaryKosika();
 
                 Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
 
-                defaultKosikManager.odoberTovarZKosika(tovar, kosik);
+                defaultKosikManager.odoberTovarZKosika(tovar);
             });
             return cell;
         });
@@ -106,11 +104,11 @@ public class PokladnaController implements Initializable {
             @Override
             public void onChanged(MapChangeListener.Change change) {
                 tovarTableView.getItems().clear();
-                tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
+                tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList());
             }
         });
 
-        tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList(kosikAktivnehoPouzivatela));
+        tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList());
     }
 
     public void setStage(Stage mainStage) {

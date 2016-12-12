@@ -1,7 +1,9 @@
 package sk.upjs.ics.obchod.services;
 
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import org.junit.After;
@@ -13,12 +15,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
 import sk.upjs.ics.obchod.entity.Kosik;
+import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
 
 
 public class DefaultKosikManagerTest {
 
     private KosikManager manazer;
+    private PouzivatelManager pouzivatelManager;
     private JdbcTemplate jdbcTemplate;    
     private Kosik kosik;
     private Tovar tovar1;
@@ -27,12 +31,17 @@ public class DefaultKosikManagerTest {
     
     public DefaultKosikManagerTest(){
         manazer = new DefaultKosikManager(true);
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();        
-        kosik = new Kosik();
+        pouzivatelManager = DefaultPouzivatelManager.INSTANCETEST;        
+        kosik = new Kosik();       
+        pouzivatelManager.setPrihlaseny(new SimpleBooleanProperty(true));
+        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();               
     }
     
     @Before
     public void naplnTestovacieUdaje(){
+        Pouzivatel p = new Pouzivatel();
+        p.setKosik(kosik);
+        pouzivatelManager.setAktivnyPouzivatel(p);
         String sql1 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
                 + " values ('test1', 2, 1, 80, 'popis1', '@../img/1.JPG', 0), "
                         + "('test2', 1, 1, 40, 'popis2', '@../img/2.JPG', 2),"
@@ -68,7 +77,8 @@ public class DefaultKosikManagerTest {
     public void vymazTestovacieUdaje(){
         String sql = "TRUNCATE TABLE tovar;";
         jdbcTemplate.execute(sql);
-        kosik = null;
+        kosik.getTovary().clear();
+        pouzivatelManager.odhlasPouzivatela();
     }
    
     /**
@@ -79,7 +89,7 @@ public class DefaultKosikManagerTest {
     public void testPridajTovarDoKosikaNepridaSa() {
         System.out.println("pridajTovarDoKosikaNepridaSa");
                 
-        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar1, kosik);
+        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar1);
         int pocetPo = kosik.getTovary().size();  
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 1;";
         Long pocetKusovTovaru = jdbcTemplate.queryForObject(sql, Long.class);
@@ -97,7 +107,7 @@ public class DefaultKosikManagerTest {
     public void testPridajTovarDoKosikaPridaSaJeTamUz() {
         System.out.println("pridajTovarDoKosikaPridaSaJeTamUz");
                 
-        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar2, kosik);
+        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar2);
         int pocetPo = kosik.getTovary().size();  
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 2;";
         Long pocetKusovTovaruPo = jdbcTemplate.queryForObject(sql, Long.class);
@@ -117,7 +127,7 @@ public class DefaultKosikManagerTest {
     public void testPridajTovarDoKosikaPridaSaNieJeTam() {
         System.out.println("pridajTovarDoKosikaPridaSaNieJeTam");
                 
-        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar3, kosik);
+        boolean pridaloSa = manazer.pridajTovarDoKosika(tovar3);
         int pocetPo = kosik.getTovary().size();  
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 3;";
         Long pocetKusovTovaruPo = jdbcTemplate.queryForObject(sql, Long.class);
@@ -137,7 +147,7 @@ public class DefaultKosikManagerTest {
     public void testOdoberTovarZKosikaMaJedenKus() {
         System.out.println("odoberTovarZKosikaMaJedenKus");
                 
-        manazer.odoberTovarZKosika(tovar1, kosik);
+        manazer.odoberTovarZKosika(tovar1);
         int pocetPo = kosik.getTovary().size();  
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 1;";
         Long pocetKusovTovaruPo = jdbcTemplate.queryForObject(sql, Long.class);                       
@@ -152,9 +162,9 @@ public class DefaultKosikManagerTest {
      */    
     @Test
     public void testOdoberTovarZKosikaMaViacKusov() {
-        System.out.println("odoberTovarZKosikaMaViacKusov");
-                
-        manazer.odoberTovarZKosika(tovar2, kosik);
+        System.out.println("odoberTovarZKosikaMaViacKusov");                
+        
+        manazer.odoberTovarZKosika(tovar2);
         int pocetPo = kosik.getTovary().size();  
         String sql = "SELECT pocet_kusov FROM tovar WHERE id = 2;";
         Long pocetKusovTovaruPo = jdbcTemplate.queryForObject(sql, Long.class);
@@ -172,7 +182,7 @@ public class DefaultKosikManagerTest {
     public void testDajTovaryKosika() {
         System.out.println("dajTovaryKosika");
         
-        List<Tovar> tovary = manazer.dajTovaryKosika(kosik);
+        List<Tovar> tovary = manazer.dajTovaryKosika();
         int pocet = tovary.size();        
         
         Assert.assertEquals(2, pocet);        
@@ -185,7 +195,7 @@ public class DefaultKosikManagerTest {
     public void testDajPocetTovaruVKosiku() {
         System.out.println("dajPocetTovaruVKosiku");        
         
-        int pocet = manazer.dajPocetTovaruVKosiku(tovar1, kosik);       
+        int pocet = manazer.dajPocetTovaruVKosiku(tovar1);       
         Assert.assertEquals(1, pocet);
     }
 
@@ -196,7 +206,7 @@ public class DefaultKosikManagerTest {
     public void testPocetTovaruVKosikuProperty() {
         System.out.println("pocetTovaruVKosikuProperty");             
         
-        IntegerProperty  pocet = manazer.pocetTovaruVKosikuProperty(tovar1, kosik);      
+        IntegerProperty  pocet = manazer.pocetTovaruVKosikuProperty(tovar1);      
         Assert.assertEquals(1, pocet.getValue().intValue());
     }
 
@@ -207,7 +217,7 @@ public class DefaultKosikManagerTest {
     public void testTovarKosikaObservableList() {
         System.out.println("tovarKosikaObservableList");
         
-        ObservableList<Tovar> tovary = manazer.tovarKosikaObservableList(kosik);
+        ObservableList<Tovar> tovary = manazer.tovarKosikaObservableList();
         int pocet = tovary.size();        
         
         Assert.assertEquals(2, pocet); 
@@ -220,7 +230,7 @@ public class DefaultKosikManagerTest {
     public void testVyprazdniKosik() {
         System.out.println("vyprazdniKosik");       
         
-        manazer.vyprazdniKosik(kosik);
+        manazer.vyprazdniKosik();
         
         int pocetPo = kosik.getTovary().size();  
         String sql1 = "SELECT pocet_kusov FROM tovar WHERE id = 1;";

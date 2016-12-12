@@ -3,23 +3,22 @@ package sk.upjs.ics.obchod.services;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.collections.ObservableList;
-import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 
 public interface KosikManager {
     
-    boolean pridajTovarDoKosika(Tovar tovar, Kosik kosik);
+    boolean pridajTovarDoKosika(Tovar tovar);
     
-    void odoberTovarZKosika(Tovar tovar, Kosik kosik);
+    void odoberTovarZKosika(Tovar tovar);
     
-    List<Tovar> dajTovaryKosika(Kosik kosik);
+    List<Tovar> dajTovaryKosika();
     
-    void vyprazdniKosik(Kosik kosik);
+    void vyprazdniKosik();
     
-    int dajPocetTovaruVKosiku(Tovar tovar, Kosik kosik);
+    int dajPocetTovaruVKosiku(Tovar tovar);
     
-    IntegerProperty pocetTovaruVKosikuProperty(Tovar tovar, Kosik kosik);
+    IntegerProperty pocetTovaruVKosikuProperty(Tovar tovar);
     
-    ObservableList<Tovar> tovarKosikaObservableList(Kosik kosik);
+    ObservableList<Tovar> tovarKosikaObservableList();
     
 }

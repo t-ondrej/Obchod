@@ -96,4 +96,14 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         aktivnyPouzivatel.setPassword(heslo);
         pouzivatelDao.ulozPouzivatela(pouzivatel);
     }
+
+    @Override
+    public void setAktivnyPouzivatel(Pouzivatel aktivnyPouzivatel) {
+        this.aktivnyPouzivatel = aktivnyPouzivatel;
+    }
+
+    @Override
+    public void setPrihlaseny(BooleanProperty prihlaseny) {
+        this.prihlaseny = prihlaseny;
+    }   
 }

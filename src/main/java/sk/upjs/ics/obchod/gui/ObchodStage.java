@@ -22,9 +22,11 @@ public class ObchodStage extends Application {
         
         stage.show();        
         
-        stage.setOnCloseRequest((WindowEvent event) -> {
-            KosikManager defaultKosikManager = new DefaultKosikManager();
-            defaultKosikManager.vyprazdniKosik(DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik());
+        stage.setOnCloseRequest((WindowEvent event) -> {            
+            if(DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel() != null){
+                KosikManager defaultKosikManager = new DefaultKosikManager();
+                defaultKosikManager.vyprazdniKosik(); 
+            }            
         });
     }
     

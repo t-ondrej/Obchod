@@ -20,4 +20,8 @@ public interface PouzivatelManager {
     void ulozPouzivatela(Pouzivatel pouzivatel);
     
     void zmenHeslo(Pouzivatel pouzivatel, String heslo);
+    
+    void setAktivnyPouzivatel(Pouzivatel aktivnyPouzivatel);
+    
+    void setPrihlaseny(BooleanProperty prihlaseny);
 }

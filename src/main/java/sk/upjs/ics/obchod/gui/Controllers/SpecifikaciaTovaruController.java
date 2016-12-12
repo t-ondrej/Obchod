@@ -77,10 +77,8 @@ public class SpecifikaciaTovaruController {
             alert.showAndWait();
             return;
         }
-
-        Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
-
-        if (defaultKosikManager.pridajTovarDoKosika(tovar, kosik)) {
+        
+        if (defaultKosikManager.pridajTovarDoKosika(tovar)) {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
             pridatDoKosikaNotifikaciaLabel.setLayoutX(741);
