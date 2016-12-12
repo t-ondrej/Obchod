@@ -54,14 +54,15 @@
             </VBox>
             <Label fx:id="pridatTovarLabel" layoutX="170.0" layoutY="1.0" text="Pridať tovar" visible="false" />
             <Label fx:id="upravitTovarLabel" layoutX="170.0" layoutY="1.0" text="Upraviť tovar" visible="false" />
-            <Button fx:id="upravitButton" layoutX="362.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Upraviť">
+            <Button fx:id="upravitButton" layoutX="164.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Upraviť">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="pridatButton" layoutX="362.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Pridať" visible="false">
+            <Button fx:id="pridatButton" layoutX="164.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Pridať">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
+            <Label fx:id="upozornenieLabel" layoutX="286.0" layoutY="616.0" opacity="0.0" text="Vyberte kategóriu!" textFill="#da1313" />
          </children></Pane>
             
         

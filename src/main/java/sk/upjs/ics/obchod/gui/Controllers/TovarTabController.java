@@ -3,6 +3,8 @@ package sk.upjs.ics.obchod.gui.Controllers;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,19 +13,18 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
-import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 
@@ -49,6 +50,9 @@ public class TovarTabController implements Initializable {
 
     @FXML
     private TableView<Tovar> tovarTableView;
+
+    @FXML
+    private Label upozornenieLabel;
 
     /* 
      * Stlpce tabulky tovar 
@@ -181,20 +185,28 @@ public class TovarTabController implements Initializable {
     public void onPridatButtonClicked() {
         Tovar tovar = new Tovar();
 
-        tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
-        tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
-        tovar.setNazov(nazovTextField.getText());
-        tovar.setCena(Integer.parseInt(cenaTextField.getText()));
-        tovar.setObrazokUrl(obrazokUrlTextField.getText());
-        tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
-        tovar.setPopis(popisTovaruTextArea.getText());
+        if (kategorieComboBox.getSelectionModel().getSelectedItem() == null) {
+            upozornenieLabel.setText("Vyberte kategóriu!");
+            ukazUpozornenieLabel();
+        } else if (znackyComboBox.getSelectionModel().getSelectedItem() == null) {
+            upozornenieLabel.setText("Vyberte značku!");
+            ukazUpozornenieLabel();
+        } else {
+            tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
+            tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
+            tovar.setNazov(nazovTextField.getText());
+            tovar.setCena(Integer.parseInt(cenaTextField.getText()));
+            tovar.setObrazokUrl(obrazokUrlTextField.getText());
+            tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
+            tovar.setPopis(popisTovaruTextArea.getText());
 
-        tovarModely.add(tovar);
-        Long idTovaru = mysqlTovarDao.ulozTovar(tovar);
-        tovar.setId(idTovaru);
+            tovarModely.add(tovar);
+            Long idTovaru = mysqlTovarDao.ulozTovar(tovar);
+            tovar.setId(idTovaru);
 
-        obnovTovarTableView();
-        vymazTextFieldy();
+            obnovTovarTableView();
+            vymazTextFieldy();
+        }
     }
 
     @FXML
@@ -290,5 +302,21 @@ public class TovarTabController implements Initializable {
         alert.setTitle("Upozornenie");
         alert.setHeaderText("Vyberte tovar v tabuľke.");
         alert.showAndWait();
+    }
+
+    private void ukazUpozornenieLabel() {
+        SequentialTransition st = new SequentialTransition();
+
+        FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), upozornenieLabel);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1.0);
+        st.getChildren().add(fadeIn);
+
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(1.5), upozornenieLabel);
+        fadeOut.setFromValue(1.0);
+        fadeOut.setToValue(0);
+        st.getChildren().add(fadeOut);
+
+        st.playFromStart();
     }
 }

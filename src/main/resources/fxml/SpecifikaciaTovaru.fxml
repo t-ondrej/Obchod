@@ -36,7 +36,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Label id="label-notifikacia-kosika" fx:id="pridatDoKosikaNotifikaciaLabel" layoutX="742.0" layoutY="422.0" opacity="0.0" text="Tovar bol pridaný!" />
+                  <Label id="label-notifikacia-kosika" fx:id="pridatDoKosikaNotifikaciaLabel" layoutX="741.0" layoutY="422.0" opacity="0.0" text="Tovar bol pridaný!" />
                </children>
             </Pane>
          </center>

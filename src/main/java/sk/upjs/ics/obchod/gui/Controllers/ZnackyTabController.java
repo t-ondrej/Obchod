@@ -56,7 +56,7 @@ public class ZnackyTabController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
-            
+
         inicializujZnackyTableView();
     }
 
@@ -88,7 +88,7 @@ public class ZnackyTabController implements Initializable {
     @FXML
     public void onOdstranitZnackuButtonClicked() {
         pridatUpravitZnackuPane.setVisible(false);
-        
+
         if (znackyTableView.getSelectionModel().isEmpty()) {
             ukazVyberZnackuUpozornenie();
             return;
@@ -96,7 +96,7 @@ public class ZnackyTabController implements Initializable {
 
         Znacka oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
         System.out.println(oznacenaZnacka.getNazov());
-        
+
         mysqlZnackaDao.odstranZnacku(oznacenaZnacka);
         znackaModely.remove(oznacenaZnacka);
         obnovZnackyTableView();
@@ -120,35 +120,57 @@ public class ZnackyTabController implements Initializable {
 
     @FXML
     public void onUpravitButtonClicked() {
-        Znacka oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
-        
-        oznacenaZnacka.setNazov(novyNazov);
-        mysqlZnackaDao.uloz(oznacenaZnacka);
-        obnovZnackyTableView();
-        
-        nazovTextField.clear();
+
+        if (existujeZnackaSNazvom(novyNazov)) {
+            ukazDuplicitnaZnackaUpozornenie();
+            
+        } else {
+            Znacka oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
+            oznacenaZnacka.setNazov(novyNazov);
+            mysqlZnackaDao.uloz(oznacenaZnacka);
+
+            obnovZnackyTableView();
+            nazovTextField.clear();
+        }     
     }
 
     @FXML
     public void onPridatButtonClicked() {
-        Znacka novaZnacka = new Znacka();
         String nazov = nazovTextField.getText();
-        novaZnacka.setNazov(nazov);
-        
-        Long idZnacky = mysqlZnackaDao.uloz(novaZnacka);
-        novaZnacka.setId(idZnacky);
-        
-        znackaModely.add(novaZnacka);     
-        obnovZnackyTableView();
-        
+
+        if (existujeZnackaSNazvom(nazov)) {
+            ukazDuplicitnaZnackaUpozornenie();
+
+        } else {
+            Znacka novaZnacka = new Znacka();
+            novaZnacka.setNazov(nazov);
+
+            Long idZnacky = mysqlZnackaDao.uloz(novaZnacka);
+            novaZnacka.setId(idZnacky);
+
+            znackaModely.add(novaZnacka);
+            obnovZnackyTableView();
+        }
+
         nazovTextField.clear();
+    }
+
+    private boolean existujeZnackaSNazvom(String nazov) {
+        return mysqlZnackaDao.najdiPodlaNazvu(nazov) != null;
     }
 
     private void ukazVyberZnackuUpozornenie() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Upozornenie");
         alert.setHeaderText("Vyberte znacku v tabuľke.");
+        alert.showAndWait();
+    }
+
+    private void ukazDuplicitnaZnackaUpozornenie() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Upozornenie");
+        alert.setHeaderText("Značka s daným názvom už existuje!");
         alert.showAndWait();
     }
 

@@ -5,6 +5,7 @@ import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -63,12 +64,12 @@ public class SpecifikaciaTovaruController {
         tovarImageView.setImage(obrazok);
         nazovTovaruLabel.setText(tovar.getNazov());
         specifikaciaTovaruTextArea.setText(tovar.getPopis());
-        cenaLabel.setText(Integer.toString(tovar.getCena()) + " €");    
+        cenaLabel.setText(Integer.toString(tovar.getCena()) + " €");
     }
 
     @FXML
     public void onPridatDoKosikaButtonClicked() {
-        
+
         if (DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Upozornenie");
@@ -76,17 +77,19 @@ public class SpecifikaciaTovaruController {
             alert.showAndWait();
             return;
         }
-        
+
         Kosik kosik = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel().getKosik();
-        
+
         if (defaultKosikManager.pridajTovarDoKosika(tovar, kosik)) {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
+            pridatDoKosikaNotifikaciaLabel.setLayoutX(741);
         } else {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: red");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar nie je možné pridať!");
+            pridatDoKosikaNotifikaciaLabel.setLayoutX(660);
         }
-        
+
         oznamPridanieDoKosika();
     }
 
