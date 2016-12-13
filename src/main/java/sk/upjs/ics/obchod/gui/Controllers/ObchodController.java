@@ -97,7 +97,6 @@ public class ObchodController implements Initializable {
         BooleanProperty jePouzivatelPrihlaseny = defaultPouzivatelManager.isPrihlaseny();
 
         jePouzivatelPrihlaseny.addListener(e -> {
-            System.out.println("Zmena pouzivatela");
             zmenButtony();
         });
 
@@ -107,14 +106,13 @@ public class ObchodController implements Initializable {
         inicializujZnackyComboBox();
 
         incializujProfilComboBox();
-
     }
 
     private void inicializujTovarPagination() {
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
         tovary = FXCollections.observableArrayList(mysqlTovarDao.dajTovary());
         pocetStranok = (tovary.size() / 8);
-        tovarPagination.setPageCount(1);
+        tovarPagination.setPageCount(pocetStranok + 1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
     }
 
@@ -122,7 +120,7 @@ public class ObchodController implements Initializable {
         GridPane grid = new GridPane();
         int startIdx = idxStrany * 8, pom = 0;
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = startIdx; i < startIdx + 8; i++) {
             VBox vBox = new VBox();
             vBox.setSpacing(5);
             vBox.setAlignment(Pos.CENTER);
@@ -249,7 +247,7 @@ public class ObchodController implements Initializable {
         tovary.addAll(FXCollections.observableArrayList(tovar));
 
         pocetStranok = (tovary.size() / 8);
-        tovarPagination.setPageCount(1);
+        tovarPagination.setPageCount(pocetStranok + 1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
 
         kategorieComboBox.getSelectionModel().clearSelection();
@@ -271,9 +269,9 @@ public class ObchodController implements Initializable {
     @FXML
     public void onKosikImageViewClicked() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Pokladna.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Kosik.fxml"));
             Scene pokladnaScene = new Scene(loader.load());
-            PokladnaController pokladnaController = loader.getController();
+            KosikController pokladnaController = loader.getController();
             pokladnaController.setStage(mainStage);
             mainStage.setScene(pokladnaScene);
         } catch (IOException ex) {
@@ -282,11 +280,12 @@ public class ObchodController implements Initializable {
     }
 
     private void zmenButtony() {
-        prihlasitButton.setVisible(!prihlasitButton.isVisible());
-        registrovatButton.setVisible(!registrovatButton.isVisible());
+        boolean jePouzivatelPrihlaseny = defaultPouzivatelManager.isPrihlaseny().get();
+        prihlasitButton.setVisible(!jePouzivatelPrihlaseny);
+        registrovatButton.setVisible(!jePouzivatelPrihlaseny);
 
-        kosikImageView.setVisible(!kosikImageView.isVisible());
-        profilComboBox.setVisible(!profilComboBox.isVisible());
+        kosikImageView.setVisible(jePouzivatelPrihlaseny);
+        profilComboBox.setVisible(jePouzivatelPrihlaseny);
     }
 
     private void prejdiNaSpecifikaciuTovaru(String nazovTovaru) {

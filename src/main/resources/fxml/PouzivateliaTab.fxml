@@ -9,6 +9,9 @@
 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PouzivateliaTabController">
    <children>
       <TableView fx:id="pouzivateliaTableView" prefHeight="760.0" prefWidth="1300.0">
+          <placeholder>
+                <Label text="V tabuľke sa nenachádzajú žiadny použivatelia"/>
+            </placeholder>
         <columns>
           <TableColumn fx:id="idTableColumn" prefWidth="53.0" text="Id" />
           <TableColumn fx:id="prihlasovacieMenoTableColumn" prefWidth="194.0" text="Prihlasovacie meno" />

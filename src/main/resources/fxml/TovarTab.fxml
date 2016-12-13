@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.TovarTabController">
     <children>
         <Button fx:id="pridatTovarButton" layoutX="790.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#onPridatTovarButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať tovar">
          <cursor>
@@ -54,11 +54,11 @@
             </VBox>
             <Label fx:id="pridatTovarLabel" layoutX="170.0" layoutY="1.0" text="Pridať tovar" visible="false" />
             <Label fx:id="upravitTovarLabel" layoutX="170.0" layoutY="1.0" text="Upraviť tovar" visible="false" />
-            <Button fx:id="upravitButton" layoutX="164.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Upraviť">
+            <Button fx:id="upravitButton" layoutX="164.0" layoutY="626.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Upraviť">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
-            <Button fx:id="pridatButton" layoutX="164.0" layoutY="616.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Pridať">
+            <Button fx:id="pridatButton" layoutX="164.0" layoutY="626.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefHeight="27.0" prefWidth="104.0" text="Pridať">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
@@ -66,7 +66,10 @@
          </children></Pane>
             
         
-        <TableView fx:id="tovarTableView" layoutY="13.0" prefHeight="748.0" prefWidth="777.0">
+        <TableView fx:id="tovarTableView" layoutY="13.0" prefHeight="747.0" prefWidth="777.0" style="-fx-background-color: #FFFFFF;">
+            <placeholder>
+                <Label text="V tabuľke sa nenachádza žiaden tovar" />
+            </placeholder>
             <columns>
                 <TableColumn fx:id="idTableColumn" prefWidth="49.0" text="Id" />
                 <TableColumn fx:id="nazovTableColumn" prefWidth="101.0" text="Názov" />

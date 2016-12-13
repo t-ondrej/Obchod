@@ -14,12 +14,44 @@
 
 .button {
     -fx-background-radius: 0px;
+    -fx-background-color: #1d2326; /*DEDEDE*/
+    -fx-text-fill: #ecf0f1;
     -fx-font-family: 'Microsoft Sans Serif';
+}
+
+.button:hover {
+    -fx-background-color: #FA9600; /*#1d2326;*/
+    -fx-text-fill: #1d2326;/*#ecf0f1;*/
+}
+
+.vyber-tovar-kosika-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #1d2326;
+    -fx-font-size: 20px;
 }
 
 .text-field {
     -fx-background-radius: 0px;
+    -fx-border-color: #1d2326;
+    
 }
+
+.text-area {
+    -fx-border-color: #1d2326;
+    -fx-background-radius: 0px;
+    -fx-highlight-fill: yellow;
+    -fx-highlight-text-fill: yellow;
+}
+
+.text-area:focused {
+     -fx-highlight-fill: yellow;
+    -fx-highlight-text-fill: red;
+}
+
 
 #button-login-reg {
     -fx-text-fill: #ecf0f1;
@@ -50,6 +82,14 @@
     -fx-text-fill: #FA9600;
 }
 
+#label-specifikacia-tovaru {
+    -fx-font-size: 35;
+}
+
+.text-field.chyba {
+    -fx-text-box-border: red ;
+    -fx-focus-color: red ;
+}
 
 /*Znacky a kategorie combo box */
 .combo-box .arrow, .combo-box .arrow-button{
@@ -75,6 +115,10 @@
     -fx-font-family: 'Microsoft Sans Serif';
     -fx-font-size: 24px;
     -fx-background-color: #ecf0f1;
+}
+
+.combo-box .combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #dedede;
 }
 
 .combo-box .scroll-bar:vertical .track{
@@ -159,4 +203,49 @@
 
 .pagination .control-box {
     -fx-spacing: 8;
+}
+
+/* Tabuľky */
+.table-view .table-row-cell {
+    -fx-border-width: 0;
+}
+
+.table-view {
+    -fx-table-cell-border-color: #1d2326;
+    -fx-border-width: 0;
+    -fx-background-color: #FFFFFF;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: DEDEDE;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-pref-height: 35;
+    
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: #1d2326;
+}
+
+.anchor-pane {
+    -fx-background-color: #FFFFFF;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected {
+     -fx-background-color: FA9600;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab {
+     -fx-background-color: DEDEDE;
+}
+
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+     -fx-border-style: segments(0.166667em, 0.166667em);
+     -fx-border-width: 1;
+     -fx-border-color: transparent;
 }

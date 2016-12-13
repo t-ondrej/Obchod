@@ -1,8 +1,12 @@
 package sk.upjs.ics.obchod.gui.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -60,8 +64,15 @@ public class PrihlasenieController implements Initializable {
             Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
             
             if(defaultPouzivatelManager.getAktivnyPouzivatel().isJeAdministrator()) {
-                Scene administraciaScene = ViewFactory.INSTANCE.getAdministraciaScene(mainStage);
-                mainStage.setScene(administraciaScene);
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Administracia.fxml"));
+                    Scene administraciaScene = new Scene(loader.load());
+                    AdministraciaController administraciaController = loader.getController();
+                    administraciaController.setStage(mainStage);
+                    mainStage.setScene(administraciaScene);
+                } catch (IOException ex) {
+                    System.out.println("Nepodarilo sa načítať súbor Administracia.fxml");
+                }
             } else {
                 mainStage.setScene(obchodScene);
             }

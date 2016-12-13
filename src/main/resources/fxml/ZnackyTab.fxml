@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ZnackyTabController">
    <children>
       <Button fx:id="pridatZnackuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatZnackuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať značku">
          <cursor>
@@ -21,6 +21,9 @@
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <TableView fx:id="znackyTableView" layoutY="13.0" prefHeight="724.0" prefWidth="777.0">
+          <placeholder>
+                <Label text="V tabuľke sa nenchádza žiadna značka" />
+            </placeholder>
         <columns>
           <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="Id" />
           <TableColumn fx:id="nazovTableColumn" prefWidth="131.0" text="Názov" />

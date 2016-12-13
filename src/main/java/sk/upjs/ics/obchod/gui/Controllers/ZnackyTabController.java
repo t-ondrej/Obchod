@@ -93,14 +93,14 @@ public class ZnackyTabController implements Initializable {
             ukazUpozornenie("Vyberte značku v tabuľke!");
             return;
         }
-        
+
         Znacka oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
-        
+
         if (defaultZnackaManager.existujeTovarSoZnackou(oznacenaZnacka)) {
             ukazUpozornenie("Značku nie je možné odstrániť. Existuje tovar s danou značkou.");
             return;
         }
-   
+
         defaultZnackaManager.odstranZnacku(oznacenaZnacka);
         znackaModely.remove(oznacenaZnacka);
         obnovZnackyTableView();
@@ -129,6 +129,8 @@ public class ZnackyTabController implements Initializable {
 
         if (defaultZnackaManager.existujeZnackaSNazvom(novyNazov)) {
             ukazUpozornenie("Značka s daným názvom už existuje!");
+        } else if (novyNazov == null || novyNazov.trim().isEmpty()) {
+            ukazUpozornenie("Zadajte názov značky");
         } else {
             defaultZnackaManager.upravZnacku(oznacenaZnacka, novyNazov);
         }
@@ -140,13 +142,15 @@ public class ZnackyTabController implements Initializable {
 
         if (defaultZnackaManager.existujeZnackaSNazvom(nazov)) {
             ukazUpozornenie("Značka s daným názvom už existuje!");
+        } else if (nazov == null || nazov.trim().isEmpty()) {
+            ukazUpozornenie("Zadajte názov značky");
         } else {
             Znacka novaZnacka = new Znacka();
             novaZnacka.setNazov(nazov);
-            
+
             Long idZnacky = defaultZnackaManager.pridajZnacku(novaZnacka);
             novaZnacka.setId(idZnacky);
-            
+
             znackaModely.add(novaZnacka);
             obnovZnackyTableView();
         }
@@ -159,5 +163,5 @@ public class ZnackyTabController implements Initializable {
         alert.setTitle("Upozornenie");
         alert.setHeaderText(hlavicka);
         alert.showAndWait();
-    }  
+    }
 }

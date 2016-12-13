@@ -19,7 +19,7 @@ public enum DaoFactory {
     
     private MysqlZnackaDao mysqlZnackaDao;
     
-    private PamatoviKosikDao pamatoviKosikDao;
+    private PamatovyKosikDao pamatoviKosikDao;
     
     private MysqlFakturaDao mysqlFakturaDao;
     
@@ -66,9 +66,9 @@ public enum DaoFactory {
         return mysqlZnackaDao;
     }
     
-    public PamatoviKosikDao getPamatoviKosikDao() {
+    public PamatovyKosikDao getPamatoviKosikDao() {
         if (pamatoviKosikDao == null)
-            pamatoviKosikDao = new PamatoviKosikDao();
+            pamatoviKosikDao = new PamatovyKosikDao();
         
         return pamatoviKosikDao;
     }

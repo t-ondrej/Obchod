@@ -11,15 +11,15 @@ import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 
-public class PamatoviKosikDaoTest {
+public class PamatovyKosikDaoTest {
 
-    private PamatoviKosikDao dao;
+    private PamatovyKosikDao dao;
     private Kosik kosik;
     private Tovar tovar1;
     private Tovar tovar2;
     private Tovar tovar3;
 
-    public PamatoviKosikDaoTest() {
+    public PamatovyKosikDaoTest() {
         dao = TestDaoFactory.INSTANCE.getPamatoviKosikDao();
         kosik = new Kosik();
     }

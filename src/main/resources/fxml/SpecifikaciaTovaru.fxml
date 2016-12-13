@@ -27,7 +27,7 @@
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="573.0" layoutY="41.0" text="Špecifikácia tovaru" />
+                  <Label id="label-specifikacia-tovaru" layoutX="573.0" layoutY="41.0" text="Špecifikácia tovaru" />
                   <ImageView fx:id="tovarImageView" fitHeight="300.0" fitWidth="300.0" layoutX="142.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="nazovTovaruLabel" layoutX="573.0" layoutY="130.0" text="Názov tovaru" />
                   <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="573.0" layoutY="183.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />

@@ -10,6 +10,8 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -24,12 +26,14 @@ import javafx.stage.Stage;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
+import sk.upjs.ics.obchod.services.DefaultFakturaManager;
 import sk.upjs.ics.obchod.services.DefaultKosikManager;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.services.FakturaManager;
 import sk.upjs.ics.obchod.services.KosikManager;
 import sk.upjs.ics.obchod.services.PouzivatelManager;
 
-public class PokladnaController implements Initializable {
+public class KosikController implements Initializable {
 
     @FXML
     private Button kupitButton;
@@ -60,6 +64,8 @@ public class PokladnaController implements Initializable {
 
     private PouzivatelManager defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
 
+    private FakturaManager defaultFakturaManager = new DefaultFakturaManager(false);
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         defaultKosikManager = new DefaultKosikManager();
@@ -74,7 +80,8 @@ public class PokladnaController implements Initializable {
         odobratTovarTableColumn.setCellFactory(col -> {
 
             Button odstranitButton = new Button("Odstranit");
-            odstranitButton.setGraphic(new ImageView(new Image("file:src/main/resources/img/square-minus-small.jpg")));
+            ImageView obrazok = new ImageView(new Image("file:src/main/resources/img/square-minus-small.jpg"));
+            odstranitButton.setGraphic(obrazok);
 
             TableCell<Tovar, Tovar> cell = new TableCell<Tovar, Tovar>() {
                 @Override
@@ -88,9 +95,14 @@ public class PokladnaController implements Initializable {
                 }
             };
 
+            odstranitButton.getStyleClass().clear();
+            odstranitButton.getStyleClass().add("vyber-tovar-kosika-button");
+            odstranitButton.setCursor(Cursor.HAND);
+            cell.setAlignment(Pos.CENTER);
+
             odstranitButton.setOnAction(event -> {
                 Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
-                
+
                 List<Tovar> tovary = defaultKosikManager.dajTovaryKosika();
 
                 Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
@@ -138,10 +150,21 @@ public class PokladnaController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ano) {
-            // vytvorit tovar, vyprazdnit kosik
+            if (!defaultPouzivatelManager.maVyplneneFakturacneUdaje()) {
+                ukazUpozornenie("Vyplňte prosím fakturačné údaje");
+                alert.close();
+            } else {
+                defaultFakturaManager.vytvorFakturu(defaultPouzivatelManager.getAktivnyPouzivatel());
+            }
         } else {
             alert.close();
         }
     }
 
+    private void ukazUpozornenie(String hlavička) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Upozornenie");
+        alert.setHeaderText(hlavička);
+        alert.showAndWait();
+    }
 }

@@ -6,46 +6,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.KategorieTabController">
-   <children>
-      <Button fx:id="pridatKategoriuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať kategóriu">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button fx:id="odstranitKategoriuButton" layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onOdstranitKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť kategóriu">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button fx:id="upravitKategoriuButton" layoutX="960.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onUpravitKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť kategóriu">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Pane fx:id="pridatUpravitKategoriuPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="502.0" visible="false">
-         <children>
-            <VBox layoutY="50.0" prefHeight="531.0" prefWidth="87.0">
-               <children>
-                  <Label text="Názov:" />
-               </children>
-            </VBox>
-            <VBox layoutX="170.0" layoutY="50.0" prefHeight="54.0" prefWidth="306.0" spacing="20.0">
-               <children>
-                  <TextField fx:id="nazovTextField" />
-               </children>
-            </VBox>
-            <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Upraviť kategóriu">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="135.0" text="Pridať kategóriu" visible="false">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-         </children></Pane>
-      <TableView fx:id="kategorieTableView" layoutY="13.0" prefHeight="724.0" prefWidth="777.0">
-        <columns>
-          <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="nazovTableColumn" prefWidth="131.0" text="Názov" />
-        </columns>
-      </TableView>
-   </children>
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.KategorieTabController">
+    <children>
+        <Button fx:id="pridatKategoriuButton" layoutX="790.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onPridatKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Pridať kategóriu">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="odstranitKategoriuButton" layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onOdstranitKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Odstrániť kategóriu">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="upravitKategoriuButton" layoutX="960.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onUpravitKategoriuButtonClicked" prefHeight="34.0" prefWidth="154.0" text="Upraviť kategóriu">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Pane fx:id="pridatUpravitKategoriuPane" layoutX="789.0" layoutY="63.0" prefHeight="639.0" prefWidth="502.0" visible="false">
+            <children>
+                <VBox layoutY="50.0" prefHeight="531.0" prefWidth="87.0">
+                    <children>
+                        <Label text="Názov:" />
+                    </children>
+                </VBox>
+                <VBox layoutX="170.0" layoutY="50.0" prefHeight="54.0" prefWidth="306.0" spacing="20.0">
+                    <children>
+                        <TextField fx:id="nazovTextField" />
+                    </children>
+                </VBox>
+                <Button fx:id="upravitButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onUpravitButtonClicked" prefHeight="27.0" prefWidth="135.0" text="Upraviť kategóriu">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+                <Button fx:id="pridatButton" layoutX="170.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#onPridatButtonClicked" prefWidth="135.0" text="Pridať kategóriu" visible="false">
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </Button>
+            </children>
+        </Pane>
+        <TableView fx:id="kategorieTableView" layoutY="14.0" prefHeight="724.0" prefWidth="777.0">
+            <placeholder>
+                <Label text="V tabuľke sa nenachádzajú žiadne kategórie" />
+            </placeholder>
+            <columns>
+                <TableColumn fx:id="idTableColumn" prefWidth="75.0" text="Id" />
+                <TableColumn fx:id="nazovTableColumn" prefWidth="131.0" text="Názov" />
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>

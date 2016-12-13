@@ -17,7 +17,7 @@ public enum ViewFactory {
     private Scene prihlasenieScene;
 
     private Scene registraciaScene;
-    
+
     private Scene administraciaScene;
 
     public Scene getObchodScene(Stage mainStage) {
@@ -27,13 +27,12 @@ public enum ViewFactory {
                 obchodScene = new Scene(loader.load());
                 ObchodController obchodController = loader.getController();
                 obchodController.setStage(mainStage);
-                
+
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Obchod.fxml");
-                e.printStackTrace();
+
             }
         }
-
         return obchodScene;
     }
 
@@ -44,10 +43,9 @@ public enum ViewFactory {
                 prihlasenieScene = new Scene(loader.load());
                 PrihlasenieController prihlasenieController = loader.getController();
                 prihlasenieController.setStage(mainStage);
-                
+
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Prihlasenie.fxml");
-                e.printStackTrace();
             }
         }
         return prihlasenieScene;
@@ -60,16 +58,15 @@ public enum ViewFactory {
                 registraciaScene = new Scene(loader.load());
                 RegistraciaController registraciaController = loader.getController();
                 registraciaController.setStage(mainStage);
-                
+
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Registracia.fxml");
-                e.printStackTrace();
             }
         }
 
         return registraciaScene;
     }
-    
+
     public Scene getAdministraciaScene(Stage mainStage) {
         if (administraciaScene == null) {
             try {
@@ -77,13 +74,12 @@ public enum ViewFactory {
                 administraciaScene = new Scene(loader.load());
                 AdministraciaController administraciaController = loader.getController();
                 administraciaController.setStage(mainStage);
-                
+
             } catch (IOException e) {
                 System.err.println("Nepodarilo sa nacitat Administracia.fxml");
-                e.printStackTrace();
             }
         }
 
         return administraciaScene;
-    }   
+    }
 }

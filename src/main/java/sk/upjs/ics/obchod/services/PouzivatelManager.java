@@ -25,4 +25,6 @@ public interface PouzivatelManager {
     void setAktivnyPouzivatel(Pouzivatel aktivnyPouzivatel);
     
     void setPrihlaseny(BooleanProperty prihlaseny);
+    
+    boolean maVyplneneFakturacneUdaje();
 }

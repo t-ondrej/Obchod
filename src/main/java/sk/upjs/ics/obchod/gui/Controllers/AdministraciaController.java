@@ -18,7 +18,7 @@ public class AdministraciaController {
     @FXML
     public void onOdhlasitLabelClicked() {
         Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-        mainStage.setScene(obchodScene);
         DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
+        mainStage.setScene(obchodScene);     
     }
 }

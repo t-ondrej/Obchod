@@ -27,6 +27,7 @@ import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
+import sk.upjs.ics.obchod.services.StringUtilities;
 
 public class TovarTabController implements Initializable {
 
@@ -183,7 +184,6 @@ public class TovarTabController implements Initializable {
 
     @FXML
     public void onPridatButtonClicked() {
-        Tovar tovar = new Tovar();
 
         if (kategorieComboBox.getSelectionModel().getSelectedItem() == null) {
             upozornenieLabel.setText("Vyberte kategóriu!");
@@ -191,7 +191,15 @@ public class TovarTabController implements Initializable {
         } else if (znackyComboBox.getSelectionModel().getSelectedItem() == null) {
             upozornenieLabel.setText("Vyberte značku!");
             ukazUpozornenieLabel();
+        } else if (!StringUtilities.jeCislo(cenaTextField.getText())) {
+            cenaTextField.getStyleClass().add("chyba");
+            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+                pocetKusovTextField.getStyleClass().add("chyba");
+            }
+        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+            pocetKusovTextField.getStyleClass().add("chyba");
         } else {
+            Tovar tovar = new Tovar();
             tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
             tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
             tovar.setNazov(nazovTextField.getText());
@@ -206,13 +214,16 @@ public class TovarTabController implements Initializable {
 
             obnovTovarTableView();
             vymazTextFieldy();
+
+            cenaTextField.getStyleClass().remove("chyba");
+            pocetKusovTextField.getStyleClass().remove("chyba");
         }
     }
 
     @FXML
     public void onUpravitButtonClicked() {
         Tovar Tovar = tovarTableView.getSelectionModel().getSelectedItem();
-
+       
         Tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
         Tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
         Tovar.setNazov(nazovTextField.getText());
@@ -297,6 +308,12 @@ public class TovarTabController implements Initializable {
         popisTovaruTextArea.clear();
     }
 
+    private boolean suVsetkyTextFieldyVyplnene() {
+        return !(nazovTextField.getText() == null || nazovTextField.getText().trim().isEmpty()
+                || obrazokUrlTextField.getText() == null || obrazokUrlTextField.getText().trim().isEmpty() ||
+                popisTovaruTextArea.getText() == null || popisTovaruTextArea.getText().trim().isEmpty());
+    }
+    
     private void ukazVyberTovarUpozornenie() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Upozornenie");

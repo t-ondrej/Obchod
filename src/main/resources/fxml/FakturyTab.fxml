@@ -7,34 +7,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.FakturyTabController">
-   <children>
-      <Label layoutX="22.0" layoutY="39.0" text="Zobraz faktúry za:" />
-      <ComboBox fx:id="filterComboBox" layoutX="230.0" layoutY="38.0" prefWidth="150.0" promptText="Všetky">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></ComboBox>
-      <TableView fx:id="fakturyTableView" layoutY="94.0" prefHeight="667.0" prefWidth="591.0">
-        <columns>
-          <TableColumn fx:id="idFakturyTableColumn" prefWidth="111.0" text="Id" />
-          <TableColumn fx:id="pouzivatelTableColumn" prefWidth="186.0" text="Pouzivatel" />
-            <TableColumn fx:id="sumaTableColumn" prefWidth="112.0" text="Suma" />
-            <TableColumn fx:id="datumNakupuTableColumn" prefWidth="180.0" text="Dátum nákupu" />
-        </columns>
-      </TableView>
-      <TableView fx:id="tovarFakturyTableView" layoutX="650.0" layoutY="94.0" prefHeight="667.0" prefWidth="650.0">
-        <columns>
-          <TableColumn fx:id="nazovTovaruTableColumn" prefWidth="161.0" text="Názov" />
-            <TableColumn fx:id="kategoriaTovaruTableColumn" prefWidth="133.0" text="Kategória" />
-            <TableColumn fx:id="znackaTovaruTableColumn" prefWidth="115.0" text="Značka" />
-            <TableColumn fx:id="cenaTovaruTableColumn" prefWidth="91.0" text="Cena" />
-            <TableColumn fx:id="pocetKusovTableColumn" prefWidth="149.0" text="Počet kusov" />
-        </columns>
-      </TableView>
-      <Button fx:id="zobrazTovarFakturyButton" layoutX="650.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#onZobrazTovarFakturyButtonClicked" text="Zobraz tovar faktúry">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-   </children>
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.FakturyTabController">
+    <children>
+        <Label layoutX="22.0" layoutY="39.0" text="Zobraz faktúry za:" />
+        <ComboBox fx:id="filterComboBox" layoutX="230.0" layoutY="38.0" prefWidth="150.0" promptText="Všetky">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </ComboBox>
+        <TableView fx:id="fakturyTableView" layoutY="94.0" prefHeight="667.0" prefWidth="591.0">
+            <columns>
+                <TableColumn fx:id="idFakturyTableColumn" prefWidth="111.0" text="Id" />
+                <TableColumn fx:id="pouzivatelTableColumn" prefWidth="186.0" text="Pouzivatel" />
+                <TableColumn fx:id="sumaTableColumn" prefWidth="112.0" text="Suma" />
+                <TableColumn fx:id="datumNakupuTableColumn" prefWidth="180.0" text="Dátum nákupu" />
+            </columns>
+            <placeholder>
+                <Label text="V tabuľke sa nenachádzajú žiadne faktúry" />
+            </placeholder>
+        </TableView>
+        <TableView fx:id="tovarFakturyTableView" layoutX="650.0" layoutY="94.0" prefHeight="667.0" prefWidth="650.0">
+            <columns>
+                <TableColumn fx:id="nazovTovaruTableColumn" prefWidth="161.0" text="Názov" />
+                <TableColumn fx:id="kategoriaTovaruTableColumn" prefWidth="133.0" text="Kategória" />
+                <TableColumn fx:id="znackaTovaruTableColumn" prefWidth="115.0" text="Značka" />
+                <TableColumn fx:id="cenaTovaruTableColumn" prefWidth="91.0" text="Cena" />
+                <TableColumn fx:id="pocetKusovTableColumn" prefWidth="149.0" text="Počet kusov" />
+            </columns>
+            <placeholder>
+                <Label text="Nie je vybraný žiaden tovar z faktúry" />
+            </placeholder>
+        </TableView>
+        <Button fx:id="zobrazTovarFakturyButton" layoutX="650.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#onZobrazTovarFakturyButtonClicked" text="Zobraz tovar faktúry">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+    </children>
 </AnchorPane>

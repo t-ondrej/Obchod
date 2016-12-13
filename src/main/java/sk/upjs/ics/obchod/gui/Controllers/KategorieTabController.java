@@ -100,7 +100,7 @@ public class KategorieTabController implements Initializable {
             ukazUpozornenie("Kategóriu nie je možné odstrániť. Existuje tovar v danej kategórii.");
             return;
         }
-        
+
         defaultKategoriaManager.odstranKategoriu(oznacenaKategoria);
         kategoriaModely.remove(oznacenaKategoria);
         obnovKategorieTableView();
@@ -126,9 +126,11 @@ public class KategorieTabController implements Initializable {
     public void onUpravitButtonClicked() {
         Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
-        
+
         if (defaultKategoriaManager.existujeKategoriaSNazvom(novyNazov)) {
             ukazUpozornenie("Kategória s daným názvom už existuje!");
+        } else if (novyNazov == null || novyNazov.trim().isEmpty()) {
+            ukazUpozornenie("Zadajte názov kategórie");
         } else {
             defaultKategoriaManager.upravKategoriu(oznacenaKategoria, novyNazov);
         }
@@ -140,6 +142,8 @@ public class KategorieTabController implements Initializable {
 
         if (defaultKategoriaManager.existujeKategoriaSNazvom(nazovKategorie)) {
             ukazUpozornenie("Kategória s daným názvom už existuje!");
+        } else if (nazovKategorie == null || nazovKategorie.trim().isEmpty()) {
+            ukazUpozornenie("Zadajte názov kategórie");
         } else {
             Kategoria novaKategoria = new Kategoria();
             novaKategoria.setNazov(nazovKategorie);

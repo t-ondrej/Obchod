@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.PokladnaController">
+   <children>
+      <Pane prefHeight="83.0" prefWidth="1300.0" styleClass="pane">
+         <children>
+            <Label id="label-back" layoutX="31.0" layoutY="23.0" onMouseClicked="#onSpatLabelClicked" text="Späť">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Label>
+         </children>
+      </Pane>
+      <TableView fx:id="tovarTableView" layoutX="276.0" layoutY="83.0" prefHeight="539.0" prefWidth="748.0">
+         <columns>
+            <TableColumn fx:id="nazovTableColumn" editable="false" prefWidth="206.0" text="Názov" />
+            <TableColumn fx:id="mnozstvoTableColumn" prefWidth="193.0" text="Množstvo" />
+            <TableColumn fx:id="cenaTableColumn" prefWidth="165.0" text="Cena" />
+            <TableColumn fx:id="odobratTovarTableColumn" prefWidth="181.0" text="Odobrať tovar" />
+         </columns>
+         <placeholder>
+            <Label text="V košíku nemáte žiaden tovar" />
+         </placeholder>
+      </TableView>
+      <Label layoutX="276.0" layoutY="641.0" prefHeight="28.0" prefWidth="176.0" text="Celková cena:" />
+      <Button layoutX="886.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#onKupitButtonClicked" prefHeight="27.0" prefWidth="138.0" text="Kúpiť">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label fx:id="celkovaCenaLabel" layoutX="457.0" layoutY="641.0" prefHeight="28.0" prefWidth="60.0" text="0" />
+      <Label layoutX="496.0" layoutY="641.0" text="€" />
+   </children>
+</AnchorPane>

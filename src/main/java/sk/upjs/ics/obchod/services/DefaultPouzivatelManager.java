@@ -54,10 +54,6 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
             pouzivatel.setPoslednePrihlasenie(LocalDateTime.now());
             pouzivatelDao.novePoslednePrihlasenie(pouzivatel);
 
-            System.out.println(LocalDate.now(Clock.systemUTC()));
-            System.out.println(LocalDate.now(Clock.systemUTC()).toString());
-            
-            
             aktivnyPouzivatel = pouzivatel;
             prihlaseny.setValue(!prihlaseny.getValue());
             return true;
@@ -73,13 +69,13 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         pouzivatel.setPrihlasovacieMeno(prihlasovacieMeno);
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
-        
+
         pouzivatel.setMeno(meno);
         pouzivatel.setPriezvisko(priezvisko);
         pouzivatel.setMesto(mesto);
         pouzivatel.setUlica(ulica);
         pouzivatel.setPsc(psc);
-        
+
         pouzivatel.setPoslednePrihlasenie(LocalDateTime.now());
 
         Kosik kosik = new Kosik();
@@ -93,7 +89,7 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
         Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela(meno);
         return pouzivatel == null;
     }
-    
+
     @Override
     public void ulozPouzivatela(Pouzivatel pouzivatel) {
         pouzivatelDao.ulozPouzivatela(pouzivatel);
@@ -113,5 +109,12 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     @Override
     public void setPrihlaseny(BooleanProperty prihlaseny) {
         this.prihlaseny = prihlaseny;
-    }   
+    }
+
+    @Override
+    public boolean maVyplneneFakturacneUdaje() {
+        return aktivnyPouzivatel.getMeno() != null && aktivnyPouzivatel.getPriezvisko() != null
+                && aktivnyPouzivatel.getMesto() != null && aktivnyPouzivatel.getUlica() != null
+                && aktivnyPouzivatel.getPsc() > -1;
+    }
 }
