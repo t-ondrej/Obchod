@@ -136,7 +136,7 @@ public class ObchodController implements Initializable {
                 Tovar tovar = tovary.get(i);
 
                 // TODO
-                Image obrazok = new Image("file:src/main/resources/img/1.JPG");
+                Image obrazok = new Image("file:" + tovar.getObrazokUrl());
                 l.setImage(obrazok);
 
                 Label nazovTovaru = new Label(tovar.getNazov());

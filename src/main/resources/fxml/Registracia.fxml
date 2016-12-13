@@ -21,7 +21,7 @@
                </children></Pane>
          </top>
          <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="registrovatButton" layoutX="650.0" layoutY="549.0" mnemonicParsing="false" onMouseClicked="#onRegistrovatButtonClicked" prefWidth="150.0" text="Registrovať">
                      <cursor>

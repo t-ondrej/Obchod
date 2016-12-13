@@ -11,7 +11,7 @@
    <children>
       <BorderPane layoutX="397.0" layoutY="147.0" prefHeight="669.0" prefWidth="1094.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" stylesheets="@../styles/Obchod.css" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="prihlasitButton" layoutX="659.0" layoutY="263.0" mnemonicParsing="false" onMouseClicked="#onPrihlasitButtonClicked" text="Prihlásiť">
                      <cursor>

@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ProfilPouzivatelaController">
+<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" stylesheets="@../styles/Obchod.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.ProfilPouzivatelaController">
    <children>
       <BorderPane layoutX="335.0" layoutY="155.0" prefHeight="760.0" prefWidth="1300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -19,7 +18,7 @@
             </Pane>
          </top>
          <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="ulozitButton" layoutX="650.0" layoutY="467.0" mnemonicParsing="false" onMouseClicked="#onUlozitButtonClicked" prefHeight="27.0" prefWidth="111.0" text="Uložiť">
                      <cursor>

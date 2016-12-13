@@ -37,21 +37,16 @@
 .text-field {
     -fx-background-radius: 0px;
     -fx-border-color: #1d2326;
-    
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
 }
 
 .text-area {
     -fx-border-color: #1d2326;
     -fx-background-radius: 0px;
-    -fx-highlight-fill: yellow;
-    -fx-highlight-text-fill: yellow;
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
 }
-
-.text-area:focused {
-     -fx-highlight-fill: yellow;
-    -fx-highlight-text-fill: red;
-}
-
 
 #button-login-reg {
     -fx-text-fill: #ecf0f1;

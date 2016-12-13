@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="760.0" prefWidth="1300.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sk.upjs.ics.obchod.gui.Controllers.SpecifikaciaTovaruController">
     <stylesheets>
         <URL value="@/styles/Obchod.css" />
     </stylesheets>
@@ -25,12 +25,12 @@
             </Pane>
          </top>
          <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="anchor-pane" BorderPane.alignment="CENTER">
                <children>
                   <Label id="label-specifikacia-tovaru" layoutX="573.0" layoutY="41.0" text="Špecifikácia tovaru" />
                   <ImageView fx:id="tovarImageView" fitHeight="300.0" fitWidth="300.0" layoutX="142.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="nazovTovaruLabel" layoutX="573.0" layoutY="130.0" text="Názov tovaru" />
-                  <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="573.0" layoutY="183.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" />
+                  <TextArea fx:id="specifikaciaTovaruTextArea" editable="false" layoutX="573.0" layoutY="183.0" maxWidth="513.0" prefHeight="211.0" prefWidth="513.0" promptText="Špecifikácia tovaru" wrapText="true" />
                   <Label fx:id="cenaLabel" layoutX="573.0" layoutY="422.0" text="Cena" />
                   <Button fx:id="pridatDoKosikaButton" layoutX="958.0" layoutY="422.0" mnemonicParsing="false" onMouseClicked="#onPridatDoKosikaButtonClicked" text="Pridať do košíka">
                      <cursor>
