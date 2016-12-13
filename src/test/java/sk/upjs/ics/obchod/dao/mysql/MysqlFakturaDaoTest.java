@@ -58,6 +58,12 @@ public class MysqlFakturaDaoTest {
         
         String sql3 = "TRUNCATE TABLE Tovar;";
         jdbcTemplate.execute(sql3);
+        
+        String sql4 = "TRUNCATE TABLE kategoria;";
+        jdbcTemplate.execute(sql4);
+        
+        String sql5 = "TRUNCATE TABLE znacka;";
+        jdbcTemplate.execute(sql5);
     }
     
     /**

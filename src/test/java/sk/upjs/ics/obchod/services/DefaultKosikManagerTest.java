@@ -1,7 +1,6 @@
 package sk.upjs.ics.obchod.services;
 
 import java.util.List;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,7 +9,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
@@ -79,6 +77,10 @@ public class DefaultKosikManagerTest {
         jdbcTemplate.execute(sql);
         kosik.getTovary().clear();
         pouzivatelManager.odhlasPouzivatela();
+        String sql1 = "TRUNCATE TABLE kategoria;";
+        jdbcTemplate.execute(sql1);
+        String sql2 = "TRUNCATE TABLE znacka;";
+        jdbcTemplate.execute(sql2);
     }
    
     /**

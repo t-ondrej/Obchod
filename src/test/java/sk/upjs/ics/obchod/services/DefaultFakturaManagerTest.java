@@ -86,6 +86,12 @@ public class DefaultFakturaManagerTest {
         
         String sql2 = "TRUNCATE TABLE Tovar_Faktury;";
         jdbcTemplate.execute(sql2);
+        
+        String sql3 = "TRUNCATE TABLE kategoria;";
+        jdbcTemplate.execute(sql3);
+        
+        String sql4 = "TRUNCATE TABLE znacka;";
+        jdbcTemplate.execute(sql4);
     }
 
     /**

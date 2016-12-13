@@ -4,17 +4,21 @@ import java.util.List;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.KategoriaDao;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 
 public class DefaultKategoriaManager implements KategoriaManager {
 
     private KategoriaDao mysqlKategoriaDao;
+    private TovarDao mysqlTovarDao;
 
     public DefaultKategoriaManager(boolean preTestovaciuDatabazu) {
         if (preTestovaciuDatabazu) {
             mysqlKategoriaDao = TestDaoFactory.INSTANCE.getMysqlKategoriaDao();
+            mysqlTovarDao = TestDaoFactory.INSTANCE.getMysqlTovarDao();
         } else {
             mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
+            mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
         }
     }
 
@@ -49,8 +53,8 @@ public class DefaultKategoriaManager implements KategoriaManager {
     }
     
     @Override
-    public boolean existujeTovarVKategorii(Kategoria kategoria) {
-        return DaoFactory.INSTANCE.getMysqlTovarDao().dajTovarPodlaKategorie(kategoria) != null;
+    public boolean existujeTovarVKategorii(Kategoria kategoria) {        
+        return !mysqlTovarDao.dajTovarPodlaKategorie(kategoria).isEmpty();
     }
 
 }
