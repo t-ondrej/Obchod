@@ -14,8 +14,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import sk.upjs.ics.obchod.entity.Kategoria;
-import sk.upjs.ics.obchod.services.DefaultKategoriaManager;
-import sk.upjs.ics.obchod.services.KategoriaManager;
+import sk.upjs.ics.obchod.managers.DefaultKategoriaManager;
+import sk.upjs.ics.obchod.managers.KategoriaManager;
 
 public class KategorieTabController implements Initializable {
 

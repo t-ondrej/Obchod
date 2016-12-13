@@ -1,5 +1,9 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
+import sk.upjs.ics.obchod.managers.DefaultKosikManager;
+import sk.upjs.ics.obchod.managers.KosikManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;

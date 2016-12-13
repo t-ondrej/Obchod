@@ -1,5 +1,7 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
+import sk.upjs.ics.obchod.managers.ZnackaManager;
+import sk.upjs.ics.obchod.managers.DefaultZnackaManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;

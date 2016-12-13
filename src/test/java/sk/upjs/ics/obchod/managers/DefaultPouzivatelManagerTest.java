@@ -1,5 +1,7 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Assert;

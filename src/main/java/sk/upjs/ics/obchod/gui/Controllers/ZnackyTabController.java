@@ -14,8 +14,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import sk.upjs.ics.obchod.entity.Znacka;
-import sk.upjs.ics.obchod.services.DefaultZnackaManager;
-import sk.upjs.ics.obchod.services.ZnackaManager;
+import sk.upjs.ics.obchod.managers.DefaultZnackaManager;
+import sk.upjs.ics.obchod.managers.ZnackaManager;
 
 public class ZnackyTabController implements Initializable {
 

@@ -36,10 +36,10 @@ import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultKosikManager;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.KosikManager;
-import sk.upjs.ics.obchod.services.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.DefaultKosikManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.KosikManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 
 public class ObchodController implements Initializable {
 

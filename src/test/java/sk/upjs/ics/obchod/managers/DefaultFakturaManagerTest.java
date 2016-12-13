@@ -1,5 +1,6 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
+import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

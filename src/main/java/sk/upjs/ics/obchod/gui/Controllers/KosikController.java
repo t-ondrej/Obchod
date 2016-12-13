@@ -26,12 +26,12 @@ import javafx.stage.Stage;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultFakturaManager;
-import sk.upjs.ics.obchod.services.DefaultKosikManager;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.FakturaManager;
-import sk.upjs.ics.obchod.services.KosikManager;
-import sk.upjs.ics.obchod.services.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
+import sk.upjs.ics.obchod.managers.DefaultKosikManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.FakturaManager;
+import sk.upjs.ics.obchod.managers.KosikManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 
 public class KosikController implements Initializable {
 

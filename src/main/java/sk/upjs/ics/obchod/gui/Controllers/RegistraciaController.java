@@ -12,8 +12,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 import sk.upjs.ics.obchod.services.StringUtilities;
 
 public class RegistraciaController implements Initializable {

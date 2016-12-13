@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
 
 public class ProfilPouzivatelaController implements Initializable {
 

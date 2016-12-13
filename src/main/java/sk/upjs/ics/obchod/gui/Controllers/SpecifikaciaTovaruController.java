@@ -16,9 +16,9 @@ import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultKosikManager;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.KosikManager;
+import sk.upjs.ics.obchod.managers.DefaultKosikManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.KosikManager;
 
 public class SpecifikaciaTovaruController {
 

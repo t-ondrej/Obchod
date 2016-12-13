@@ -6,9 +6,9 @@ import javafx.stage.Stage;
 import static javafx.application.Application.launch;
 import javafx.stage.WindowEvent;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
-import sk.upjs.ics.obchod.services.DefaultKosikManager;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.services.KosikManager;
+import sk.upjs.ics.obchod.managers.DefaultKosikManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.KosikManager;
 
 public class ObchodStage extends Application {
 

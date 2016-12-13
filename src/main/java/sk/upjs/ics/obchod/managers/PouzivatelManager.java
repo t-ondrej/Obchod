@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
 import javafx.beans.property.BooleanProperty;
 import sk.upjs.ics.obchod.entity.Pouzivatel;

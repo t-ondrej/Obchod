@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
 import java.util.List;
 import javafx.beans.property.IntegerProperty;

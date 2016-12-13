@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
 
 public class AdministraciaController {
 

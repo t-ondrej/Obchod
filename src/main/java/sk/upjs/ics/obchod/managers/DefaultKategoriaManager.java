@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.managers;
 
 import java.util.List;
 import sk.upjs.ics.obchod.dao.DaoFactory;
@@ -6,6 +6,7 @@ import sk.upjs.ics.obchod.dao.KategoriaDao;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
 import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.services.StringUtilities;
 
 public class DefaultKategoriaManager implements KategoriaManager {
 

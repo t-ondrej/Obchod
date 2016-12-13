@@ -20,8 +20,8 @@ import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
-import sk.upjs.ics.obchod.services.DefaultFakturaManager;
-import sk.upjs.ics.obchod.services.FakturaManager;
+import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
+import sk.upjs.ics.obchod.managers.FakturaManager;
 
 public class FakturyTabController implements Initializable {
 
