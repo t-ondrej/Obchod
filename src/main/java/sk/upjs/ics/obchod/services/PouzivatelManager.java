@@ -7,7 +7,8 @@ public interface PouzivatelManager {
     
     public boolean prihlasPouzivatela(String meno, String heslo);
     
-    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email);
+    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email, 
+            String meno, String priezvisko, String mesto, String ulica, int psc);
     
     Pouzivatel getAktivnyPouzivatel();
     

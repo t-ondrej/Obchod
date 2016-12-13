@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.ZnackaDao;
@@ -32,18 +33,22 @@ public class MysqlZnackaDao implements ZnackaDao {
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
         return jdbcTemplate.queryForObject(sql, mapper, idZnacka);
     }
-    
+
     @Override
     public Znacka najdiPodlaNazvu(String nazovZnacky) {
         String sql = "SELECT * FROM Znacka WHERE nazov = ?";
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
-        return jdbcTemplate.queryForObject(sql, mapper, nazovZnacky);
+        try {
+            return jdbcTemplate.queryForObject(sql, mapper, nazovZnacky);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Long uloz(Znacka znacka) {
-        
-        if(znacka.getId() == 0){
+
+        if (znacka.getId() == 0) {
             String sql = "INSERT INTO Znacka (nazov) VALUES(?) ";
 
             Long idZnacka = -1L;
@@ -55,7 +60,7 @@ public class MysqlZnackaDao implements ZnackaDao {
                 stm.setString(1, znacka.getNazov());
                 stm.execute();
 
-                ResultSet rs = stm.getGeneratedKeys();            
+                ResultSet rs = stm.getGeneratedKeys();
                 if (rs.next()) {
                     idZnacka = rs.getLong(1);
                 }
@@ -65,17 +70,17 @@ public class MysqlZnackaDao implements ZnackaDao {
             }
 
             return idZnacka;
-        }else{
+        } else {
             String sql = "UPDATE znacka SET nazov=? WHERE id = ?;";
-            jdbcTemplate.update(sql, znacka.getNazov(), znacka.getId());           
-            
+            jdbcTemplate.update(sql, znacka.getNazov(), znacka.getId());
+
             return znacka.getId();
         }
     }
 
     @Override
     public void odstranZnacku(Znacka znacka) {
-        String sql = "DELETE FROM znacka WHERE id = ?";                
+        String sql = "DELETE FROM znacka WHERE id = ?";
         jdbcTemplate.update(sql, znacka.getId());
     }
 

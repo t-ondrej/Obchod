@@ -13,9 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.services.DefaultKategoriaManager;
+import sk.upjs.ics.obchod.services.KategoriaManager;
 
 public class KategorieTabController implements Initializable {
 
@@ -51,11 +51,11 @@ public class KategorieTabController implements Initializable {
 
     private ObservableList<Kategoria> kategoriaModely;
 
-    private MysqlKategoriaDao mysqlKategoriaDao;
+    private KategoriaManager defaultKategoriaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
+        defaultKategoriaManager = new DefaultKategoriaManager(false);
 
         inicializujKategorieTableView();
     }
@@ -74,7 +74,7 @@ public class KategorieTabController implements Initializable {
     }
 
     private void naplnKategoriaModely() {
-        List<Kategoria> znacky = mysqlKategoriaDao.dajKategorie();
+        List<Kategoria> znacky = defaultKategoriaManager.dajKategorie();
         kategoriaModely = FXCollections.observableArrayList(znacky);
     }
 
@@ -90,14 +90,18 @@ public class KategorieTabController implements Initializable {
         pridatUpravitKategoriuPane.setVisible(false);
 
         if (kategorieTableView.getSelectionModel().isEmpty()) {
-            ukazVyberKategoriuUpozornenie();
+            ukazUpozornenie("Vyberte kategóriu v tabuľke!");
             return;
         }
 
         Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
-        System.out.println(oznacenaKategoria.getNazov());
 
-        // mysqlKategoriaDao.odstranKategoriu(oznacenaKategoria);
+        if (defaultKategoriaManager.existujeTovarVKategorii(oznacenaKategoria)) {
+            ukazUpozornenie("Kategóriu nie je možné odstrániť. Existuje tovar v danej kategórii.");
+            return;
+        }
+        
+        defaultKategoriaManager.odstranKategoriu(oznacenaKategoria);
         kategoriaModely.remove(oznacenaKategoria);
         obnovKategorieTableView();
     }
@@ -109,7 +113,7 @@ public class KategorieTabController implements Initializable {
         upravitButton.setVisible(true);
 
         if (kategorieTableView.getSelectionModel().isEmpty()) {
-            ukazVyberKategoriuUpozornenie();
+            ukazUpozornenie("Vyberte kategóriu v tabuľke!");
             return;
         }
 
@@ -122,31 +126,26 @@ public class KategorieTabController implements Initializable {
     public void onUpravitButtonClicked() {
         Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
-
-        if (existujeKategoriaSNazvom(novyNazov)) {
-            ukazDuplicitnaKategoriaUpozornenie();
-            
+        
+        if (defaultKategoriaManager.existujeKategoriaSNazvom(novyNazov)) {
+            ukazUpozornenie("Kategória s daným názvom už existuje!");
         } else {
-            oznacenaKategoria.setNazov(novyNazov);
-            mysqlKategoriaDao.uloz(oznacenaKategoria);
-            obnovKategorieTableView();
-            nazovTextField.clear();
-        }        
+            defaultKategoriaManager.upravKategoriu(oznacenaKategoria, novyNazov);
+        }
     }
 
     @FXML
     public void onPridatButtonClicked() {
         String nazovKategorie = nazovTextField.getText();
-        if (existujeKategoriaSNazvom(nazovKategorie)) {
-            ukazDuplicitnaKategoriaUpozornenie();
 
+        if (defaultKategoriaManager.existujeKategoriaSNazvom(nazovKategorie)) {
+            ukazUpozornenie("Kategória s daným názvom už existuje!");
         } else {
             Kategoria novaKategoria = new Kategoria();
-            String nazov = nazovKategorie;
-            novaKategoria.setNazov(nazov);
+            novaKategoria.setNazov(nazovKategorie);
 
-            Long idZnacky = mysqlKategoriaDao.uloz(novaKategoria);
-            novaKategoria.setId(idZnacky);
+            Long idKategorie = defaultKategoriaManager.pridajKategoriu(novaKategoria);
+            novaKategoria.setId(idKategorie);
 
             kategoriaModely.add(novaKategoria);
             obnovKategorieTableView();
@@ -155,22 +154,10 @@ public class KategorieTabController implements Initializable {
         nazovTextField.clear();
     }
 
-    private boolean existujeKategoriaSNazvom(String nazov) {
-        return mysqlKategoriaDao.najdiPodlaNazvu(nazov) != null;
-    }
-
-    private void ukazVyberKategoriuUpozornenie() {
+    private void ukazUpozornenie(String hlavička) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Upozornenie");
-        alert.setHeaderText("Vyberte znacku v tabuľke.");
+        alert.setHeaderText(hlavička);
         alert.showAndWait();
     }
-
-    private void ukazDuplicitnaKategoriaUpozornenie() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText("Kategória s daným názvom už existuje!");
-        alert.showAndWait();
-    }
-
 }

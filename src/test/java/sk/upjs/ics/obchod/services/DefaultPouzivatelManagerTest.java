@@ -78,7 +78,7 @@ public class DefaultPouzivatelManagerTest {
         System.out.println("registrujPouzivatela");
         naplnTestovacieUdaje();
 
-        manager.registrujPouzivatela("test3", "test3", "test3@test.sk");
+        manager.registrujPouzivatela("test3", "test3", "test3@test.sk", "Tomas", "Jedno", "Veľké Kapušany", "Bratislavská", 05502);
         String sql = "SELECT * FROM pouzivatel WHERE prihlasovacie_meno = 'test3'";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper());
 

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.KategoriaDao;
@@ -37,14 +38,18 @@ public class MysqlKategoriaDao implements KategoriaDao {
     public Kategoria najdiPodlaNazvu(String nazovKategorie) {
         String sql = "SELECT * FROM kategoria WHERE nazov = ?";
         BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);
-        return jdbcTemplate.queryForObject(sql, mapper, nazovKategorie);
+        try {
+            return jdbcTemplate.queryForObject(sql, mapper, nazovKategorie);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Long uloz(Kategoria kategoria) {
-        
-        if(kategoria.getId() == 0){
-            String sql = "INSERT INTO kategoria (nazov) VALUES(?) ";     
+
+        if (kategoria.getId() == 0) {
+            String sql = "INSERT INTO kategoria (nazov) VALUES(?) ";
 
             Long idKategoria = -1L;
 
@@ -55,7 +60,7 @@ public class MysqlKategoriaDao implements KategoriaDao {
                 stm.setString(1, kategoria.getNazov());
                 stm.execute();
 
-                ResultSet rs = stm.getGeneratedKeys();            
+                ResultSet rs = stm.getGeneratedKeys();
                 if (rs.next()) {
                     idKategoria = rs.getLong(1);
                 }
@@ -64,19 +69,19 @@ public class MysqlKategoriaDao implements KategoriaDao {
                 throw new RuntimeException(e);
             }
 
-            return idKategoria; 
-        }else{
+            return idKategoria;
+        } else {
             String sql = "UPDATE kategoria SET nazov=? WHERE id = ?;";
-            jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getId());           
-            
+            jdbcTemplate.update(sql, kategoria.getNazov(), kategoria.getId());
+
             return kategoria.getId();
         }
     }
 
     @Override
     public void odstranKategoriu(Kategoria kategoria) {
-       String sql = "DELETE FROM kategoria WHERE id = ?";                
-       jdbcTemplate.update(sql, kategoria.getId());
+        String sql = "DELETE FROM kategoria WHERE id = ?";
+        jdbcTemplate.update(sql, kategoria.getId());
     }
 
 }

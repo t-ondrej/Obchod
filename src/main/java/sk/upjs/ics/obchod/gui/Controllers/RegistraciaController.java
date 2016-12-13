@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.services.DefaultPouzivatelManager;
 import sk.upjs.ics.obchod.services.PouzivatelManager;
+import sk.upjs.ics.obchod.services.StringUtilities;
 
 public class RegistraciaController implements Initializable {
 
@@ -25,19 +26,19 @@ public class RegistraciaController implements Initializable {
 
     @FXML
     private TextField emailTextField;
-    
+
     @FXML
     private TextField menoTextField;
-    
+
     @FXML
     private TextField priezviskoTextField;
-    
+
     @FXML
     private TextField mestoTextField;
-    
+
     @FXML
     private TextField ulicaTextField;
-    
+
     @FXML
     private TextField pscTextField;
 
@@ -65,35 +66,53 @@ public class RegistraciaController implements Initializable {
         Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
         mainStage.setScene(obchodScene);
     }
-    
+
     @FXML
     public void onRegistrovatButtonClicked() {
-        String meno = prihlasovacieMenoTextField.getText();
+        String prihlasovacieMeno = prihlasovacieMenoTextField.getText();
         String heslo = hesloPasswordField.getText();
         String email = emailTextField.getText();
-
-        System.out.println("REGISTERBUTTOn");
+        String meno = menoTextField.getText();
+        String priezvisko = priezviskoTextField.getText();
+        String mesto = mestoTextField.getText();
+        String ulica = ulicaTextField.getText();
+        int psc = -1;
         
-        if (!defaultPouzivatelManager.jeVolneMeno(meno)) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Upozornenie");
-            alert.setHeaderText("Zadané prihlasovacie meno už existuje.");
-            alert.showAndWait();
+        String pscRetazec = pscTextField.getText();
+        if (StringUtilities.jeCislo(pscRetazec)) {
+            psc = Integer.parseInt(pscRetazec);
+        }
 
-        } else if (meno == null || heslo == null || email == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Upozornenie");
-            alert.setHeaderText("Nevyplnili ste všetky údaje.");
-            alert.showAndWait();
+        if (!defaultPouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
+            ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
+            return;
+        } else if (prihlasovacieMeno == null || heslo == null || email == null) {
+            ukazUpozornenie("Nevyplnili ste všetky údaje.");
+            return;
+        } else if (!StringUtilities.jeValidnyFormatEmailu(email)) {
+            ukazUpozornenie("Formát emailovej adresy nie je valídny.");
+            return;
         } else {
-
-            defaultPouzivatelManager.registrujPouzivatela(meno, heslo, email);
+            defaultPouzivatelManager.registrujPouzivatela(prihlasovacieMeno, heslo, 
+                    email, meno, priezvisko, mesto, ulica, psc);
             onSpatLabelClicked();
         }
-        
+
         prihlasovacieMenoTextField.clear();
         hesloPasswordField.clear();
         emailTextField.clear();
 
+        menoTextField.clear();
+        priezviskoTextField.clear();
+        mestoTextField.clear();
+        ulicaTextField.clear();
+        pscTextField.clear();
+    }
+
+    private void ukazUpozornenie(String hlavicka) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Upozornenie");
+        alert.setHeaderText(hlavicka);
+        alert.showAndWait();
     }
 }

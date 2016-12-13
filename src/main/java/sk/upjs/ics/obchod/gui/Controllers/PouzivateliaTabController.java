@@ -25,19 +25,19 @@ public class PouzivateliaTabController implements Initializable {
 
     @FXML
     private TableColumn<Pouzivatel, String> prihlasovacieMenoTableColumn;
-    
+
     @FXML
     private TableColumn<Pouzivatel, String> menoTableColumn;
-    
+
     @FXML
     private TableColumn<Pouzivatel, String> priezviskoTableColumn;
-    
+
     @FXML
     private TableColumn<Pouzivatel, String> mestoTableColumn;
-    
+
     @FXML
     private TableColumn<Pouzivatel, String> ulicaTableColumn;
-    
+
     @FXML
     private TableColumn<Pouzivatel, Number> pscTableColumn;
 
@@ -75,6 +75,21 @@ public class PouzivateliaTabController implements Initializable {
         poslednePrihlasenieTableColumn.setCellValueFactory(cellData -> cellData.getValue().poslednePrihlasenieProperty());
         pravomociTableColumn.setCellValueFactory(cellData -> cellData.getValue().jeAdministratorProperty());
 
+        pscTableColumn.setCellFactory(column -> {
+            return new TableCell<Pouzivatel, Number>() {
+                @Override
+                protected void updateItem(Number psc, boolean empty) {
+                    super.updateItem(psc, empty);
+
+                    if (psc == null || psc.intValue() == 0 || empty) {
+                        setText("");
+                    } else {
+                        setText(Integer.toString(psc.intValue()));
+                    }
+                }
+            };
+        });
+
         pravomociTableColumn.setCellFactory(column -> {
             return new TableCell<Pouzivatel, Boolean>() {
                 @Override
@@ -83,12 +98,10 @@ public class PouzivateliaTabController implements Initializable {
 
                     if (jeAdmin == null || empty) {
                         setText("");
-                    } else {                 
-                        if (jeAdmin) {
-                            setText("administrátor");
-                        } else {
-                            setText("bežný použivateľ");
-                        }   
+                    } else if (jeAdmin) {
+                        setText("administrátor");
+                    } else {
+                        setText("bežný použivateľ");
                     }
                 }
             };

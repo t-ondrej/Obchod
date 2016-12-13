@@ -1,6 +1,5 @@
 package sk.upjs.ics.obchod.entity;
 
-import java.util.Objects;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;

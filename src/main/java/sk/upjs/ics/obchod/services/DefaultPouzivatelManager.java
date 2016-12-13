@@ -67,11 +67,19 @@ public enum DefaultPouzivatelManager implements PouzivatelManager {
     }
 
     @Override
-    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email) {
+    public void registrujPouzivatela(String prihlasovacieMeno, String heslo, String email,
+            String meno, String priezvisko, String mesto, String ulica, int psc) {
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setPrihlasovacieMeno(prihlasovacieMeno);
         pouzivatel.setPassword(heslo);
         pouzivatel.setEmail(email);
+        
+        pouzivatel.setMeno(meno);
+        pouzivatel.setPriezvisko(priezvisko);
+        pouzivatel.setMesto(mesto);
+        pouzivatel.setUlica(ulica);
+        pouzivatel.setPsc(psc);
+        
         pouzivatel.setPoslednePrihlasenie(LocalDateTime.now());
 
         Kosik kosik = new Kosik();
