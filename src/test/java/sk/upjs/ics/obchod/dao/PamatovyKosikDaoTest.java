@@ -96,11 +96,11 @@ public class PamatovyKosikDaoTest {
 
     /**
      * Test of dajTovarDoKosika method, of class PamatoviKosikDao.
-     * Este nie je v kosiku
+     * Tovar nebol v kosiku
      */
     @Test
-    public void testDajTovarDoKosikaNieJeV() {
-        System.out.println("dajTovarDoKosikaNieJeV");
+    public void testDajTovarDoKosikaNovyTovar() {
+        System.out.println("dajTovarDoKosikaNovyTovar");
         naplnTestovacieUdaje();
         
         dao.dajTovarDoKosika(tovar3, kosik);

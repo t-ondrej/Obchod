@@ -127,7 +127,7 @@ public class DefaultKosikManagerTest {
     
     /**
      * Test of pridajTovarDoKosika method, of class DefaultKosikManager.
-     * Tovar ma nenulovy pocet kusov a je uz v kosiku
+     * Tovar este nie je v kosiku
      */
     @Test
     public void testPridajTovarDoKosikaPridaSaNieJeTam() {
