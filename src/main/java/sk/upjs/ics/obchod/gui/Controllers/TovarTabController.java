@@ -167,16 +167,32 @@ public class TovarTabController implements Initializable {
             return;
         }
 
-        Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
+        if (kategorieComboBox.getSelectionModel().getSelectedItem() == null) {
+            upozornenieLabel.setText("Vyberte kategóriu!");
+            ukazUpozornenieLabel();
+        } else if (znackyComboBox.getSelectionModel().getSelectedItem() == null) {
+            upozornenieLabel.setText("Vyberte značku!");
+            ukazUpozornenieLabel();
+        } else if (!StringUtilities.jeCislo(cenaTextField.getText())) {
+            cenaTextField.getStyleClass().add("chyba");
+            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+                pocetKusovTextField.getStyleClass().add("chyba");
+            }
+        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+            pocetKusovTextField.getStyleClass().add("chyba");
+        } else {
 
-        kategorieComboBox.getSelectionModel().select((tovar.getKategoria().getId().intValue()));
-        znackyComboBox.getSelectionModel().select(tovar.getZnacka().getId().intValue());
+            Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        nazovTextField.setText(tovar.getNazov());
-        cenaTextField.setText(Integer.toString(tovar.getCena()));
-        obrazokUrlTextField.setText(tovar.getObrazokUrl());
-        pocetKusovTextField.setText(Integer.toString(tovar.getPocetKusov()));
-        popisTovaruTextArea.setText(tovar.getPopis());
+            kategorieComboBox.getSelectionModel().select((tovar.getKategoria().getId().intValue()));
+            znackyComboBox.getSelectionModel().select(tovar.getZnacka().getId().intValue());
+
+            nazovTextField.setText(tovar.getNazov());
+            cenaTextField.setText(Integer.toString(tovar.getCena()));
+            obrazokUrlTextField.setText(tovar.getObrazokUrl());
+            pocetKusovTextField.setText(Integer.toString(tovar.getPocetKusov()));
+            popisTovaruTextArea.setText(tovar.getPopis());
+        }
     }
 
     @FXML
@@ -220,7 +236,7 @@ public class TovarTabController implements Initializable {
     @FXML
     public void onUpravitButtonClicked() {
         Tovar Tovar = tovarTableView.getSelectionModel().getSelectedItem();
-       
+
         Tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
         Tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
         Tovar.setNazov(nazovTextField.getText());
@@ -306,10 +322,10 @@ public class TovarTabController implements Initializable {
 
     private boolean suVsetkyTextFieldyVyplnene() {
         return !(nazovTextField.getText() == null || nazovTextField.getText().trim().isEmpty()
-                || obrazokUrlTextField.getText() == null || obrazokUrlTextField.getText().trim().isEmpty() ||
-                popisTovaruTextArea.getText() == null || popisTovaruTextArea.getText().trim().isEmpty());
+                || obrazokUrlTextField.getText() == null || obrazokUrlTextField.getText().trim().isEmpty()
+                || popisTovaruTextArea.getText() == null || popisTovaruTextArea.getText().trim().isEmpty());
     }
-    
+
     private void ukazVyberTovarUpozornenie() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Upozornenie");

@@ -60,6 +60,7 @@ public class PamatovyKosikDao implements KosikDao {
     @Override
     public void vyprazniKosik(Kosik kosik) {
         kosik.getTovar().clear();
+        kosik.setCelkovaCena(0);
     }
 
 }
