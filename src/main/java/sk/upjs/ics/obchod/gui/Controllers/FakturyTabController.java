@@ -101,6 +101,8 @@ public class FakturyTabController implements Initializable {
                     if (!empty) {
                         Pouzivatel pouzivatel = DaoFactory.INSTANCE.getMysqlPouzivatelDao().dajPouzivatela(idPouzivatela.longValue());
                         setText(pouzivatel.getPrihlasovacieMeno());
+                    } else {
+                        setText("");
                     }
                 }
             };
