@@ -87,8 +87,8 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFakturyZaPoslednyDen");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFakturyZaPoslednyDen();        
-        Assert.assertEquals(1, faktury.size()); 
+        List<Faktura> faktury = dao.dajFakturyZaPoslednyDen();         
+        Assert.assertEquals(2, faktury.size()); 
     }
 
     /**
@@ -100,7 +100,7 @@ public class MysqlFakturaDaoTest {
         naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyTyzden();       
-        Assert.assertEquals(2, faktury.size());         
+        Assert.assertEquals(4, faktury.size());         
     }
 
     /**
@@ -112,7 +112,7 @@ public class MysqlFakturaDaoTest {
         naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyMesiac();       
-        Assert.assertEquals(3, faktury.size());        
+        Assert.assertEquals(5, faktury.size());        
     }
 
     /**
@@ -124,7 +124,7 @@ public class MysqlFakturaDaoTest {
         naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyRok();       
-        Assert.assertEquals(4, faktury.size());        
+        Assert.assertEquals(6, faktury.size());        
     }
 
 

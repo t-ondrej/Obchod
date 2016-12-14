@@ -32,25 +32,25 @@ public class MysqlFakturaDao implements FakturaDao {
 
     @Override
     public List<Faktura> dajFakturyZaPoslednyDen() {
-        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 DAY AND CURDATE()";
+        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() AND NOW()";
         return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public List<Faktura> dajFakturyZaPoslednyTyzden() {
-        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 WEEK AND CURDATE()";
+        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 WEEK AND NOW()";
         return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public List<Faktura> dajFakturyZaPoslednyMesiac() {
-        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
+        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 MONTH AND NOW()";
         return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public List<Faktura> dajFakturyZaPoslednyRok() {
-        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 YEAR AND CURDATE()";
+        String sql = "SELECT * FROM Faktura WHERE datum_nakupu BETWEEN CURDATE() - INTERVAL 1 YEAR AND NOW()";
         return jdbcTemplate.query(sql, mapper);
     }
 

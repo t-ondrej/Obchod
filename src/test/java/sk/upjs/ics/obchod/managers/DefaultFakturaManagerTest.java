@@ -66,7 +66,13 @@ public class DefaultFakturaManagerTest {
         kosik.getTovary().put(tovar2, new SimpleIntegerProperty(2));
         kosik.setCelkovaCena(160);
         
-        String sql5 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES(1, 100, now()),(2, 55, now())";
+        String sql5 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
+                + "(1, 100, date_add(now(), interval -3 minute)),"
+                + "(2, 55, date_add(now(), interval -5 minute)), "
+                + "(3, 64, date_add(now(), interval -1 year)), "
+                + "(3, 60, date_add(now(), interval -1 week)), "
+                + "(3, 65, date_add(now(), interval -1 day)), "
+                + "(3, 60, date_add(now(), interval -1 month))";
         jdbcTemplate.execute(sql5);
         
         String sql6 = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, "
@@ -110,24 +116,24 @@ public class DefaultFakturaManagerTest {
         String sql1 = "SELECT COUNT(*) FROM Faktura"; 
         Long pocetF = jdbcTemplate.queryForObject(sql1, Long.class);
         
-        String sql2 = "SELECT * FROM faktura WHERE id = 3";
+        String sql2 = "SELECT * FROM faktura WHERE id = 7";
         BeanPropertyRowMapper<Faktura> mapper = BeanPropertyRowMapper.newInstance(Faktura.class);
         Faktura f = jdbcTemplate.queryForObject(sql2, mapper); 
         
         String sql3 = "SELECT COUNT(*) FROM Tovar_Faktury"; 
         Long pocetTF = jdbcTemplate.queryForObject(sql3, Long.class);
         
-        String sql4 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test1' and id_faktura = 3";
+        String sql4 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test1' and id_faktura = 7";
         Long pocet3 = jdbcTemplate.queryForObject(sql4, Long.class);
         
-        String sql5 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test2' and id_faktura = 3";
+        String sql5 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test2' and id_faktura = 7";
         Long pocet4 = jdbcTemplate.queryForObject(sql5, Long.class);
         
         ObservableMap<Tovar, IntegerProperty> tovary = kosik.getTovary();
         
-        Assert.assertEquals(new Long(3), pocetF);
-        Assert.assertEquals(new Long(3), idF);
-        Assert.assertEquals(new Long(3), f.getId());
+        Assert.assertEquals(new Long(7), pocetF);
+        Assert.assertEquals(new Long(7), idF);
+        Assert.assertEquals(new Long(7), f.getId());
         Assert.assertEquals(new Long(2), f.getIdPouzivatel());
         Assert.assertEquals(160, f.getSuma());
         Assert.assertEquals(new Long(4), pocetTF);
@@ -141,8 +147,7 @@ public class DefaultFakturaManagerTest {
      */
     @Test
     public void testDajFakturyZaObdobie() {
-     /*   System.out.println("dajFakturyZaObdobie");
-        naplnTestovacieUdaje2();
+        System.out.println("dajFakturyZaObdobie");        
         
         List<Faktura> den = manager.dajFakturyZaObdobie("posledný deň");
         List<Faktura> tyzden = manager.dajFakturyZaObdobie("posledný týždeň");
@@ -150,10 +155,10 @@ public class DefaultFakturaManagerTest {
         List<Faktura> rok = manager.dajFakturyZaObdobie("posledný rok");
         List<Faktura> nic = manager.dajFakturyZaObdobie("neni");
         
-        Assert.assertEquals(1, den.size());  
-        Assert.assertEquals(2, tyzden.size());
-        Assert.assertEquals(3, mesiac.size());
-        Assert.assertEquals(4, rok.size());
-        Assert.assertEquals(null, nic);*/
+        Assert.assertEquals(2, den.size());  
+        Assert.assertEquals(4, tyzden.size());
+        Assert.assertEquals(5, mesiac.size());
+        Assert.assertEquals(6, rok.size());
+        Assert.assertEquals(null, nic);
     }
 }
