@@ -48,6 +48,11 @@
                      </cursor>
                   </ImageView>
                   <ComboBox fx:id="profilComboBox" layoutX="1157.0" prefHeight="83.0" prefWidth="144.0" promptText="Profil" styleClass="kategorie-znacky" visible="false" />
+                  <Label id="label-vsetok-tovar" fx:id="zobrazitVsetkoLabel" layoutX="324.0" layoutY="25.0" onMouseClicked="#onZobrazitVsetkoLabelClicked" text="Zobraziť všetko" visible="false">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
                     </children>
                 </Pane>
             </top>

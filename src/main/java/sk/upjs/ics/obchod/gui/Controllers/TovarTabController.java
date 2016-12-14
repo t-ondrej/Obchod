@@ -74,9 +74,6 @@ public class TovarTabController implements Initializable {
     private TableColumn<Tovar, Number> cenaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, String> popisTableColumn;
-
-    @FXML
     private TableColumn<Tovar, String> urlObrazkaTableColumn;
 
     @FXML
@@ -245,7 +242,6 @@ public class TovarTabController implements Initializable {
         kategoriaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getKategoria().nazovProperty());
         znackaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getZnacka().nazovProperty());
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
-        popisTableColumn.setCellValueFactory(cellData -> cellData.getValue().popisProperty());
         urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().obrazokUrl());
         pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().pocetKusovProperty());
 

@@ -23,7 +23,6 @@ public class MysqlPouzivatelDaoTest {
         jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
     }
 
-    @Before
     private void naplnTestovacieUdaje() {
         String sql = "INSERT INTO Pouzivatel (prihlasovacie_meno, meno, "
                 + "priezvisko, mesto, ulica, psc, hash_hesla, sol, email, "
@@ -79,6 +78,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testDajPouzivatelov() {
         System.out.println("dajPouzivatelov");
+        naplnTestovacieUdaje();
 
         List<Pouzivatel> pouzivatelia = dao.dajPouzivatelov();
         Assert.assertEquals(2, pouzivatelia.size());
@@ -90,6 +90,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testDajPouzivatelaPodlaMena() {
         System.out.println("dajPouzivatelaPodlaMena");
+        naplnTestovacieUdaje();
 
         Pouzivatel pouzivatel = dao.dajPouzivatela("test1");
         Assert.assertEquals(new Long(1), pouzivatel.getId());
@@ -101,6 +102,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testDajPouzivatelaPodlaId() {
         System.out.println("dajPouzivatelaPodlaId");
+        naplnTestovacieUdaje();
 
         Pouzivatel p = dao.dajPouzivatela(2L);
         Assert.assertEquals("test2", p.getPrihlasovacieMeno());
@@ -149,6 +151,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testUlozPouzivatelaUprav() {
         System.out.println("ulozPouzivatela");
+        naplnTestovacieUdaje();
 
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setId(2L);
@@ -187,6 +190,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testOdstranPouzivatela() {
         System.out.println("odstranPouzivatela");
+        naplnTestovacieUdaje();
 
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setId(1L);
@@ -205,6 +209,7 @@ public class MysqlPouzivatelDaoTest {
     @Test
     public void testNovePoslednePrihlasenie() {
         System.out.println("novePoslednePrihlasenie");
+        naplnTestovacieUdaje();
 
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setId(1L);

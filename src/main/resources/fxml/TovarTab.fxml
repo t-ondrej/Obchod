@@ -72,13 +72,12 @@
             </placeholder>
             <columns>
                 <TableColumn fx:id="idTableColumn" prefWidth="49.0" text="Id" />
-                <TableColumn fx:id="nazovTableColumn" prefWidth="101.0" text="Názov" />
-                <TableColumn fx:id="kategoriaTableColumn" prefWidth="118.0" text="Kategória" />
-                <TableColumn fx:id="znackaTableColumn" prefWidth="107.0" text="Značka" />
-                <TableColumn fx:id="cenaTableColumn" prefWidth="72.0" text="Cena" />
-                <TableColumn fx:id="popisTableColumn" prefWidth="92.0" text="Popis" />
-                <TableColumn fx:id="urlObrazkaTableColumn" prefWidth="124.0" text="Url obrazka" />
-                <TableColumn fx:id="pocetKusovTableColumn" prefWidth="113.0" text="Počet kusov" />
+                <TableColumn fx:id="nazovTableColumn" prefWidth="120.0" text="Názov" />
+                <TableColumn fx:id="kategoriaTableColumn" prefWidth="126.0" text="Kategória" />
+                <TableColumn fx:id="znackaTableColumn" prefWidth="95.0" text="Značka" />
+                <TableColumn fx:id="cenaTableColumn" prefWidth="97.0" text="Cena" />
+                <TableColumn fx:id="urlObrazkaTableColumn" prefWidth="141.0" text="Url obrazka" />
+                <TableColumn fx:id="pocetKusovTableColumn" prefWidth="148.0" text="Počet kusov" />
             </columns>
         </TableView>
     </children>

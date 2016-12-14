@@ -20,7 +20,6 @@ public class MysqlKategoriaDaoTest {
         jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
     }
     
-    @Before
     private void naplnTestovacieUdaje(){
         String sql = "INSERT INTO kategoria (nazov) values ('test1'), ('test2')";
         jdbcTemplate.execute(sql);
@@ -38,6 +37,7 @@ public class MysqlKategoriaDaoTest {
     @Test
     public void testDajKategorie() {
         System.out.println("dajKategorie");
+        naplnTestovacieUdaje();
         
         List<Kategoria> kategorie = dao.dajKategorie();
         Assert.assertEquals(2, kategorie.size());        
@@ -49,6 +49,7 @@ public class MysqlKategoriaDaoTest {
     @Test
     public void testNajdiPodlaId() {
         System.out.println("najdiPodlaId");
+        naplnTestovacieUdaje();
        
         Kategoria k = dao.najdiPodlaId(1L);        
         Assert.assertEquals("test1", k.getNazov());        
@@ -60,6 +61,7 @@ public class MysqlKategoriaDaoTest {
     @Test
     public void testNajdiPodlaNazvu() {
         System.out.println("najdiPodlaNazvu");
+        naplnTestovacieUdaje();
         
         Kategoria k = dao.najdiPodlaNazvu("test2");        
         Assert.assertEquals(new Long(2), k.getId());        
@@ -92,6 +94,7 @@ public class MysqlKategoriaDaoTest {
     @Test
     public void testUlozUprav() {
         System.out.println("uloz");  
+        naplnTestovacieUdaje();
         
         Kategoria kategoria = new Kategoria();
         kategoria.setId(2L);
@@ -113,6 +116,7 @@ public class MysqlKategoriaDaoTest {
     @Test
     public void testOdstranKategoriu() {
         System.out.println("odstranKategoriu");
+        naplnTestovacieUdaje();
         
         Kategoria kategoria = new Kategoria();
         kategoria.setId(1L);        

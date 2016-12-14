@@ -20,7 +20,6 @@ public class MysqlZnackaDaoTest {
         jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
     }
     
-    @Before
     private void naplnTestovacieUdaje(){
         String sql = "INSERT INTO znacka (nazov) values ('test1'), ('test2')";
         jdbcTemplate.execute(sql);
@@ -38,6 +37,7 @@ public class MysqlZnackaDaoTest {
     @Test
     public void testDajZnacky() {
         System.out.println("dajZnacky");
+        naplnTestovacieUdaje();
                 
         List<Znacka> znacky = dao.dajZnacky();        
         Assert.assertEquals(2, znacky.size());
@@ -49,6 +49,7 @@ public class MysqlZnackaDaoTest {
     @Test
     public void testNajdiPodlaId() {
         System.out.println("najdiPodlaId");
+        naplnTestovacieUdaje();
                 
         Znacka z = dao.najdiPodlaId(1L);        
         Assert.assertEquals("test1", z.getNazov());        
@@ -60,6 +61,7 @@ public class MysqlZnackaDaoTest {
     @Test
     public void testNajdiPodlaNazvu() {
         System.out.println("najdiPodlaNazvu");    
+        naplnTestovacieUdaje();
         
         Znacka z = dao.najdiPodlaNazvu("test2");
         Assert.assertEquals(new Long(2), z.getId());
@@ -92,6 +94,7 @@ public class MysqlZnackaDaoTest {
     @Test
     public void testUlozUprav() {
         System.out.println("uloz");
+        naplnTestovacieUdaje();
     
         Znacka znacka = new Znacka();
         znacka.setId(2L);
@@ -113,6 +116,7 @@ public class MysqlZnackaDaoTest {
     @Test
     public void testOdstranZnacku() {
         System.out.println("odstranZnacku");
+        naplnTestovacieUdaje();
         
         Znacka znacka = new Znacka();
         znacka.setId(1L);        

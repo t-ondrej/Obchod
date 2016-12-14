@@ -27,6 +27,7 @@
 .vyber-tovar-kosika-button {
     -fx-background-color: transparent;
     -fx-text-fill: transparent;
+    -fx-alignment: center;
 }
 
 .combo-box .list-cell {
@@ -37,13 +38,6 @@
 .text-field {
     -fx-background-radius: 0px;
     -fx-border-color: #1d2326;
-    -fx-focus-color: -fx-control-inner-background ;
-    -fx-faint-focus-color: -fx-control-inner-background ;
-}
-
-.text-area {
-    -fx-border-color: #1d2326;
-    -fx-background-radius: 0px;
     -fx-focus-color: -fx-control-inner-background ;
     -fx-faint-focus-color: -fx-control-inner-background ;
 }
@@ -79,6 +73,15 @@
 
 #label-specifikacia-tovaru {
     -fx-font-size: 35;
+}
+
+#label-vsetok-tovar {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 30px;  
+}
+
+#label-vsetok-tovar:hover {
+    -fx-text-fill: #FA9600;
 }
 
 .text-field.chyba {
@@ -218,7 +221,7 @@
 .table-view .column-header {
     -fx-background-color: transparent;
     -fx-pref-height: 35;
-    
+
 }
 
 .table-view .column-header-background .label{
@@ -231,16 +234,55 @@
 }
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected {
-     -fx-background-color: FA9600;
+    -fx-background-color: FA9600;
 }
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab {
-     -fx-background-color: DEDEDE;
+    -fx-background-color: DEDEDE;
 }
 
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
-     -fx-border-style: segments(0.166667em, 0.166667em);
-     -fx-border-width: 1;
-     -fx-border-color: transparent;
+    -fx-border-style: segments(0.166667em, 0.166667em);
+    -fx-border-width: 1;
+    -fx-border-color: transparent;
+}
+
+/* Text area scrollBar */
+.text-area {
+    -fx-border-color:derive(gray,80%);
+    /*     -fx-border-color: #1d2326;*/
+    -fx-background-radius: 0px;
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
+}
+
+/* The main scrollbar CSS class of ListView */
+.text-area .scroll-bar:horizontal ,
+.text-area  .scroll-bar:vertical{
+    -fx-background-color:transparent;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.text-area .increment-button ,.mylistview .decrement-button {
+    -fx-background-color:transparent;
+    -fx-border-color:derive(gray,80%);
+}
+
+/* The main scrollbar **track** CSS class  */
+.text-area .scroll-bar:horizontal .track ,
+.text-area .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,80%);
+    -fx-background-radius: 0em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.text-area .scroll-bar:horizontal .thumb,
+.text-area .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
 }

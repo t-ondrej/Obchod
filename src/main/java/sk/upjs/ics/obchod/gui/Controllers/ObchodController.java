@@ -72,6 +72,9 @@ public class ObchodController implements Initializable {
     private Button odhlasitButton;
 
     @FXML
+    private Label zobrazitVsetkoLabel;
+    
+    @FXML
     private ImageView kosikImageView;
 
     @FXML
@@ -135,7 +138,6 @@ public class ObchodController implements Initializable {
             if (tovary.size() > i) {
                 Tovar tovar = tovary.get(i);
 
-                // TODO
                 Image obrazok = new Image("file:" + tovar.getObrazokUrl());
                 l.setImage(obrazok);
 
@@ -185,6 +187,7 @@ public class ObchodController implements Initializable {
             Kategoria kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
             List<Tovar> tovarPodlaKategorie = mysqlTovarDao.dajTovarPodlaKategorie(kategoria);
             obnovTovar(tovarPodlaKategorie);
+            zobrazitVsetkoLabel.setVisible(true);
         });
     }
 
@@ -210,6 +213,7 @@ public class ObchodController implements Initializable {
             Znacka znacka = znackyComboBox.getSelectionModel().getSelectedItem();
             List<Tovar> tovarPodlaZnacky = mysqlTovarDao.dajTovarPodlaZnacky(znacka);
             obnovTovar(tovarPodlaZnacky);
+            zobrazitVsetkoLabel.setVisible(true);
         });
     }
 
@@ -277,6 +281,13 @@ public class ObchodController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @FXML
+    public void onZobrazitVsetkoLabelClicked() {
+        zobrazitVsetkoLabel.setVisible(false);
+        List<Tovar> tovar = mysqlTovarDao.dajTovary();
+        obnovTovar(tovar);
     }
 
     private void zmenButtony() {

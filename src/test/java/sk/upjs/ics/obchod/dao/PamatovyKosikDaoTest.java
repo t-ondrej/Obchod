@@ -25,7 +25,6 @@ public class PamatovyKosikDaoTest {
         kosik = new Kosik();
     }
 
-    @Before
     private void naplnTestovacieUdaje() {
         tovar1 = new Tovar();
         tovar1.setId(1L);
@@ -102,6 +101,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testDajTovarDoKosikaNieJeV() {
         System.out.println("dajTovarDoKosikaNieJeV");
+        naplnTestovacieUdaje();
         
         dao.dajTovarDoKosika(tovar3, kosik);
         
@@ -117,6 +117,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testDajTovarDoKosikaUzJeV() {
         System.out.println("dajTovarDoKosikaUzJeV");
+        naplnTestovacieUdaje();
         
         dao.dajTovarDoKosika(tovar2, kosik);
         
@@ -131,6 +132,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testPocetJednehoTovaruVKosiku() {
         System.out.println("pocetJednehoTovaruVKosiku");
+        naplnTestovacieUdaje();
 
         int pocet = dao.pocetJednehoTovaruVKosiku(tovar1, kosik);
         Assert.assertEquals(1, pocet);
@@ -142,6 +144,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testNastavTovaruVKosikuPocetKusov() {
         System.out.println("nastavTovaruVKosikuPocetKusov");
+        naplnTestovacieUdaje();
 
         dao.nastavTovaruVKosikuPocetKusov(tovar2, kosik, 10);
         Assert.assertEquals(10, kosik.getTovary().get(tovar2).intValue());
@@ -154,6 +157,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testOdoberTovarZKosikaJedenKusJeTam() {
         System.out.println("odoberTovarZKosikaJedenKusJeTam");
+        naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar1, kosik);
         IntegerProperty pocet = kosik.getTovary().get(tovar1);
@@ -170,6 +174,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testOdoberTovarZKosikaViacKusovJeTam() {
         System.out.println("odoberTovarZKosikaViacKusovJeTam");
+        naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar2, kosik);
         IntegerProperty pocet = kosik.getTovary().get(tovar2);
@@ -185,6 +190,7 @@ public class PamatovyKosikDaoTest {
     @Test
     public void testDajTovaryKosika() {
         System.out.println("dajTovaryKosika");
+        naplnTestovacieUdaje();
 
         List<Tovar> tovary = dao.dajTovaryKosika(kosik);
         Assert.assertEquals(2, tovary.size());
