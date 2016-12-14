@@ -5,6 +5,7 @@ import sk.upjs.ics.obchod.managers.PouzivatelManager;
 import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.TestDaoFactory;
@@ -22,6 +23,7 @@ public class DefaultPouzivatelManagerTest {
         jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
     }
 
+    @Before
     private void naplnTestovacieUdaje() {
         String sql = "INSERT INTO Pouzivatel (prihlasovacie_meno, hash_hesla, sol, email, posledne_prihlasenie, je_administrator) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";
@@ -63,7 +65,6 @@ public class DefaultPouzivatelManagerTest {
     @Test
     public void testPrihlasPouzivatela() {
         System.out.println("prihlasPouzivatela");
-        naplnTestovacieUdaje();
 
         boolean podariloSa = manager.prihlasPouzivatela("test1", "test1");
 
@@ -78,7 +79,6 @@ public class DefaultPouzivatelManagerTest {
     @Test
     public void testRegistrujPouzivatela() {
         System.out.println("registrujPouzivatela");
-        naplnTestovacieUdaje();
 
         manager.registrujPouzivatela("test3", "test3", "test3@test.sk", "Tomas", "Jedno", "Veľké Kapušany", "Bratislavská", 05502);
         String sql = "SELECT * FROM pouzivatel WHERE prihlasovacie_meno = 'test3'";
@@ -96,7 +96,6 @@ public class DefaultPouzivatelManagerTest {
     @Test
     public void testJeVolneMeno() {
         System.out.println("jeVolneMeno");
-        naplnTestovacieUdaje();
 
         boolean volne = manager.jeVolneMeno("testtest");
         boolean obsadene = manager.jeVolneMeno("test1");

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +24,7 @@ public class MysqlFakturaDaoTest {
         jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
     }
     
+    @Before
     private void naplnTestovacieUdaje(){
         String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
                 + "(1, 100, date_add(now(), interval -3 minute)),"
@@ -72,7 +74,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajFaktury() {
         System.out.println("dajFaktury");
-        naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFaktury();        
         Assert.assertEquals(6, faktury.size());       
@@ -84,7 +85,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajFakturyZaPoslednyDen() {
         System.out.println("dajFakturyZaPoslednyDen");
-        naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyDen();        
         Assert.assertEquals(1, faktury.size()); 
@@ -96,7 +96,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajFakturyZaPoslednyTyzden() {
         System.out.println("dajFakturyZaPoslednyTyzden");
-        naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyTyzden();       
         Assert.assertEquals(2, faktury.size());         
@@ -108,7 +107,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajFakturyZaPoslednyMesiac() {
         System.out.println("dajFakturyZaPoslednyMesiac");
-        naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyMesiac();       
         Assert.assertEquals(3, faktury.size());        
@@ -120,7 +118,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajFakturyZaPoslednyRok() {
         System.out.println("dajFakturyZaPoslednyRok");
-        naplnTestovacieUdaje();
         
         List<Faktura> faktury = dao.dajFakturyZaPoslednyRok();       
         Assert.assertEquals(4, faktury.size());        
@@ -155,7 +152,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testOdstranFakturu() {
         System.out.println("odstranFakturu");
-        naplnTestovacieUdaje();
         
         Faktura faktura = new Faktura(); 
         faktura.setId(1L);
@@ -174,7 +170,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testPridajTovarFakture() {
         System.out.println("pridajTovarFakture");
-        naplnTestovacieUdaje();
         
         Tovar tovar = new Tovar(); 
         tovar.setId(2L);
@@ -215,7 +210,6 @@ public class MysqlFakturaDaoTest {
     @Test
     public void testDajTovarFaktury() {
         System.out.println("dajTovarFaktury");
-        naplnTestovacieUdaje();
         Faktura faktura = new Faktura();
         faktura.setId(4L);
         
