@@ -83,8 +83,8 @@ public class PamatovyKosikDaoTest {
         tovar3.setCena(10);
         tovar3.setPopis("popis");
 
-        kosik.getTovary().put(tovar1, new SimpleIntegerProperty(1));
-        kosik.getTovary().put(tovar2, new SimpleIntegerProperty(4));
+        kosik.getTovar().put(tovar1, new SimpleIntegerProperty(1));
+        kosik.getTovar().put(tovar2, new SimpleIntegerProperty(4));
         kosik.setCelkovaCena(81);
     }
 
@@ -105,8 +105,8 @@ public class PamatovyKosikDaoTest {
         
         dao.dajTovarDoKosika(tovar3, kosik);
         
-        Assert.assertTrue(kosik.getTovary().containsKey(tovar3));
-        Assert.assertEquals(1, kosik.getTovary().get(tovar3).intValue());
+        Assert.assertTrue(kosik.getTovar().containsKey(tovar3));
+        Assert.assertEquals(1, kosik.getTovar().get(tovar3).intValue());
         Assert.assertEquals(91, kosik.getCelkovaCena());        
     }
     
@@ -121,8 +121,8 @@ public class PamatovyKosikDaoTest {
         
         dao.dajTovarDoKosika(tovar2, kosik);
         
-        Assert.assertTrue(kosik.getTovary().containsKey(tovar2));
-        Assert.assertEquals(5, kosik.getTovary().get(tovar2).intValue());
+        Assert.assertTrue(kosik.getTovar().containsKey(tovar2));
+        Assert.assertEquals(5, kosik.getTovar().get(tovar2).intValue());
         Assert.assertEquals(101, kosik.getCelkovaCena());        
     }
 
@@ -147,7 +147,7 @@ public class PamatovyKosikDaoTest {
         naplnTestovacieUdaje();
 
         dao.nastavTovaruVKosikuPocetKusov(tovar2, kosik, 10);
-        Assert.assertEquals(10, kosik.getTovary().get(tovar2).intValue());
+        Assert.assertEquals(10, kosik.getTovar().get(tovar2).intValue());
     }
 
     /**
@@ -160,11 +160,11 @@ public class PamatovyKosikDaoTest {
         naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar1, kosik);
-        IntegerProperty pocet = kosik.getTovary().get(tovar1);
+        IntegerProperty pocet = kosik.getTovar().get(tovar1);
 
         Assert.assertEquals(null, pocet);        
         Assert.assertEquals(80, kosik.getCelkovaCena());
-        Assert.assertEquals(1, kosik.getTovary().size());
+        Assert.assertEquals(1, kosik.getTovar().size());
     }
     
     /**
@@ -177,24 +177,24 @@ public class PamatovyKosikDaoTest {
         naplnTestovacieUdaje();
 
         dao.odoberTovarZKosika(tovar2, kosik);
-        IntegerProperty pocet = kosik.getTovary().get(tovar2);
+        IntegerProperty pocet = kosik.getTovar().get(tovar2);
 
         Assert.assertEquals(new SimpleIntegerProperty(3).getValue(), pocet.getValue());        
         Assert.assertEquals(61, kosik.getCelkovaCena());
-        Assert.assertEquals(2, kosik.getTovary().size());
+        Assert.assertEquals(2, kosik.getTovar().size());
     }
 
     /**
-     * Test of dajTovaryKosika method, of class PamatoviKosikDao.
+     * Test of dajTovarKosika method, of class PamatoviKosikDao.
      */
     @Test
-    public void testDajTovaryKosika() {
-        System.out.println("dajTovaryKosika");
+    public void testDajTovarKosika() {
+        System.out.println("dajTovarKosika");
         naplnTestovacieUdaje();
 
-        List<Tovar> tovary = dao.dajTovaryKosika(kosik);
-        Assert.assertEquals(2, tovary.size());
-        Assert.assertTrue(tovary.contains(tovar1));
-        Assert.assertTrue(tovary.contains(tovar2));
+        List<Tovar> tovar = dao.dajTovarKosika(kosik);
+        Assert.assertEquals(2, tovar.size());
+        Assert.assertTrue(tovar.contains(tovar1));
+        Assert.assertTrue(tovar.contains(tovar2));
     }
 }

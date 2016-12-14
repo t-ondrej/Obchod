@@ -30,7 +30,7 @@ public interface KosikDao {
      */
     void odoberTovarZKosika(Tovar tovar ,Kosik kosik);
     
-    List<Tovar> dajTovaryKosika(Kosik kosik);
+    List<Tovar> dajTovarKosika(Kosik kosik);
     
     void vyprazniKosik(Kosik kosik);
             

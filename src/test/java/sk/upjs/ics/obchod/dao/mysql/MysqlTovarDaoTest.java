@@ -17,7 +17,7 @@ public class MysqlTovarDaoTest {
     private MysqlTovarDao dao;
     private JdbcTemplate jdbcTemplate;
 
-    private final String vyberTovarySql = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
+    private final String vyberTovarSql = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
             + "T.id_kategoria AS id_kategoria, T.id_znacka AS id_znacka, "
             + "T.cena AS cena, T.popis AS popis, T.obrazok_url AS obrazok_url, "
             + "T.pocet_kusov AS pocet_kusov, K.nazov AS nazov_kategoria, Z.nazov AS nazov_znacka "
@@ -54,14 +54,14 @@ public class MysqlTovarDaoTest {
     }
 
     /**
-     * Test of dajTovary method, of class MysqlTovarDao.
+     * Test of dajTovar method, of class MysqlTovarDao.
      */
     @Test
-    public void testDajTovary() {
-        System.out.println("dajTovary");        
+    public void testDajTovar() {
+        System.out.println("dajTovar");        
 
-        List<Tovar> tovary = dao.dajTovary();
-        Assert.assertEquals(2, tovary.size());
+        List<Tovar> tovar = dao.dajTovar();
+        Assert.assertEquals(2, tovar.size());
     }
 
     /**
@@ -78,10 +78,10 @@ public class MysqlTovarDaoTest {
         kategoria3.setId(3L);
         kategoria3.setNazov("Kategoria3Test");
 
-        List<Tovar> tovary = dao.dajTovarPodlaKategorie(kategoria);
-        List<Tovar> tovary3 = dao.dajTovarPodlaKategorie(kategoria3);
-        Assert.assertEquals(1, tovary.size());
-        Assert.assertEquals(0, tovary3.size());
+        List<Tovar> tovar = dao.dajTovarPodlaKategorie(kategoria);
+        List<Tovar> tovar3 = dao.dajTovarPodlaKategorie(kategoria3);
+        Assert.assertEquals(1, tovar.size());
+        Assert.assertEquals(0, tovar3.size());
     }
 
     /**
@@ -109,10 +109,10 @@ public class MysqlTovarDaoTest {
         znacka3.setId(3L);
         znacka3.setNazov("Znacka3Test");
 
-        List<Tovar> tovary = dao.dajTovarPodlaZnacky(znacka);
-        List<Tovar> tovary3 = dao.dajTovarPodlaZnacky(znacka3);
-        Assert.assertEquals(2, tovary.size());
-        Assert.assertEquals(0, tovary3.size());
+        List<Tovar> tovar = dao.dajTovarPodlaZnacky(znacka);
+        List<Tovar> tovar3 = dao.dajTovarPodlaZnacky(znacka3);
+        Assert.assertEquals(2, tovar.size());
+        Assert.assertEquals(0, tovar3.size());
     }
 
     /**
@@ -140,7 +140,7 @@ public class MysqlTovarDaoTest {
         tovar.setPocetKusov(6);
 
         Long id = dao.ulozTovar(tovar);
-        String sql = vyberTovarySql + "WHERE T.id = 3";
+        String sql = vyberTovarSql + "WHERE T.id = 3";
         TovarRowMapper mapper = new TovarRowMapper();
         Tovar t = (Tovar) jdbcTemplate.queryForObject(sql, mapper);
         
@@ -182,7 +182,7 @@ public class MysqlTovarDaoTest {
         tovar.setPocetKusov(6);
 
         Long id = dao.ulozTovar(tovar);
-        String sql = vyberTovarySql + "WHERE T.id = 2";
+        String sql = vyberTovarSql + "WHERE T.id = 2";
         TovarRowMapper mapper = new TovarRowMapper();
         Tovar t = (Tovar) jdbcTemplate.queryForObject(sql, mapper);
 

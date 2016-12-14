@@ -80,7 +80,7 @@ public class ObchodController implements Initializable {
     @FXML
     private Pagination tovarPagination;
 
-    private ObservableList<Tovar> tovary;
+    private ObservableList<Tovar> tovar;
 
     private int pocetStranok;
 
@@ -113,8 +113,8 @@ public class ObchodController implements Initializable {
 
     private void inicializujTovarPagination() {
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
-        tovary = FXCollections.observableArrayList(mysqlTovarDao.dajTovary());
-        pocetStranok = (tovary.size() / 8);
+        tovar = FXCollections.observableArrayList(mysqlTovarDao.dajTovar());
+        pocetStranok = (tovar.size() / 8);
         tovarPagination.setPageCount(pocetStranok + 1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
     }
@@ -135,13 +135,13 @@ public class ObchodController implements Initializable {
 
             vBox.getChildren().add(l);
 
-            if (tovary.size() > i) {
-                Tovar tovar = tovary.get(i);
+            if (tovar.size() > i) {
+                Tovar kusTovaru = tovar.get(i);
 
-                Image obrazok = new Image("file:" + tovar.getObrazokUrl());
+                Image obrazok = new Image("file:" + kusTovaru.getObrazokUrl());
                 l.setImage(obrazok);
 
-                Label nazovTovaru = new Label(tovar.getNazov());
+                Label nazovTovaru = new Label(kusTovaru.getNazov());
 
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
@@ -247,10 +247,10 @@ public class ObchodController implements Initializable {
     }
 
     public void obnovTovar(List<Tovar> tovar) {
-        tovary.removeAll(tovary);
-        tovary.addAll(FXCollections.observableArrayList(tovar));
+        tovar.removeAll(tovar);
+        tovar.addAll(FXCollections.observableArrayList(tovar));
 
-        pocetStranok = (tovary.size() / 8);
+        pocetStranok = (tovar.size() / 8);
         tovarPagination.setPageCount(pocetStranok + 1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
 
@@ -286,7 +286,7 @@ public class ObchodController implements Initializable {
     @FXML
     public void onZobrazitVsetkoLabelClicked() {
         zobrazitVsetkoLabel.setVisible(false);
-        List<Tovar> tovar = mysqlTovarDao.dajTovary();
+        List<Tovar> tovar = mysqlTovarDao.dajTovar();
         obnovTovar(tovar);
     }
 

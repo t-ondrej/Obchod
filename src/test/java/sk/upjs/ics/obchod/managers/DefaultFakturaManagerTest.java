@@ -56,14 +56,14 @@ public class DefaultFakturaManagerTest {
             + "JOIN Znacka Z ON T.id_znacka = Z.id ";
         
         TovarRowMapper mapper = new TovarRowMapper();
-        List<Tovar> tovary= jdbcTemplate.query(sql4, mapper);
+        List<Tovar> tovar = jdbcTemplate.query(sql4, mapper);
         
-        tovar1 = tovary.get(0);        
-        tovar2 = tovary.get(1);
-        tovar3 = tovary.get(2);
+        tovar1 = tovar.get(0);        
+        tovar2 = tovar.get(1);
+        tovar3 = tovar.get(2);
         
-        kosik.getTovary().put(tovar1, new SimpleIntegerProperty(1));
-        kosik.getTovary().put(tovar2, new SimpleIntegerProperty(2));
+        kosik.getTovar().put(tovar1, new SimpleIntegerProperty(1));
+        kosik.getTovar().put(tovar2, new SimpleIntegerProperty(2));
         kosik.setCelkovaCena(160);
         
         String sql5 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
@@ -129,7 +129,7 @@ public class DefaultFakturaManagerTest {
         String sql5 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test2' and id_faktura = 7";
         Long pocet4 = jdbcTemplate.queryForObject(sql5, Long.class);
         
-        ObservableMap<Tovar, IntegerProperty> tovary = kosik.getTovary();
+        ObservableMap<Tovar, IntegerProperty> tovar = kosik.getTovar();
         
         Assert.assertEquals(new Long(7), pocetF);
         Assert.assertEquals(new Long(7), idF);
@@ -139,7 +139,7 @@ public class DefaultFakturaManagerTest {
         Assert.assertEquals(new Long(4), pocetTF);
         Assert.assertEquals(new Long(1), pocet3);
         Assert.assertEquals(new Long(2), pocet4);
-        Assert.assertEquals(0, tovary.size());
+        Assert.assertEquals(0, tovar.size());
     }
 
     /**

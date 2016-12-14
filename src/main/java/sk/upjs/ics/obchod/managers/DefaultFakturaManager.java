@@ -37,9 +37,9 @@ public class DefaultFakturaManager implements FakturaManager {
         faktura.setId(idFaktury);
 
         Kosik kosik = pouzivatel.getKosik();
-        List<Tovar> tovary = kosikDao.dajTovaryKosika(kosik);
+        List<Tovar> tovar = kosikDao.dajTovarKosika(kosik);
         
-        tovary.stream().forEach((t) -> {
+        tovar.stream().forEach((t) -> {
             int pocet = kosikDao.pocetJednehoTovaruVKosiku(t, kosik);
             fakturaDao.pridajTovarFakture(t, faktura, pocet);
         });
