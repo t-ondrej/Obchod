@@ -11,7 +11,7 @@ public interface KosikManager {
     
     void odoberTovarZKosika(Tovar tovar);
     
-    List<Tovar> dajTovaryKosika();
+    List<Tovar> dajTovarKosika();
     
     void vyprazdniKosik();
     

@@ -249,7 +249,7 @@ public class TovarTabController implements Initializable {
     }
 
     private void naplnTovarModely() {
-        List<Tovar> tovar = DaoFactory.INSTANCE.getMysqlTovarDao().dajTovary();
+        List<Tovar> tovar = DaoFactory.INSTANCE.getMysqlTovarDao().dajTovar();
         tovarModely = FXCollections.observableArrayList(tovar);
     }
 

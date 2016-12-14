@@ -103,16 +103,16 @@ public class KosikController implements Initializable {
             odstranitButton.setOnAction(event -> {
                 Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
 
-                List<Tovar> tovary = defaultKosikManager.dajTovaryKosika();
+                List<Tovar> tovar = defaultKosikManager.dajTovarKosika();
 
-                Tovar tovar = tovary.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
+                Tovar prvyTovar = tovar.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
 
-                defaultKosikManager.odoberTovarZKosika(tovar);
+                defaultKosikManager.odoberTovarZKosika(prvyTovar);
             });
             return cell;
         });
 
-        kosikAktivnehoPouzivatela.getTovary().addListener(new MapChangeListener() {
+        kosikAktivnehoPouzivatela.getTovar().addListener(new MapChangeListener() {
             @Override
             public void onChanged(MapChangeListener.Change change) {
                 tovarTableView.getItems().clear();

@@ -20,7 +20,7 @@ public class MysqlTovarDao implements TovarDao {
 
     private final TovarRowMapper mapper = new TovarRowMapper();
 
-    private final String vyberTovarySql = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
+    private final String vyberTovarSql = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
             + "T.id_kategoria AS id_kategoria, T.id_znacka AS id_znacka, "
             + "T.cena AS cena, T.popis AS popis, T.obrazok_url AS obrazok_url, "
             + "T.pocet_kusov AS pocet_kusov, K.nazov AS nazov_kategoria, Z.nazov AS nazov_znacka "
@@ -32,27 +32,27 @@ public class MysqlTovarDao implements TovarDao {
     }
 
     @Override
-    public List<Tovar> dajTovary() {
-        return jdbcTemplate.query(this.vyberTovarySql, mapper);
+    public List<Tovar> dajTovar() {
+        return jdbcTemplate.query(this.vyberTovarSql, mapper);
     }
 
     @Override
     public List<Tovar> dajTovarPodlaKategorie(Kategoria kategoria) {
-        String sql = vyberTovarySql + "WHERE id_kategoria = ?";
+        String sql = vyberTovarSql + "WHERE id_kategoria = ?";
 
         return jdbcTemplate.query(sql, mapper, kategoria.getId());
     }
 
     @Override
     public Tovar dajTovarPodlaNazvu(String nazov) {
-        String sql = vyberTovarySql + "WHERE T.nazov = ?";
+        String sql = vyberTovarSql + "WHERE T.nazov = ?";
 
         return (Tovar) jdbcTemplate.queryForObject(sql, mapper, nazov);
     }
 
     @Override
     public List<Tovar> dajTovarPodlaZnacky(Znacka znacka) {
-        String sql = vyberTovarySql + "WHERE id_znacka = ?";
+        String sql = vyberTovarSql + "WHERE id_znacka = ?";
 
         return jdbcTemplate.query(sql, mapper, znacka.getId());
     }
@@ -109,7 +109,7 @@ public class MysqlTovarDao implements TovarDao {
 
     @Override
     public Tovar najdiPodlaId(Long id) {
-        String sql = vyberTovarySql + "WHERE T.id = ?";
+        String sql = vyberTovarSql + "WHERE T.id = ?";
         return (Tovar) jdbcTemplate.queryForObject(sql, mapper, id);
     }
 

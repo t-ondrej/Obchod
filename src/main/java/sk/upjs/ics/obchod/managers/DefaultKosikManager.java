@@ -60,9 +60,9 @@ public class DefaultKosikManager implements KosikManager {
     }
 
     @Override
-    public List<Tovar> dajTovaryKosika() {
+    public List<Tovar> dajTovarKosika() {
         Kosik kosik = pouzivatelManager.getAktivnyPouzivatel().getKosik();
-        return kosikDao.dajTovaryKosika(kosik);
+        return kosikDao.dajTovarKosika(kosik);
     }
 
     @Override
@@ -74,20 +74,20 @@ public class DefaultKosikManager implements KosikManager {
     @Override
     public IntegerProperty pocetTovaruVKosikuProperty(Tovar tovar) {
         Kosik kosik = pouzivatelManager.getAktivnyPouzivatel().getKosik();
-        return kosik.getTovary().get(tovar);
+        return kosik.getTovar().get(tovar);
     }
 
     @Override
     public ObservableList<Tovar> tovarKosikaObservableList() {
         Kosik kosik = pouzivatelManager.getAktivnyPouzivatel().getKosik();
-        return FXCollections.observableArrayList(kosikDao.dajTovaryKosika(kosik));
+        return FXCollections.observableArrayList(kosikDao.dajTovarKosika(kosik));
     }
 
     @Override
     public void vyprazdniKosik() {
         Kosik kosik = pouzivatelManager.getAktivnyPouzivatel().getKosik();
-        List<Tovar> tovary = kosikDao.dajTovaryKosika(kosik);
-        for (Tovar t : tovary) {
+        List<Tovar> tovar = kosikDao.dajTovarKosika(kosik);
+        for (Tovar t : tovar) {
             int pocet = kosikDao.pocetJednehoTovaruVKosiku(t, kosik);
             System.out.println(pocet);
             int pocetPred = tovarDao.dajPocetTovaru(t);

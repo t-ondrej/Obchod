@@ -8,7 +8,7 @@ import sk.upjs.ics.obchod.entity.Tovar;
 public interface FakturaManager {
     
     /**
-     * Vytvori fakturu a priradi k nej prislusne tovary aj s ich poctami, vyprazni kosik
+     * Vytvori fakturu a priradi k nej prislusne tovar aj s ich poctami, vyprazni kosik
      * @param pouzivatel
      * @return id vytvorenej faktury
      */

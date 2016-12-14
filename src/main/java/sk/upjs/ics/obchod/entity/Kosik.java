@@ -8,12 +8,12 @@ import javafx.collections.ObservableMap;
 
 public class Kosik {
     
-    private final ObservableMap<Tovar, IntegerProperty> tovary = FXCollections.observableHashMap();
+    private final ObservableMap<Tovar, IntegerProperty> tovar = FXCollections.observableHashMap();
     
     private final IntegerProperty celkovaCena = new SimpleIntegerProperty(0);
     
-    public ObservableMap<Tovar, IntegerProperty> getTovary() {
-        return tovary;
+    public ObservableMap<Tovar, IntegerProperty> getTovar() {
+        return tovar;
     }
     
     public int getCelkovaCena() {
