@@ -149,7 +149,7 @@ public class Tovar {
 
         final Tovar other = (Tovar) obj;
 
-        return !this.getNazov().equals(other.getNazov());
+        return this.getNazov().equals(other.getNazov());
 
     }
 }
