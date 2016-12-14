@@ -10,22 +10,26 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Tovar {
-    
+
     private LongProperty id = new SimpleLongProperty();
-    
+
     private StringProperty nazov = new SimpleStringProperty();
-    
+
     private ObjectProperty<Znacka> znacka = new SimpleObjectProperty<>();
-    
+
     private ObjectProperty<Kategoria> kategoria = new SimpleObjectProperty<>();
-    
+
     private IntegerProperty cena = new SimpleIntegerProperty();
+
+    private StringProperty popis = new SimpleStringProperty();
+    ;
     
-    private StringProperty popis = new SimpleStringProperty();;
+    private StringProperty obrazokUrl = new SimpleStringProperty();
+    ;
     
-    private StringProperty obrazokUrl = new SimpleStringProperty();;
-    
-    private IntegerProperty pocetKusov = new SimpleIntegerProperty();;
+    private IntegerProperty pocetKusov = new SimpleIntegerProperty();
+
+    ;
     
     public Long getId() {
         return id.getValue();
@@ -34,7 +38,7 @@ public class Tovar {
     public void setId(Long id) {
         this.id.setValue(id);
     }
-    
+
     public LongProperty idProperty() {
         return id;
     }
@@ -50,7 +54,7 @@ public class Tovar {
     public StringProperty nazovProperty() {
         return nazov;
     }
-    
+
     public Znacka getZnacka() {
         return znacka.getValue();
     }
@@ -58,7 +62,7 @@ public class Tovar {
     public void setZnacka(Znacka znacka) {
         this.znacka.setValue(znacka);
     }
-    
+
     public ObjectProperty<Znacka> znackaProperty() {
         return znacka;
     }
@@ -70,7 +74,7 @@ public class Tovar {
     public void setKategoria(Kategoria kategoria) {
         this.kategoria.setValue(kategoria);
     }
-    
+
     public ObjectProperty<Kategoria> kategoriaProperty() {
         return kategoria;
     }
@@ -82,7 +86,7 @@ public class Tovar {
     public void setCena(int cena) {
         this.cena.setValue(cena);
     }
-    
+
     public IntegerProperty cenaProperty() {
         return cena;
     }
@@ -94,7 +98,7 @@ public class Tovar {
     public void setPopis(String popis) {
         this.popis.setValue(popis);
     }
-    
+
     public StringProperty popisProperty() {
         return popis;
     }
@@ -106,11 +110,11 @@ public class Tovar {
     public void setObrazokUrl(String obrazokUrl) {
         this.obrazokUrl.setValue(obrazokUrl);
     }
-    
+
     public StringProperty obrazokUrl() {
         return obrazokUrl;
     }
-    
+
     public int getPocetKusov() {
         return pocetKusov.getValue();
     }
@@ -118,7 +122,7 @@ public class Tovar {
     public void setPocetKusov(int pocetKusov) {
         this.pocetKusov.setValue(pocetKusov);
     }
-    
+
     public IntegerProperty pocetKusovProperty() {
         return pocetKusov;
     }
@@ -134,27 +138,18 @@ public class Tovar {
         if (this == obj) {
             return true;
         }
-        
+
         if (obj == null) {
             return false;
         }
-        
+
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
-        final Tovar other = (Tovar) obj;
-        
-        if (!this.getNazov().equals(other.getNazov())) {
-            return false;
-        }
 
-        if (!this.getObrazokUrl().equals(other.getObrazokUrl())) {
-            return false;
-        }
-        
-        return true;
+        final Tovar other = (Tovar) obj;
+
+        return !this.getNazov().equals(other.getNazov());
+
     }
- 
-    
 }

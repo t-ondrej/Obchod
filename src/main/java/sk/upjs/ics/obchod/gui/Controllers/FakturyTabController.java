@@ -135,6 +135,7 @@ public class FakturyTabController implements Initializable {
 
     private void obnovFakturyTableView() {
         naplnFaktury();
+        fakturyTableView.getItems().clear();
         fakturyTableView.setItems(fakturaModely);
     }
 
