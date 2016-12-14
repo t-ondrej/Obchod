@@ -49,7 +49,7 @@
                   <TextField fx:id="cenaTextField" prefHeight="31.0" />
                   <TextField fx:id="obrazokUrlTextField" prefHeight="31.0" />
                   <TextField fx:id="pocetKusovTextField" prefHeight="31.0" />
-                  <TextArea fx:id="popisTovaruTextArea" prefHeight="218.0" prefWidth="334.0" />
+                  <TextArea fx:id="popisTovaruTextArea" prefHeight="218.0" prefWidth="334.0" wrapText="true" />
                </children>
             </VBox>
             <Label fx:id="pridatTovarLabel" layoutX="170.0" layoutY="1.0" text="Pridať tovar" visible="false" />

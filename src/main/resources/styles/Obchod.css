@@ -85,6 +85,7 @@
 }
 
 .text-field.chyba {
+    -fx-border-color: red;
     -fx-text-box-border: red ;
     -fx-focus-color: red ;
 }

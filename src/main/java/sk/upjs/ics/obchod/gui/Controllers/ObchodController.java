@@ -287,8 +287,8 @@ public class ObchodController implements Initializable {
     @FXML
     public void onZobrazitVsetkoLabelClicked() {
         zobrazitVsetkoLabel.setVisible(false);
-        List<Tovar> tovar = mysqlTovarDao.dajTovar();
-        obnovTovar(tovar);
+        List<Tovar> vsetokTovar = mysqlTovarDao.dajTovar();
+        obnovTovar(vsetokTovar);
     }
 
     private void zmenButtony() {
@@ -311,7 +311,7 @@ public class ObchodController implements Initializable {
 
             mainStage.setScene(specifikaciaTovaruScene);
         } catch (IOException ex) {
-            Logger.getLogger(ObchodController.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("Nepodarilo sa načítať súbor SpecifikaciaTovaru.fxml");
         }
     }
 }

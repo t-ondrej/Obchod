@@ -121,6 +121,8 @@ public class TovarTabController implements Initializable {
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
 
         inicializujTovarTableView();
+        inicializujKategorieComboBox();
+        inicializujZnackyComboBox();
     }
 
     @FXML
@@ -167,32 +169,16 @@ public class TovarTabController implements Initializable {
             return;
         }
 
-        if (kategorieComboBox.getSelectionModel().getSelectedItem() == null) {
-            upozornenieLabel.setText("Vyberte kategóriu!");
-            ukazUpozornenieLabel();
-        } else if (znackyComboBox.getSelectionModel().getSelectedItem() == null) {
-            upozornenieLabel.setText("Vyberte značku!");
-            ukazUpozornenieLabel();
-        } else if (!StringUtilities.jeCislo(cenaTextField.getText())) {
-            cenaTextField.getStyleClass().add("chyba");
-            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
-                pocetKusovTextField.getStyleClass().add("chyba");
-            }
-        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
-            pocetKusovTextField.getStyleClass().add("chyba");
-        } else {
+        Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-            Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
+        kategorieComboBox.setValue(tovar.getKategoria());
+        znackyComboBox.setValue(tovar.getZnacka());
 
-            kategorieComboBox.getSelectionModel().select((tovar.getKategoria().getId().intValue()));
-            znackyComboBox.getSelectionModel().select(tovar.getZnacka().getId().intValue());
-
-            nazovTextField.setText(tovar.getNazov());
-            cenaTextField.setText(Integer.toString(tovar.getCena()));
-            obrazokUrlTextField.setText(tovar.getObrazokUrl());
-            pocetKusovTextField.setText(Integer.toString(tovar.getPocetKusov()));
-            popisTovaruTextArea.setText(tovar.getPopis());
-        }
+        nazovTextField.setText(tovar.getNazov());
+        cenaTextField.setText(Integer.toString(tovar.getCena()));
+        obrazokUrlTextField.setText(tovar.getObrazokUrl());
+        pocetKusovTextField.setText(Integer.toString(tovar.getPocetKusov()));
+        popisTovaruTextArea.setText(tovar.getPopis());
     }
 
     @FXML
@@ -235,19 +221,33 @@ public class TovarTabController implements Initializable {
 
     @FXML
     public void onUpravitButtonClicked() {
-        Tovar Tovar = tovarTableView.getSelectionModel().getSelectedItem();
+        Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        Tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
-        Tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
-        Tovar.setNazov(nazovTextField.getText());
-        Tovar.setCena(Integer.parseInt(cenaTextField.getText()));
-        Tovar.setObrazokUrl(obrazokUrlTextField.getText());
-        Tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
-        Tovar.setPopis(popisTovaruTextArea.getText());
+        if (!StringUtilities.jeCislo(cenaTextField.getText())) {
+            cenaTextField.getStyleClass().add("chyba");
+            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+                pocetKusovTextField.getStyleClass().add("chyba");
+            }
+        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+            pocetKusovTextField.getStyleClass().add("chyba");
+        } else {
 
-        mysqlTovarDao.ulozTovar(Tovar);
-        obnovTovarTableView();
-        vymazTextFieldy();
+            tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
+            tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
+            tovar.setNazov(nazovTextField.getText());
+            tovar.setCena(Integer.parseInt(cenaTextField.getText()));
+            tovar.setObrazokUrl(obrazokUrlTextField.getText());
+            tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
+            tovar.setPopis(popisTovaruTextArea.getText());
+
+            mysqlTovarDao.ulozTovar(tovar);
+            
+            obnovTovarTableView();
+            vymazTextFieldy();
+            
+            cenaTextField.getStyleClass().remove("chyba");
+            pocetKusovTextField.getStyleClass().remove("chyba");
+        }
     }
 
     private void inicializujTovarTableView() {

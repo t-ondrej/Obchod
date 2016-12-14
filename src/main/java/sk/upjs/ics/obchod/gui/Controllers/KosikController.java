@@ -129,6 +129,9 @@ public class KosikController implements Initializable {
 
     @FXML
     public void onKupitButtonClicked() {
+        if (defaultKosikManager.dajTovarKosika().isEmpty()) {
+            return;
+        }
         ukazChceteKupitTovarDialog();
     }
 
