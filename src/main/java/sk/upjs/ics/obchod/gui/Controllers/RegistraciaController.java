@@ -81,11 +81,8 @@ public class RegistraciaController implements Initializable {
         String pscRetazec = pscTextField.getText();
         if (StringUtilities.jeCislo(pscRetazec)) {
             psc = Integer.parseInt(pscRetazec);
-        } else {
-            pscTextField.getStyleClass().add("chyba");
-            return;
         }
-
+        
         if (!defaultPouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
             ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
             return;
@@ -110,7 +107,6 @@ public class RegistraciaController implements Initializable {
         mestoTextField.clear();
         ulicaTextField.clear();
         pscTextField.clear();
-        pscTextField.getStyleClass().remove("chyba");
     }
 
     private void ukazUpozornenie(String hlavicka) {

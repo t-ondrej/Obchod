@@ -111,8 +111,8 @@ public class FakturyTabController implements Initializable {
 
     private void inicializujTovarFakturyTableView() {
         nazovTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        kategoriaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        znackaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
+        kategoriaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().getKategoria().nazovProperty());
+        znackaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().getZnacka().nazovProperty());
         cenaTovaruTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
         pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().pocetKusovProperty());
 
