@@ -81,12 +81,12 @@ public class RegistraciaController implements Initializable {
         String pscRetazec = pscTextField.getText();
         if (StringUtilities.jeCislo(pscRetazec)) {
             psc = Integer.parseInt(pscRetazec);
-        }
+        }     
         
         if (!defaultPouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
             ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
             return;
-        } else if (prihlasovacieMeno == null || heslo == null || email == null) {
+        } else if (prihlasovacieMeno.trim().isEmpty() || heslo.trim().isEmpty() || email.trim().isEmpty()) {
             ukazUpozornenie("Nevyplnili ste všetky údaje.");
             return;
         } else if (!StringUtilities.jeValidnyFormatEmailu(email)) {
