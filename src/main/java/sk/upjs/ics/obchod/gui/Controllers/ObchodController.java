@@ -186,6 +186,7 @@ public class ObchodController implements Initializable {
         kategorieComboBox.valueProperty().addListener(event -> {
             Kategoria kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
             List<Tovar> tovarPodlaKategorie = mysqlTovarDao.dajTovarPodlaKategorie(kategoria);
+            System.out.println(tovarPodlaKategorie.size());
             obnovTovar(tovarPodlaKategorie);
             zobrazitVsetkoLabel.setVisible(true);
         });
@@ -246,9 +247,9 @@ public class ObchodController implements Initializable {
         });
     }
 
-    public void obnovTovar(List<Tovar> tovar) {
+    public void obnovTovar(List<Tovar> filtovanyTovar) {
         tovar.removeAll(tovar);
-        tovar.addAll(FXCollections.observableArrayList(tovar));
+        tovar.addAll(FXCollections.observableArrayList(filtovanyTovar));
 
         pocetStranok = (tovar.size() / 8);
         tovarPagination.setPageCount(pocetStranok + 1);
