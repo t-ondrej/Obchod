@@ -22,18 +22,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
-import sk.upjs.ics.obchod.managers.DefaultKosikManager;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.managers.FakturaManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.KosikManager;
 import sk.upjs.ics.obchod.managers.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.IFakturaManager;
+import sk.upjs.ics.obchod.managers.IKosikManager;
+import sk.upjs.ics.obchod.managers.IPouzivatelManager;
 
-public class KosikController implements Initializable {
+public class KosikController extends AbstractController implements Initializable {
 
     @FXML
     private Button kupitButton;
@@ -56,25 +55,26 @@ public class KosikController implements Initializable {
     @FXML
     private TableColumn odobratTovarTableColumn;
 
-    private Stage mainStage;
-
     protected ObservableList<Tovar> tovarKosika;
 
-    private KosikManager defaultKosikManager;
+    private IKosikManager kosikManager;
 
-    private PouzivatelManager defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
+    private IPouzivatelManager pouzivatelManager;
 
-    private FakturaManager defaultFakturaManager = new DefaultFakturaManager(false);
+    private IFakturaManager fakturaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultKosikManager = new DefaultKosikManager();
-        Kosik kosikAktivnehoPouzivatela = defaultPouzivatelManager.getAktivnyPouzivatel().getKosik();
+        kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
+        fakturaManager = EntityManagerFactory.INSTANCE.getFakturaManager();
+        
+        Kosik kosikAktivnehoPouzivatela = pouzivatelManager.getAktivnyPouzivatel().getKosik();
 
         celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.celkovaCenaProperty()));
 
         nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        mnozstvoTableColumn.setCellValueFactory(cellData -> defaultKosikManager.pocetTovaruVKosikuProperty(cellData.getValue()));
+        mnozstvoTableColumn.setCellValueFactory(cellData -> kosikManager.pocetTovaruVKosikuProperty(cellData.getValue()));
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
 
         odobratTovarTableColumn.setCellFactory(col -> {
@@ -103,11 +103,11 @@ public class KosikController implements Initializable {
             odstranitButton.setOnAction(event -> {
                 Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
 
-                List<Tovar> tovar = defaultKosikManager.dajTovarKosika();
+                List<Tovar> tovar = kosikManager.dajTovarKosika();
 
                 Tovar prvyTovar = tovar.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
 
-                defaultKosikManager.odoberTovarZKosika(prvyTovar);
+                kosikManager.odoberTovarZKosika(prvyTovar);
             });
             return cell;
         });
@@ -116,20 +116,16 @@ public class KosikController implements Initializable {
             @Override
             public void onChanged(MapChangeListener.Change change) {
                 tovarTableView.getItems().clear();
-                tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList());
+                tovarTableView.setItems(kosikManager.tovarKosikaObservableList());
             }
         });
 
-        tovarTableView.setItems(defaultKosikManager.tovarKosikaObservableList());
-    }
-
-    public void setStage(Stage mainStage) {
-        this.mainStage = mainStage;
+        tovarTableView.setItems(kosikManager.tovarKosikaObservableList());
     }
 
     @FXML
     public void onKupitButtonClicked() {
-        if (defaultKosikManager.dajTovarKosika().isEmpty()) {
+        if (kosikManager.dajTovarKosika().isEmpty()) {
             return;
         }
         ukazChceteKupitTovarDialog();
@@ -153,11 +149,11 @@ public class KosikController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ano) {
-            if (!defaultPouzivatelManager.maVyplneneFakturacneUdaje()) {
+            if (!pouzivatelManager.maVyplneneFakturacneUdaje()) {
                 ukazUpozornenie("Vyplňte prosím fakturačné údaje");
                 alert.close();
             } else {
-                defaultFakturaManager.vytvorFakturu(defaultPouzivatelManager.getAktivnyPouzivatel());
+                fakturaManager.vytvorFakturu(pouzivatelManager.getAktivnyPouzivatel());
             }
         } else {
             alert.close();

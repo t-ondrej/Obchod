@@ -9,10 +9,10 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.KategoriaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.dao.IKategoriaDao;
 
-public class MysqlKategoriaDao implements KategoriaDao {
+public class MysqlKategoriaDao implements IKategoriaDao {
 
     private final JdbcTemplate jdbcTemplate;
 

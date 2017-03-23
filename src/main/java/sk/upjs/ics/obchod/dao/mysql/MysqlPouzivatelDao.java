@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.PouzivatelDao;
 import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
+import sk.upjs.ics.obchod.dao.IPouzivatelDao;
 
-public class MysqlPouzivatelDao implements PouzivatelDao {
+public class MysqlPouzivatelDao implements IPouzivatelDao {
 
     private final JdbcTemplate jdbcTemplate;
 

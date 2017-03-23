@@ -29,29 +29,30 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.KategoriaDao;
-import sk.upjs.ics.obchod.dao.TovarDao;
-import sk.upjs.ics.obchod.dao.ZnackaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultKosikManager;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
 import sk.upjs.ics.obchod.managers.KosikManager;
 import sk.upjs.ics.obchod.managers.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.IKosikManager;
+import sk.upjs.ics.obchod.managers.IPouzivatelManager;
+import sk.upjs.ics.obchod.dao.IZnackaDao;
+import sk.upjs.ics.obchod.dao.ITovarDao;
+import sk.upjs.ics.obchod.dao.IKategoriaDao;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 
 public class ObchodController implements Initializable {
 
-    private KategoriaDao mysqlKategoriaDao;
+    private IKategoriaDao mysqlKategoriaDao;
 
-    private ZnackaDao mysqlZnackaDao;
+    private IZnackaDao mysqlZnackaDao;
 
-    private TovarDao mysqlTovarDao;
+    private ITovarDao mysqlTovarDao;
 
-    private PouzivatelManager defaultPouzivatelManager;
+    private IPouzivatelManager pouzivatelManager;
 
-    private KosikManager defaultKosikManager;
+    private IKosikManager kosikManager;
 
     @FXML
     private ComboBox<Kategoria> kategorieComboBox;
@@ -92,12 +93,12 @@ public class ObchodController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
-        defaultKosikManager = new DefaultKosikManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
+        kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
         mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
 
-        BooleanProperty jePouzivatelPrihlaseny = defaultPouzivatelManager.isPrihlaseny();
+        BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny();
 
         jePouzivatelPrihlaseny.addListener(e -> {
             zmenButtony();
@@ -240,8 +241,8 @@ public class ObchodController implements Initializable {
             }
 
             if (vybranyIdx == 1) {
-                defaultKosikManager.vyprazdniKosik();
-                defaultPouzivatelManager.odhlasPouzivatela();
+                kosikManager.vyprazdniKosik();
+                pouzivatelManager.odhlasPouzivatela();
             }
 
         });
@@ -292,7 +293,7 @@ public class ObchodController implements Initializable {
     }
 
     private void zmenButtony() {
-        boolean jePouzivatelPrihlaseny = defaultPouzivatelManager.isPrihlaseny().get();
+        boolean jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny().get();
         prihlasitButton.setVisible(!jePouzivatelPrihlaseny);
         registrovatButton.setVisible(!jePouzivatelPrihlaseny);
 

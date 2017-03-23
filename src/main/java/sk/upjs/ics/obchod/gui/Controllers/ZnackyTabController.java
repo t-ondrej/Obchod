@@ -14,8 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import sk.upjs.ics.obchod.entity.Znacka;
-import sk.upjs.ics.obchod.managers.DefaultZnackaManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.ZnackaManager;
+import sk.upjs.ics.obchod.managers.IZnackaManager;
 
 public class ZnackyTabController implements Initializable {
 
@@ -51,11 +52,11 @@ public class ZnackyTabController implements Initializable {
 
     private ObservableList<Znacka> znackaModely;
 
-    private ZnackaManager defaultZnackaManager;
+    private IZnackaManager defaultZnackaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultZnackaManager = new DefaultZnackaManager(false);
+        defaultZnackaManager = EntityManagerFactory.INSTANCE.getZnackaManager();
 
         inicializujZnackyTableView();
     }

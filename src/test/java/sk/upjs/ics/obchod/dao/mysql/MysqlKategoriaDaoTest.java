@@ -3,21 +3,20 @@ package sk.upjs.ics.obchod.dao.mysql;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Kategoria;
 
 public class MysqlKategoriaDaoTest {
     
-    private MysqlKategoriaDao dao;
+    private MysqlKategoriaDao kategoriaDao;
     private JdbcTemplate jdbcTemplate;
     
     public MysqlKategoriaDaoTest(){
-        dao = TestDaoFactory.INSTANCE.getMysqlKategoriaDao();
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        kategoriaDao = new MysqlKategoriaDao(jdbcTemplate);
     }
     
     private void naplnTestovacieUdaje(){
@@ -39,7 +38,7 @@ public class MysqlKategoriaDaoTest {
         System.out.println("dajKategorie");
         naplnTestovacieUdaje();
         
-        List<Kategoria> kategorie = dao.dajKategorie();
+        List<Kategoria> kategorie = kategoriaDao.dajKategorie();
         Assert.assertEquals(2, kategorie.size());        
     }
 
@@ -51,7 +50,7 @@ public class MysqlKategoriaDaoTest {
         System.out.println("najdiPodlaId");
         naplnTestovacieUdaje();
        
-        Kategoria k = dao.najdiPodlaId(1L);        
+        Kategoria k = kategoriaDao.najdiPodlaId(1L);        
         Assert.assertEquals("test1", k.getNazov());        
     }
     
@@ -63,7 +62,7 @@ public class MysqlKategoriaDaoTest {
         System.out.println("najdiPodlaNazvu");
         naplnTestovacieUdaje();
         
-        Kategoria k = dao.najdiPodlaNazvu("test2");        
+        Kategoria k = kategoriaDao.najdiPodlaNazvu("test2");        
         Assert.assertEquals(new Long(2), k.getId());        
     }
     
@@ -77,7 +76,7 @@ public class MysqlKategoriaDaoTest {
         Kategoria kategoria = new Kategoria();
         kategoria.setNazov("skusobna");
        
-        Long id = dao.uloz(kategoria);
+        Long id = kategoriaDao.uloz(kategoria);
         String sql = "SELECT * FROM kategoria";
         BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);
         Kategoria k = jdbcTemplate.queryForObject(sql, mapper);        
@@ -100,7 +99,7 @@ public class MysqlKategoriaDaoTest {
         kategoria.setId(2L);
         kategoria.setNazov("skusobna");
        
-        Long id = dao.uloz(kategoria);
+        Long id = kategoriaDao.uloz(kategoria);
         String sql = "SELECT * FROM kategoria WHERE id=2";
         BeanPropertyRowMapper<Kategoria> mapper = BeanPropertyRowMapper.newInstance(Kategoria.class);
         Kategoria k = jdbcTemplate.queryForObject(sql, mapper);        
@@ -120,7 +119,7 @@ public class MysqlKategoriaDaoTest {
         
         Kategoria kategoria = new Kategoria();
         kategoria.setId(1L);        
-        dao.odstranKategoriu(kategoria);
+        kategoriaDao.odstranKategoriu(kategoria);
         
         String sql1 = "SELECT COUNT(*) FROM kategoria"; 
         String sql2 = "SELECT COUNT(*) FROM kategoria WHERE id = 1"; 

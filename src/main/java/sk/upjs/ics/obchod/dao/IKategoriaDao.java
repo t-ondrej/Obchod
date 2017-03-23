@@ -4,7 +4,7 @@ package sk.upjs.ics.obchod.dao;
 import java.util.List;
 import sk.upjs.ics.obchod.entity.Kategoria;
 
-public interface KategoriaDao {
+public interface IKategoriaDao {
     
     List<Kategoria> dajKategorie();
     

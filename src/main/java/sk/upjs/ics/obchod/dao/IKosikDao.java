@@ -4,7 +4,7 @@ import java.util.List;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 
-public interface KosikDao {  
+public interface IKosikDao {  
     
     /**
      * Da tovar do kosika a nastavi mu pocet 1

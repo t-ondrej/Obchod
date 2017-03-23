@@ -1,6 +1,5 @@
 package sk.upjs.ics.obchod.managers;
 
-import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
 import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -8,29 +7,34 @@ import javafx.collections.ObservableMap;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.IFakturaDao;
+import sk.upjs.ics.obchod.dao.IKosikDao;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
+import sk.upjs.ics.obchod.dao.PamatovyKosikDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlFakturaDao;
 import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
 
-public class DefaultFakturaManagerTest {
+public class FakturaManagerTest {
     
-    private DefaultFakturaManager manager;
+    private FakturaManager manager;
     private JdbcTemplate jdbcTemplate;
     private Kosik kosik;
     private Tovar tovar1;
     private Tovar tovar2;
     private Tovar tovar3;
     
-    public DefaultFakturaManagerTest() {
-        manager = new DefaultFakturaManager(true);
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+    public FakturaManagerTest() {
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        IFakturaDao fakturaDao = new MysqlFakturaDao(jdbcTemplate);
+        IKosikDao kosikDao = new PamatovyKosikDao();
+        manager = new FakturaManager(fakturaDao, kosikDao);      
         kosik = new Kosik();
     }
     

@@ -1,26 +1,27 @@
 package sk.upjs.ics.obchod.managers;
 
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
 import java.time.LocalDateTime;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.IPouzivatelDao;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
+import sk.upjs.ics.obchod.dao.mysql.MysqlPouzivatelDao;
 import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
-public class DefaultPouzivatelManagerTest {
+public class PouzivatelManagerTest {
 
-    private PouzivatelManager manager;
+    private IPouzivatelManager pouzivatelManager;
     private JdbcTemplate jdbcTemplate;
 
-    public DefaultPouzivatelManagerTest() {
-        manager = DefaultPouzivatelManager.INSTANCETEST;
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+    public PouzivatelManagerTest() {
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+       
+        IPouzivatelDao pouzivatelDao = new MysqlPouzivatelDao(jdbcTemplate);
+        pouzivatelManager = new PouzivatelManager(pouzivatelDao);
     }
 
     private void naplnTestovacieUdaje() {
@@ -66,11 +67,11 @@ public class DefaultPouzivatelManagerTest {
         System.out.println("prihlasPouzivatela");
         naplnTestovacieUdaje();
 
-        boolean podariloSa = manager.prihlasPouzivatela("test1", "test1");
+        boolean podariloSa = pouzivatelManager.prihlasPouzivatela("test1", "test1");
 
         Assert.assertEquals(true, podariloSa);
-        Assert.assertEquals(new Long(1), manager.getAktivnyPouzivatel().getId());
-        Assert.assertEquals(true, manager.isPrihlaseny().getValue());
+        Assert.assertEquals(new Long(1), pouzivatelManager.getAktivnyPouzivatel().getId());
+        Assert.assertEquals(true, pouzivatelManager.isPrihlaseny().getValue());
     }
 
     /**
@@ -81,7 +82,7 @@ public class DefaultPouzivatelManagerTest {
         System.out.println("registrujPouzivatela");
         naplnTestovacieUdaje();
 
-        manager.registrujPouzivatela("test3", "test3", "test3@test.sk", "Tomas", "Jedno", "Veľké Kapušany", "Bratislavská", 05502);
+        pouzivatelManager.registrujPouzivatela("test3", "test3", "test3@test.sk", "Tomas", "Jedno", "Veľké Kapušany", "Bratislavská", 05502);
         String sql = "SELECT * FROM pouzivatel WHERE prihlasovacie_meno = 'test3'";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper());
 
@@ -99,8 +100,8 @@ public class DefaultPouzivatelManagerTest {
         System.out.println("jeVolneMeno");
         naplnTestovacieUdaje();
 
-        boolean volne = manager.jeVolneMeno("testtest");
-        boolean obsadene = manager.jeVolneMeno("test1");
+        boolean volne = pouzivatelManager.jeVolneMeno("testtest");
+        boolean obsadene = pouzivatelManager.jeVolneMeno("test1");
         Assert.assertEquals(true, volne);
         Assert.assertEquals(false, obsadene);
     }

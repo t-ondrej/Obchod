@@ -3,13 +3,12 @@ package sk.upjs.ics.obchod.gui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import static javafx.application.Application.launch;
 import javafx.stage.WindowEvent;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
-import sk.upjs.ics.obchod.managers.DefaultKosikManager;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
-import sk.upjs.ics.obchod.managers.KosikManager;
+import sk.upjs.ics.obchod.managers.IKosikManager;
+
 import static javafx.application.Application.launch;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 
 public class ObchodStage extends Application {
 
@@ -25,9 +24,9 @@ public class ObchodStage extends Application {
         stage.show();
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            Pouzivatel aktivnyPouzivatel = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel();
+            Pouzivatel aktivnyPouzivatel = EntityManagerFactory.INSTANCE.getPouzivatelManager().getAktivnyPouzivatel();
             if (aktivnyPouzivatel != null) {
-                KosikManager defaultKosikManager = new DefaultKosikManager();
+                IKosikManager defaultKosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
                 defaultKosikManager.vyprazdniKosik();
             }
             stage.close();

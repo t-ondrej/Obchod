@@ -14,8 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import sk.upjs.ics.obchod.entity.Kategoria;
-import sk.upjs.ics.obchod.managers.DefaultKategoriaManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.KategoriaManager;
+import sk.upjs.ics.obchod.managers.IKategoriaManager;
 
 public class KategorieTabController implements Initializable {
 
@@ -51,11 +52,11 @@ public class KategorieTabController implements Initializable {
 
     private ObservableList<Kategoria> kategoriaModely;
 
-    private KategoriaManager defaultKategoriaManager;
+    private IKategoriaManager defaultKategoriaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultKategoriaManager = new DefaultKategoriaManager(false);
+        defaultKategoriaManager = EntityManagerFactory.INSTANCE.getKategoriaManager();
 
         inicializujKategorieTableView();
     }

@@ -2,23 +2,15 @@ package sk.upjs.ics.obchod.gui.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 
-public class AdministraciaController {
-
-    private Stage mainStage;
-
-
-    public void setStage(Stage mainStage) {
-        this.mainStage = mainStage;
-    }
+public class AdministraciaController extends AbstractController {
 
     @FXML
     public void onOdhlasitLabelClicked() {
         Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-        DefaultPouzivatelManager.INSTANCE.odhlasPouzivatela();
+        EntityManagerFactory.INSTANCE.getPouzivatelManager().odhlasPouzivatela();
         mainStage.setScene(obchodScene);     
     }
 }

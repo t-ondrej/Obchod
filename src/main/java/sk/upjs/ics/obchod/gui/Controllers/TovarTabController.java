@@ -27,7 +27,7 @@ import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
-import sk.upjs.ics.obchod.services.StringUtilities;
+import sk.upjs.ics.obchod.utils.StringUtilities;
 
 public class TovarTabController implements Initializable {
 

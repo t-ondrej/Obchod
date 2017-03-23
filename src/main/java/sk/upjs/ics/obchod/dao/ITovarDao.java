@@ -5,7 +5,7 @@ import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
 
-public interface TovarDao {
+public interface ITovarDao {
     
     List<Tovar> dajTovar();
     

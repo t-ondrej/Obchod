@@ -20,9 +20,11 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
+import sk.upjs.ics.obchod.managers.IPouzivatelManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
 
-public class ProfilPouzivatelaController implements Initializable {
+public class ProfilPouzivatelaController extends AbstractController implements Initializable {
 
     @FXML
     private TextField prihlasovacieMenoTextField;
@@ -54,13 +56,14 @@ public class ProfilPouzivatelaController implements Initializable {
     @FXML
     private Button zmenitHesloButton;
 
-    private Stage mainStage;
-
     private Pouzivatel aktivnyPouzivatel;
+    
+    private IPouzivatelManager pouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        aktivnyPouzivatel = DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
+        aktivnyPouzivatel = pouzivatelManager.getAktivnyPouzivatel();
 
         prihlasovacieMenoTextField.setText(aktivnyPouzivatel.getPrihlasovacieMeno());
         emailTextField.setText(aktivnyPouzivatel.getEmail());
@@ -81,7 +84,7 @@ public class ProfilPouzivatelaController implements Initializable {
         aktivnyPouzivatel.setUlica(ulicaTextField.getText());
         aktivnyPouzivatel.setPsc(Integer.parseInt(pscTextField.getText()));
 
-        DefaultPouzivatelManager.INSTANCE.ulozPouzivatela(aktivnyPouzivatel);
+        pouzivatelManager.ulozPouzivatela(aktivnyPouzivatel);
     }
 
     @FXML
@@ -89,7 +92,7 @@ public class ProfilPouzivatelaController implements Initializable {
         Optional<String> noveHeslo = ukazZmenitHesloDialog();
 
         if (noveHeslo.isPresent()) {
-            DefaultPouzivatelManager.INSTANCE.zmenHeslo(aktivnyPouzivatel, noveHeslo.get());
+            pouzivatelManager.zmenHeslo(aktivnyPouzivatel, noveHeslo.get());
             System.out.println(noveHeslo.get());
         }
     }
@@ -97,10 +100,6 @@ public class ProfilPouzivatelaController implements Initializable {
     @FXML
     public void onSpatLabelClicked() {
         mainStage.setScene(ViewFactory.INSTANCE.getObchodScene(mainStage));
-    }
-
-    public void setStage(Stage mainStage) {
-        this.mainStage = mainStage;
     }
 
     private Optional<String> ukazZmenitHesloDialog() {

@@ -13,14 +13,15 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultKosikManager;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
 import sk.upjs.ics.obchod.managers.KosikManager;
+import sk.upjs.ics.obchod.managers.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.IKosikManager;
+import sk.upjs.ics.obchod.dao.ITovarDao;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 
-public class SpecifikaciaTovaruController {
+public class SpecifikaciaTovaruController extends AbstractController {
 
     @FXML
     private Button pridatDoKosikaButton;
@@ -40,20 +41,15 @@ public class SpecifikaciaTovaruController {
     @FXML
     private Label pridatDoKosikaNotifikaciaLabel;
 
-    private Stage mainStage;
+    private IKosikManager kosikManager;
 
-    private KosikManager defaultKosikManager;
-
-    private TovarDao mysqlTovarDao;
+    private ITovarDao mysqlTovarDao;
 
     private Tovar tovar;
 
-    public void setStage(Stage mainStage) {
-        this.mainStage = mainStage;
-    }
-
+    // TODO kosikManager pri prihlasovani/odhlasovani
     public void inicializuj(String nazovTovaru) {
-        this.defaultKosikManager = new DefaultKosikManager();
+        this.kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
         tovar = mysqlTovarDao.dajTovarPodlaNazvu(nazovTovaru);
 
@@ -70,7 +66,7 @@ public class SpecifikaciaTovaruController {
     @FXML
     public void onPridatDoKosikaButtonClicked() {
 
-        if (DefaultPouzivatelManager.INSTANCE.getAktivnyPouzivatel() == null) {
+        if (EntityManagerFactory.INSTANCE.getPouzivatelManager().getAktivnyPouzivatel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Upozornenie");
             alert.setHeaderText("Ak chcete nakupovať, musite sa prihlásiť.");
@@ -78,7 +74,7 @@ public class SpecifikaciaTovaruController {
             return;
         }
         
-        if (defaultKosikManager.pridajTovarDoKosika(tovar)) {
+        if (kosikManager.pridajTovarDoKosika(tovar)) {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
             pridatDoKosikaNotifikaciaLabel.setLayoutX(741);

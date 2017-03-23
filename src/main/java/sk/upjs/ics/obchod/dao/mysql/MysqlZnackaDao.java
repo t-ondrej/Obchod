@@ -9,10 +9,10 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.ZnackaDao;
 import sk.upjs.ics.obchod.entity.Znacka;
+import sk.upjs.ics.obchod.dao.IZnackaDao;
 
-public class MysqlZnackaDao implements ZnackaDao {
+public class MysqlZnackaDao implements IZnackaDao {
 
     private final JdbcTemplate jdbcTemplate;
 

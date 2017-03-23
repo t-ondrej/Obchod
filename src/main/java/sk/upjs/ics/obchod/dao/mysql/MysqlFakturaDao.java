@@ -8,12 +8,12 @@ import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.FakturaDao;
 import sk.upjs.ics.obchod.dao.rowmappers.TovarFakturyRowMapper;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.dao.IFakturaDao;
 
-public class MysqlFakturaDao implements FakturaDao {
+public class MysqlFakturaDao implements IFakturaDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final BeanPropertyRowMapper<Faktura> mapper;

@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Tovar;
 
-public class PamatovyKosikDao implements KosikDao {
+public class PamatovyKosikDao implements IKosikDao {
 
     @Override
     public void dajTovarDoKosika(Tovar kusTovaru, Kosik kosik) {

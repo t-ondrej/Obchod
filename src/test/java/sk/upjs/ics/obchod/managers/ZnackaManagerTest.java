@@ -1,24 +1,31 @@
 package sk.upjs.ics.obchod.managers;
 
-import sk.upjs.ics.obchod.managers.ZnackaManager;
-import sk.upjs.ics.obchod.managers.DefaultZnackaManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.ITovarDao;
+import sk.upjs.ics.obchod.dao.IZnackaDao;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
+import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
 import sk.upjs.ics.obchod.entity.Znacka;
 
-public class DefaultZnackaManagerTest {
+public class ZnackaManagerTest {
     
-    private ZnackaManager manager;
+    private IZnackaManager manager;
     private JdbcTemplate jdbcTemplate;
     
-    public DefaultZnackaManagerTest() {
-        manager = new DefaultZnackaManager(true);
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+    public ZnackaManagerTest() {
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        
+        IZnackaDao znackaDao = new MysqlZnackaDao(jdbcTemplate);
+        ITovarDao tovarDao = new MysqlTovarDao(jdbcTemplate);
+        
+        manager = new ZnackaManager(znackaDao, tovarDao);
+        
     }
 
     @Before

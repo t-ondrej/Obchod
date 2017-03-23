@@ -2,7 +2,6 @@ package sk.upjs.ics.obchod.gui.Controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,8 +19,9 @@ import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 import sk.upjs.ics.obchod.entity.Tovar;
-import sk.upjs.ics.obchod.managers.DefaultFakturaManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.FakturaManager;
+import sk.upjs.ics.obchod.managers.IFakturaManager;
 
 public class FakturyTabController implements Initializable {
 
@@ -77,11 +77,11 @@ public class FakturyTabController implements Initializable {
 
     private ObservableList<String> filtre;
 
-    private FakturaManager defaultFakturaManager;
+    private IFakturaManager fakturaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultFakturaManager = new DefaultFakturaManager(false);
+        fakturaManager = EntityManagerFactory.INSTANCE.getFakturaManager();
         inicializujFakturyTableView();
         inicializujTovarFakturyTableView();
         incializujFilterComboBox();
@@ -147,12 +147,12 @@ public class FakturyTabController implements Initializable {
     }
 
     private void naplnFaktury() {
-        List<Faktura> faktury = defaultFakturaManager.dajFaktury();
+        List<Faktura> faktury = fakturaManager.dajFaktury();
         fakturaModely = FXCollections.observableArrayList(faktury);
     }
 
     private void naplnFaktury(String obdobie) {
-        List<Faktura> fakturyZaObdobie = defaultFakturaManager.dajFakturyZaObdobie(obdobie);
+        List<Faktura> fakturyZaObdobie = fakturaManager.dajFakturyZaObdobie(obdobie);
         fakturaModely = FXCollections.observableArrayList(fakturyZaObdobie);
     }
 
@@ -162,7 +162,7 @@ public class FakturyTabController implements Initializable {
     }
 
     private void naplnTovarFaktury(Faktura faktura) {
-        List<Tovar> tovarFaktury = defaultFakturaManager.dajTovarFaktury(faktura);
+        List<Tovar> tovarFaktury = fakturaManager.dajTovarFaktury(faktura);
         tovarModely = FXCollections.observableArrayList(tovarFaktury);
     }
 

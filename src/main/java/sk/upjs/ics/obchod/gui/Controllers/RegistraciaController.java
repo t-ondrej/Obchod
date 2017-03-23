@@ -12,11 +12,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.DefaultPouzivatelManager;
+import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.PouzivatelManager;
-import sk.upjs.ics.obchod.services.StringUtilities;
+import sk.upjs.ics.obchod.utils.StringUtilities;
+import sk.upjs.ics.obchod.managers.IPouzivatelManager;
 
-public class RegistraciaController implements Initializable {
+public class RegistraciaController extends AbstractController implements Initializable {
 
     @FXML
     private TextField prihlasovacieMenoTextField;
@@ -48,17 +49,11 @@ public class RegistraciaController implements Initializable {
     @FXML
     private Label spatLabel;
 
-    private PouzivatelManager defaultPouzivatelManager;
-
-    private Stage mainStage;
-
-    public void setStage(Stage mainStage) {
-        this.mainStage = mainStage;
-    }
+    private IPouzivatelManager pouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultPouzivatelManager = DefaultPouzivatelManager.INSTANCE;
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
     }
 
     @FXML
@@ -83,7 +78,7 @@ public class RegistraciaController implements Initializable {
             psc = Integer.parseInt(pscRetazec);
         }     
         
-        if (!defaultPouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
+        if (!pouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
             ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
             return;
         } else if (prihlasovacieMeno.trim().isEmpty() || heslo.trim().isEmpty() || email.trim().isEmpty()) {
@@ -93,7 +88,7 @@ public class RegistraciaController implements Initializable {
             ukazUpozornenie("Formát emailovej adresy nie je valídny.");
             return;
         } else {
-            defaultPouzivatelManager.registrujPouzivatela(prihlasovacieMeno, heslo, 
+            pouzivatelManager.registrujPouzivatela(prihlasovacieMeno, heslo, 
                     email, meno, priezvisko, mesto, ulica, psc);
             onSpatLabelClicked();
         }

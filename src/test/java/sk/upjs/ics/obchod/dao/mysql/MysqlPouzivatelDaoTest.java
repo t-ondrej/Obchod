@@ -5,22 +5,21 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.dao.rowmappers.PouzivatelRowMapper;
 import sk.upjs.ics.obchod.entity.Kosik;
 import sk.upjs.ics.obchod.entity.Pouzivatel;
 
 public class MysqlPouzivatelDaoTest {
 
-    private MysqlPouzivatelDao dao;
+    private MysqlPouzivatelDao pouzivatelDao;
     private JdbcTemplate jdbcTemplate;
 
     public MysqlPouzivatelDaoTest() {
-        dao = TestDaoFactory.INSTANCE.getMysqlPouzivatelDao();
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        pouzivatelDao = new MysqlPouzivatelDao(jdbcTemplate);
     }
 
     private void naplnTestovacieUdaje() {
@@ -80,7 +79,7 @@ public class MysqlPouzivatelDaoTest {
         System.out.println("dajPouzivatelov");
         naplnTestovacieUdaje();
 
-        List<Pouzivatel> pouzivatelia = dao.dajPouzivatelov();
+        List<Pouzivatel> pouzivatelia = pouzivatelDao.dajPouzivatelov();
         Assert.assertEquals(2, pouzivatelia.size());
     }
 
@@ -92,7 +91,7 @@ public class MysqlPouzivatelDaoTest {
         System.out.println("dajPouzivatelaPodlaMena");
         naplnTestovacieUdaje();
 
-        Pouzivatel pouzivatel = dao.dajPouzivatela("test1");
+        Pouzivatel pouzivatel = pouzivatelDao.dajPouzivatela("test1");
         Assert.assertEquals(new Long(1), pouzivatel.getId());
     }
 
@@ -104,7 +103,7 @@ public class MysqlPouzivatelDaoTest {
         System.out.println("dajPouzivatelaPodlaId");
         naplnTestovacieUdaje();
 
-        Pouzivatel p = dao.dajPouzivatela(2L);
+        Pouzivatel p = pouzivatelDao.dajPouzivatela(2L);
         Assert.assertEquals("test2", p.getPrihlasovacieMeno());
         Assert.assertEquals("test2@test.sk", p.getEmail());
         Assert.assertEquals(false, p.isJeAdministrator());
@@ -130,7 +129,7 @@ public class MysqlPouzivatelDaoTest {
         Kosik k = new Kosik();
         pouzivatel.setKosik(k);
 
-        Long id = dao.ulozPouzivatela(pouzivatel);
+        Long id = pouzivatelDao.ulozPouzivatela(pouzivatel);
         String sql = "SELECT * FROM pouzivatel";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper());
 
@@ -168,7 +167,7 @@ public class MysqlPouzivatelDaoTest {
         Kosik k = new Kosik();
         pouzivatel.setKosik(k);
 
-        Long id = dao.ulozPouzivatela(pouzivatel);
+        Long id = pouzivatelDao.ulozPouzivatela(pouzivatel);
         String sql = "SELECT * FROM pouzivatel WHERE id = 2";
         Pouzivatel p = jdbcTemplate.queryForObject(sql, new PouzivatelRowMapper());
 
@@ -194,7 +193,7 @@ public class MysqlPouzivatelDaoTest {
 
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setId(1L);
-        dao.odstranPouzivatela(pouzivatel);
+        pouzivatelDao.odstranPouzivatela(pouzivatel);
         String sql1 = "SELECT COUNT(*) FROM pouzivatel";
         String sql2 = "SELECT COUNT(*) FROM pouzivatel WHERE id = 1";
         Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
@@ -213,7 +212,7 @@ public class MysqlPouzivatelDaoTest {
 
         Pouzivatel pouzivatel = new Pouzivatel();
         pouzivatel.setId(1L);
-        dao.novePoslednePrihlasenie(pouzivatel);
+        pouzivatelDao.novePoslednePrihlasenie(pouzivatel);
         String sql = "SELECT posledne_prihlasenie FROM pouzivatel WHERE id = 1";
         LocalDate poslednePrihlasenie = jdbcTemplate.queryForObject(sql, LocalDate.class);
         Assert.assertEquals(poslednePrihlasenie, LocalDate.now());

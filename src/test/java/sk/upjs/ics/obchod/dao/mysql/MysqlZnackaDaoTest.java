@@ -3,21 +3,20 @@ package sk.upjs.ics.obchod.dao.mysql;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Znacka;
 
 public class MysqlZnackaDaoTest {
     
-    private MysqlZnackaDao dao;
+    private MysqlZnackaDao znackaDao;
     private JdbcTemplate jdbcTemplate;
     
     public MysqlZnackaDaoTest(){
-        dao = TestDaoFactory.INSTANCE.getMysqlZnackaDao();
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        znackaDao = new MysqlZnackaDao(jdbcTemplate);
     }
     
     private void naplnTestovacieUdaje(){
@@ -39,7 +38,7 @@ public class MysqlZnackaDaoTest {
         System.out.println("dajZnacky");
         naplnTestovacieUdaje();
                 
-        List<Znacka> znacky = dao.dajZnacky();        
+        List<Znacka> znacky = znackaDao.dajZnacky();        
         Assert.assertEquals(2, znacky.size());
     }
 
@@ -51,7 +50,7 @@ public class MysqlZnackaDaoTest {
         System.out.println("najdiPodlaId");
         naplnTestovacieUdaje();
                 
-        Znacka z = dao.najdiPodlaId(1L);        
+        Znacka z = znackaDao.najdiPodlaId(1L);        
         Assert.assertEquals("test1", z.getNazov());        
     }
 
@@ -63,7 +62,7 @@ public class MysqlZnackaDaoTest {
         System.out.println("najdiPodlaNazvu");    
         naplnTestovacieUdaje();
         
-        Znacka z = dao.najdiPodlaNazvu("test2");
+        Znacka z = znackaDao.najdiPodlaNazvu("test2");
         Assert.assertEquals(new Long(2), z.getId());
     }
     
@@ -77,7 +76,7 @@ public class MysqlZnackaDaoTest {
         Znacka znacka = new Znacka();
         znacka.setNazov("skusobna");       
         
-        Long id = dao.uloz(znacka);
+        Long id = znackaDao.uloz(znacka);
         String sql = "SELECT * FROM znacka";
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
         Znacka z = jdbcTemplate.queryForObject(sql, mapper); 
@@ -100,7 +99,7 @@ public class MysqlZnackaDaoTest {
         znacka.setId(2L);
         znacka.setNazov("skusobna");       
         
-        Long id = dao.uloz(znacka);
+        Long id = znackaDao.uloz(znacka);
         String sql = "SELECT * FROM znacka WHERE id = 2";
         BeanPropertyRowMapper<Znacka> mapper = BeanPropertyRowMapper.newInstance(Znacka.class);
         Znacka z = jdbcTemplate.queryForObject(sql, mapper); 
@@ -120,7 +119,7 @@ public class MysqlZnackaDaoTest {
         
         Znacka znacka = new Znacka();
         znacka.setId(1L);        
-        dao.odstranZnacku(znacka);
+        znackaDao.odstranZnacku(znacka);
         
         String sql1 = "SELECT COUNT(*) FROM znacka"; 
         String sql2 = "SELECT COUNT(*) FROM znacka WHERE id = 1"; 

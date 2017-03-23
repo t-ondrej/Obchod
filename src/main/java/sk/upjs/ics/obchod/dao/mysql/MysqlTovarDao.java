@@ -8,13 +8,13 @@ import java.sql.Statement;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TovarDao;
 import sk.upjs.ics.obchod.dao.rowmappers.TovarRowMapper;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
 import sk.upjs.ics.obchod.entity.Znacka;
+import sk.upjs.ics.obchod.dao.ITovarDao;
 
-public class MysqlTovarDao implements TovarDao {
+public class MysqlTovarDao implements ITovarDao {
 
     private final JdbcTemplate jdbcTemplate;
 

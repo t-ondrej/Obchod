@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Kategoria;
 import sk.upjs.ics.obchod.entity.Tovar;
@@ -16,12 +15,13 @@ import sk.upjs.ics.obchod.entity.Znacka;
 
 public class MysqlFakturaDaoTest {
     
-    private MysqlFakturaDao dao;
+    private MysqlFakturaDao fakturaDao;
     private JdbcTemplate jdbcTemplate;
     
     public MysqlFakturaDaoTest(){
-        dao = TestDaoFactory.INSTANCE.getMysqlFakturaDao();
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        fakturaDao = new MysqlFakturaDao(jdbcTemplate);
+        
     }
     
     private void naplnTestovacieUdaje(){
@@ -75,7 +75,7 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFaktury");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFaktury();        
+        List<Faktura> faktury = fakturaDao.dajFaktury();        
         Assert.assertEquals(6, faktury.size());       
     }    
     
@@ -87,7 +87,7 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFakturyZaPoslednyDen");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFakturyZaPoslednyDen();         
+        List<Faktura> faktury = fakturaDao.dajFakturyZaPoslednyDen();         
         Assert.assertEquals(2, faktury.size()); 
     }
 
@@ -99,7 +99,7 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFakturyZaPoslednyTyzden");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFakturyZaPoslednyTyzden();       
+        List<Faktura> faktury = fakturaDao.dajFakturyZaPoslednyTyzden();       
         Assert.assertEquals(4, faktury.size());         
     }
 
@@ -111,7 +111,7 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFakturyZaPoslednyMesiac");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFakturyZaPoslednyMesiac();       
+        List<Faktura> faktury = fakturaDao.dajFakturyZaPoslednyMesiac();       
         Assert.assertEquals(5, faktury.size());        
     }
 
@@ -123,7 +123,7 @@ public class MysqlFakturaDaoTest {
         System.out.println("dajFakturyZaPoslednyRok");
         naplnTestovacieUdaje();
         
-        List<Faktura> faktury = dao.dajFakturyZaPoslednyRok();       
+        List<Faktura> faktury = fakturaDao.dajFakturyZaPoslednyRok();       
         Assert.assertEquals(6, faktury.size());        
     }
 
@@ -139,7 +139,7 @@ public class MysqlFakturaDaoTest {
         faktura.setSuma(50);
         faktura.setDatumNakupu(LocalDateTime.now());
         
-        Long id = dao.pridajFakturu(faktura);
+        Long id = fakturaDao.pridajFakturu(faktura);
         String sql = "SELECT * FROM faktura";
         BeanPropertyRowMapper<Faktura> mapper = BeanPropertyRowMapper.newInstance(Faktura.class);
         Faktura f = jdbcTemplate.queryForObject(sql, mapper); 
@@ -160,7 +160,7 @@ public class MysqlFakturaDaoTest {
         
         Faktura faktura = new Faktura(); 
         faktura.setId(1L);
-        dao.odstranFakturu(faktura);
+        fakturaDao.odstranFakturu(faktura);
         String sql1 = "SELECT COUNT(*) FROM faktura"; 
         String sql2 = "SELECT COUNT(*) FROM faktura WHERE id = 1"; 
         Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
@@ -198,7 +198,7 @@ public class MysqlFakturaDaoTest {
         String sql1 = "SELECT COUNT(*) FROM Tovar_Faktury"; 
         Long pocetPred = jdbcTemplate.queryForObject(sql1, Long.class);
         
-        dao.pridajTovarFakture(tovar, faktura, pocetTovaru);
+        fakturaDao.pridajTovarFakture(tovar, faktura, pocetTovaru);
         
         String sql2 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'NazovTovaru' and id_faktura = 5";
         Long pocetT = jdbcTemplate.queryForObject(sql2, Long.class);
@@ -221,7 +221,7 @@ public class MysqlFakturaDaoTest {
         Faktura faktura = new Faktura();
         faktura.setId(4L);
         
-        List<Tovar> tovar = dao.dajTovarFaktury(faktura);
+        List<Tovar> tovar = fakturaDao.dajTovarFaktury(faktura);
 
         Assert.assertEquals("test1", tovar.get(0).getNazov()); 
         Assert.assertEquals("Nezaradene", tovar.get(0).getKategoria().getNazov());

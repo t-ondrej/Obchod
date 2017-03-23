@@ -1,4 +1,4 @@
-package sk.upjs.ics.obchod.services;
+package sk.upjs.ics.obchod.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

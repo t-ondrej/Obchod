@@ -1,24 +1,30 @@
 package sk.upjs.ics.obchod.managers;
 
-import sk.upjs.ics.obchod.managers.KategoriaManager;
-import sk.upjs.ics.obchod.managers.DefaultKategoriaManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import sk.upjs.ics.obchod.dao.TestDaoFactory;
+import sk.upjs.ics.obchod.dao.IKategoriaDao;
+import sk.upjs.ics.obchod.dao.ITovarDao;
+import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
+import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
 import sk.upjs.ics.obchod.entity.Kategoria;
 
-public class DefaultKategoriaManagerTest {
+public class KategoriaManagerTest {
     
-    private KategoriaManager manager;
-    private JdbcTemplate jdbcTemplate;
+    private final IKategoriaManager manager;
+    private final JdbcTemplate jdbcTemplate;
     
-    public DefaultKategoriaManagerTest() {
-        manager = new DefaultKategoriaManager(true);
-        jdbcTemplate = TestDaoFactory.INSTANCE.getJdbcTemplate();
+    public KategoriaManagerTest() {
+        jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
+        
+        IKategoriaDao kategoriaDao = new MysqlKategoriaDao(jdbcTemplate);
+        ITovarDao tovarDao = new MysqlTovarDao(jdbcTemplate);
+        
+        manager = new KategoriaManager(kategoriaDao, tovarDao);      
     }
     
     @Before

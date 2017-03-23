@@ -1,13 +1,10 @@
 package sk.upjs.ics.obchod.gui;
 
-import sk.upjs.ics.obchod.gui.Controllers.PrihlasenieController;
-import sk.upjs.ics.obchod.gui.Controllers.RegistraciaController;
-import sk.upjs.ics.obchod.gui.Controllers.ObchodController;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sk.upjs.ics.obchod.gui.Controllers.AdministraciaController;
+import sk.upjs.ics.obchod.gui.Controllers.AbstractController;
 
 public enum ViewFactory {
     INSTANCE;
@@ -18,68 +15,45 @@ public enum ViewFactory {
 
     private Scene registraciaScene;
 
-    private Scene administraciaScene;
-
     public Scene getObchodScene(Stage mainStage) {
-        if (obchodScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Obchod.fxml"));
-                obchodScene = new Scene(loader.load());
-                ObchodController obchodController = loader.getController();
-                obchodController.setStage(mainStage);
-
-            } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat Obchod.fxml");
-
-            }
-        }
+        if (obchodScene == null) 
+            obchodScene = sceneLoader("/fxml/Obchod.fxml", mainStage);
+        
         return obchodScene;
     }
 
     public Scene getPrihlasenieScene(Stage mainStage) {
-        if (prihlasenieScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Prihlasenie.fxml"));
-                prihlasenieScene = new Scene(loader.load());
-                PrihlasenieController prihlasenieController = loader.getController();
-                prihlasenieController.setStage(mainStage);
+        if (prihlasenieScene == null) 
+            prihlasenieScene = sceneLoader("/fxml/Prihlasenie.fxml", mainStage);
 
-            } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat Prihlasenie.fxml");
-            }
-        }
         return prihlasenieScene;
     }
 
     public Scene getRegistraciaScene(Stage mainStage) {
-        if (registraciaScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Registracia.fxml"));
-                registraciaScene = new Scene(loader.load());
-                RegistraciaController registraciaController = loader.getController();
-                registraciaController.setStage(mainStage);
-
-            } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat Registracia.fxml");
-            }
-        }
-
+        if (registraciaScene == null) 
+            registraciaScene = sceneLoader("/fxml/Registracia.fxml", mainStage);
+        
         return registraciaScene;
     }
 
-    public Scene getAdministraciaScene(Stage mainStage) {
-        if (administraciaScene == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Administracia.fxml"));
-                administraciaScene = new Scene(loader.load());
-                AdministraciaController administraciaController = loader.getController();
-                administraciaController.setStage(mainStage);
+    public Scene getAdministraciaScene(Stage mainStage) {           
+        return sceneLoader("/fxml/Administracia.fxml", mainStage);
+    }
+    
+    private Scene sceneLoader(String filePath, Stage mainStage)
+    {
+        Scene scene = null;
+        
+        try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
+                scene = new Scene(loader.load());
+                AbstractController controller = loader.getController();
+                controller.setStage(mainStage);
 
             } catch (IOException e) {
-                System.err.println("Nepodarilo sa nacitat Administracia.fxml");
+                System.err.printf("Nepodarilo sa nacitat %s", filePath);
             }
-        }
-
-        return administraciaScene;
+        
+        return scene;
     }
 }

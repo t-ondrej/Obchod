@@ -4,7 +4,7 @@ import java.util.List;
 import sk.upjs.ics.obchod.entity.Faktura;
 import sk.upjs.ics.obchod.entity.Tovar;
 
-public interface FakturaDao {
+public interface IFakturaDao {
     
     List<Faktura> dajFaktury();
     
@@ -20,7 +20,7 @@ public interface FakturaDao {
     
     void odstranFakturu(Faktura faktura);
     
-    void pridajTovarFakture(Tovar tovar ,Faktura faktura, int pocetTovaru);
+    void pridajTovarFakture(Tovar tovar, Faktura faktura, int pocetTovaru);
     
     List<Tovar> dajTovarFaktury(Faktura faktura);
     
