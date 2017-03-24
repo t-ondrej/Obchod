@@ -14,10 +14,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
-import sk.upjs.ics.obchod.managers.IPouzivatelManager;
+import sk.upjs.ics.obchod.managers.UserManager;
+import sk.upjs.ics.obchod.managers.IUserManager;
 
-public class PrihlasenieController extends AbstractController implements Initializable {
+public class PrihlasenieController extends Controller implements Initializable {
 
     @FXML
     private Label spatLabel;
@@ -31,11 +31,11 @@ public class PrihlasenieController extends AbstractController implements Initial
     @FXML
     private Button prihlasitButton;
 
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager pouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
     }
 
     @FXML
@@ -49,12 +49,12 @@ public class PrihlasenieController extends AbstractController implements Initial
         String meno = prihlasovacieMenoTextField.getText();
         String heslo = hesloPasswordField.getText();
 
-        if (pouzivatelManager.prihlasPouzivatela(meno, heslo)) {
+        if (pouzivatelManager.signInUser(meno, heslo)) {
             prihlasovacieMenoTextField.clear();
             hesloPasswordField.clear();
             Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
             
-            if(pouzivatelManager.getAktivnyPouzivatel().isJeAdministrator()) {
+            if(pouzivatelManager.getSignedInUser().isAdministrator()) {
                ViewFactory.INSTANCE.getAdministraciaScene(mainStage);
             } else {
                 mainStage.setScene(obchodScene);

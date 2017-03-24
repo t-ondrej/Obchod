@@ -12,52 +12,52 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.mysql.MysqlPouzivatelDao;
-import sk.upjs.ics.obchod.entity.Pouzivatel;
+import sk.upjs.ics.obchod.dao.mysql.MysqlUserDao;
+import sk.upjs.ics.obchod.entity.User;
 
 public class PouzivateliaTabController implements Initializable {
 
     @FXML
-    private TableView<Pouzivatel> pouzivateliaTableView;
+    private TableView<User> pouzivateliaTableView;
 
     @FXML
-    private TableColumn<Pouzivatel, Number> idTableColumn;
+    private TableColumn<User, Number> idTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> prihlasovacieMenoTableColumn;
+    private TableColumn<User, String> prihlasovacieMenoTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> menoTableColumn;
+    private TableColumn<User, String> menoTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> priezviskoTableColumn;
+    private TableColumn<User, String> priezviskoTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> mestoTableColumn;
+    private TableColumn<User, String> mestoTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> ulicaTableColumn;
+    private TableColumn<User, String> ulicaTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, Number> pscTableColumn;
+    private TableColumn<User, Number> pscTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, String> emailTableColumn;
+    private TableColumn<User, String> emailTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, LocalDateTime> poslednePrihlasenieTableColumn;
+    private TableColumn<User, LocalDateTime> poslednePrihlasenieTableColumn;
 
     @FXML
-    private TableColumn<Pouzivatel, Boolean> pravomociTableColumn;
+    private TableColumn<User, Boolean> pravomociTableColumn;
 
-    private ObservableList<Pouzivatel> pouzivatelModely;
+    private ObservableList<User> pouzivatelModely;
 
-    private MysqlPouzivatelDao mysqlPouzivatelDao;
+    private MysqlUserDao mysqlPouzivatelDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mysqlPouzivatelDao = DaoFactory.INSTANCE.getMysqlPouzivatelDao();
-        pouzivatelModely = FXCollections.observableArrayList(mysqlPouzivatelDao.dajPouzivatelov());
+        mysqlPouzivatelDao = DaoFactory.INSTANCE.getMysqlUserDao();
+        pouzivatelModely = FXCollections.observableArrayList(mysqlPouzivatelDao.getAll());
 
         inicializujPouzivatelTableView();
         obnovPouzivateliaTableView();
@@ -65,18 +65,18 @@ public class PouzivateliaTabController implements Initializable {
 
     private void inicializujPouzivatelTableView() {
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        prihlasovacieMenoTableColumn.setCellValueFactory(cellData -> cellData.getValue().prihlasovacieMenoProperty());
-        menoTableColumn.setCellValueFactory(cellData -> cellData.getValue().menoProperty());
-        priezviskoTableColumn.setCellValueFactory(cellData -> cellData.getValue().priezviskoProperty());
-        mestoTableColumn.setCellValueFactory(cellData -> cellData.getValue().mestoProperty());
-        ulicaTableColumn.setCellValueFactory(cellData -> cellData.getValue().ulicaProperty());
-        pscTableColumn.setCellValueFactory(cellData -> cellData.getValue().pscProperty());
+        prihlasovacieMenoTableColumn.setCellValueFactory(cellData -> cellData.getValue().loginProperty());
+        menoTableColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        priezviskoTableColumn.setCellValueFactory(cellData -> cellData.getValue().surnameProperty());
+        mestoTableColumn.setCellValueFactory(cellData -> cellData.getValue().cityProperty());
+        ulicaTableColumn.setCellValueFactory(cellData -> cellData.getValue().streetProperty());
+        pscTableColumn.setCellValueFactory(cellData -> cellData.getValue().postalCodeProperty());
         emailTableColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
-        poslednePrihlasenieTableColumn.setCellValueFactory(cellData -> cellData.getValue().poslednePrihlasenieProperty());
-        pravomociTableColumn.setCellValueFactory(cellData -> cellData.getValue().jeAdministratorProperty());
+        poslednePrihlasenieTableColumn.setCellValueFactory(cellData -> cellData.getValue().lastLoginProperty());
+        pravomociTableColumn.setCellValueFactory(cellData -> cellData.getValue().isAdminProperty());
 
         pscTableColumn.setCellFactory(column -> {
-            return new TableCell<Pouzivatel, Number>() {
+            return new TableCell<User, Number>() {
                 @Override
                 protected void updateItem(Number psc, boolean empty) {
                     super.updateItem(psc, empty);
@@ -91,7 +91,7 @@ public class PouzivateliaTabController implements Initializable {
         });
 
         pravomociTableColumn.setCellFactory(column -> {
-            return new TableCell<Pouzivatel, Boolean>() {
+            return new TableCell<User, Boolean>() {
                 @Override
                 protected void updateItem(Boolean jeAdmin, boolean empty) {
                     super.updateItem(jeAdmin, empty);
@@ -110,7 +110,7 @@ public class PouzivateliaTabController implements Initializable {
 
     public void obnovPouzivateliaTableView() {
         pouzivateliaTableView.getItems().clear();
-        pouzivatelModely = FXCollections.observableArrayList(mysqlPouzivatelDao.dajPouzivatelov());
+        pouzivatelModely = FXCollections.observableArrayList(mysqlPouzivatelDao.getAll());
         pouzivateliaTableView.getItems().addAll(pouzivatelModely);
     }
 }

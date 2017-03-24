@@ -5,18 +5,18 @@ import java.util.regex.Pattern;
 
 public class StringUtilities {
 
-    public static final Pattern VALIDNY_FORMAT_EMAILU_REGEX = 
+    public static final Pattern VALID_EMAIL_FORMA_REGEX = 
     Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     
-    public static String naformatujString(String retazec) {
-        String naformatovanyRetazec = retazec.substring(0, 1).toUpperCase() + retazec.substring(1).toLowerCase();
+    public static String formatString(String s) {
+        String formattedString = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 
-        return naformatovanyRetazec;
+        return formattedString;
     }
 
-    public static boolean jeCislo(String retazec) {
+    public static boolean isNumber(String s) {
         try {
-            Integer.parseInt(retazec);
+            Integer.parseInt(s);
         } catch (NumberFormatException e) {
             return false;
         }
@@ -24,8 +24,8 @@ public class StringUtilities {
         return true;
     }
     
-    public static boolean jeValidnyFormatEmailu(String email) {
-        Matcher matcher = VALIDNY_FORMAT_EMAILU_REGEX .matcher(email);
+    public static boolean isValidEmailFormat(String email) {
+        Matcher matcher = VALID_EMAIL_FORMA_REGEX .matcher(email);
         return matcher.find();
     }
 }

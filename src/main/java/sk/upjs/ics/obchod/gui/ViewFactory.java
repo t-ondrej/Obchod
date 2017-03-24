@@ -4,7 +4,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sk.upjs.ics.obchod.gui.Controllers.AbstractController;
+import sk.upjs.ics.obchod.gui.Controllers.Controller;
 
 public enum ViewFactory {
     INSTANCE;
@@ -47,7 +47,7 @@ public enum ViewFactory {
         try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(filePath));
                 scene = new Scene(loader.load());
-                AbstractController controller = loader.getController();
+                Controller controller = loader.getController();
                 controller.setStage(mainStage);
 
             } catch (IOException e) {

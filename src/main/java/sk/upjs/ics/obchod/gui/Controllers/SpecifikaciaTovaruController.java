@@ -13,15 +13,15 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.KosikManager;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
-import sk.upjs.ics.obchod.managers.IKosikManager;
-import sk.upjs.ics.obchod.dao.ITovarDao;
+import sk.upjs.ics.obchod.managers.CartManager;
+import sk.upjs.ics.obchod.managers.UserManager;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
+import sk.upjs.ics.obchod.dao.IProductDao;
+import sk.upjs.ics.obchod.managers.ICartManager;
 
-public class SpecifikaciaTovaruController extends AbstractController {
+public class SpecifikaciaTovaruController extends Controller {
 
     @FXML
     private Button pridatDoKosikaButton;
@@ -41,24 +41,24 @@ public class SpecifikaciaTovaruController extends AbstractController {
     @FXML
     private Label pridatDoKosikaNotifikaciaLabel;
 
-    private IKosikManager kosikManager;
+    private ICartManager kosikManager;
 
-    private ITovarDao mysqlTovarDao;
+    private IProductDao mysqlTovarDao;
 
-    private Tovar tovar;
+    private Product tovar;
 
     // TODO kosikManager pri prihlasovani/odhlasovani
     public void inicializuj(String nazovTovaru) {
-        this.kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
-        mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
-        tovar = mysqlTovarDao.dajTovarPodlaNazvu(nazovTovaru);
+        this.kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
+        mysqlTovarDao = DaoFactory.INSTANCE.getMysqlProductDao();
+        tovar = mysqlTovarDao.findProductsByName(nazovTovaru);
 
-        Image obrazok = new Image("file:" + tovar.getObrazokUrl());
+        Image obrazok = new Image("file:" + tovar.getImagePath());
 
         tovarImageView.setImage(obrazok);
-        nazovTovaruLabel.setText(tovar.getNazov());
-        specifikaciaTovaruTextArea.setText(tovar.getPopis());
-        cenaLabel.setText(Integer.toString(tovar.getCena()) + " €");
+        nazovTovaruLabel.setText(tovar.getName());
+        specifikaciaTovaruTextArea.setText(tovar.getDescription());
+        cenaLabel.setText(Integer.toString(tovar.getPrice()) + " €");
         
         tovarImageView.requestFocus();
     }
@@ -66,7 +66,7 @@ public class SpecifikaciaTovaruController extends AbstractController {
     @FXML
     public void onPridatDoKosikaButtonClicked() {
 
-        if (EntityManagerFactory.INSTANCE.getPouzivatelManager().getAktivnyPouzivatel() == null) {
+        if (EntityManagerFactory.INSTANCE.getUserManager().getSignedInUser() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Upozornenie");
             alert.setHeaderText("Ak chcete nakupovať, musite sa prihlásiť.");
@@ -74,7 +74,7 @@ public class SpecifikaciaTovaruController extends AbstractController {
             return;
         }
         
-        if (kosikManager.pridajTovarDoKosika(tovar)) {
+        if (kosikManager.addProductToCart(tovar)) {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
             pridatDoKosikaNotifikaciaLabel.setLayoutX(741);

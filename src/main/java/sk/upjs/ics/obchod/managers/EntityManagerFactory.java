@@ -5,55 +5,55 @@ import sk.upjs.ics.obchod.dao.DaoFactory;
 public enum EntityManagerFactory {
     INSTANCE;
     
-    private IFakturaManager fakturaManager;
+    private IBillManager billManager;
     
-    private IKategoriaManager kategoriaManager;
+    private ICategoryManager categoryManager;
     
-    private IKosikManager kosikManager;
+    private ICartManager cartManager;
     
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager userManager;
     
-    private IZnackaManager znackaManager;
+    private IBrandManager brandManager;
     
     private final DaoFactory daoFactory = DaoFactory.INSTANCE;
     
-    public IFakturaManager getFakturaManager() {
-        if (fakturaManager == null)
-            return new FakturaManager(daoFactory.getMysqlFakturaDao(), 
-                    daoFactory.getPamatoviKosikDao());
+    public IBillManager getBillManager() {
+        if (billManager == null)
+            return new BillManager(daoFactory.getMysqlBillDao(), 
+                    daoFactory.getMemoryCartDao());
         
-        return fakturaManager;
+        return billManager;
     }
     
-    public IKategoriaManager getKategoriaManager() {
-        if (kategoriaManager == null)
-            return new KategoriaManager(daoFactory.getMysqlKategoriaDao(), 
-                    daoFactory.getMysqlTovarDao());
+    public ICategoryManager getCategoryManager() {
+        if (categoryManager == null)
+            return new CategoryManager(daoFactory.getMysqlCategoryDao(), 
+                    daoFactory.getMysqlProductDao());
         
-        return kategoriaManager;
+        return categoryManager;
     }
     
-    public IKosikManager getKosikManager() {
-        if (kosikManager == null)
-            return new KosikManager(daoFactory.getPamatoviKosikDao(), 
-                    daoFactory.getMysqlTovarDao(), pouzivatelManager);
+    public ICartManager getCartManager() {
+        if (cartManager == null)
+            return new CartManager(daoFactory.getMemoryCartDao(), 
+                    daoFactory.getMysqlProductDao(), userManager);
         
-        return kosikManager;
+        return cartManager;
     }
     
-    public IPouzivatelManager getPouzivatelManager() {
-        if (pouzivatelManager == null)
-            return new PouzivatelManager(daoFactory.getMysqlPouzivatelDao());
+    public IUserManager getUserManager() {
+        if (userManager == null)
+            return new UserManager(daoFactory.getMysqlUserDao());
         
-        return pouzivatelManager;
+        return userManager;
     }
     
-    public IZnackaManager getZnackaManager() {
-        if (znackaManager == null)
-            return new ZnackaManager(daoFactory.getMysqlZnackaDao(), 
-                    daoFactory.getMysqlTovarDao());
+    public IBrandManager getBrandManager() {
+        if (brandManager == null)
+            return new BrandManager(daoFactory.getMysqlBrandDao(), 
+                    daoFactory.getMysqlProductDao());
         
-        return znackaManager;
+        return brandManager;
     }
             
 }

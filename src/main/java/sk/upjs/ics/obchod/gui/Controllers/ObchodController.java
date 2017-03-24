@@ -29,36 +29,34 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.entity.Kategoria;
-import sk.upjs.ics.obchod.entity.Tovar;
-import sk.upjs.ics.obchod.entity.Znacka;
+import sk.upjs.ics.obchod.entity.Category;
+import sk.upjs.ics.obchod.entity.Product;
+import sk.upjs.ics.obchod.entity.Brand;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.KosikManager;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
-import sk.upjs.ics.obchod.managers.IKosikManager;
-import sk.upjs.ics.obchod.managers.IPouzivatelManager;
-import sk.upjs.ics.obchod.dao.IZnackaDao;
-import sk.upjs.ics.obchod.dao.ITovarDao;
-import sk.upjs.ics.obchod.dao.IKategoriaDao;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
+import sk.upjs.ics.obchod.dao.ICategoryDao;
+import sk.upjs.ics.obchod.dao.IProductDao;
+import sk.upjs.ics.obchod.dao.IBrandDao;
+import sk.upjs.ics.obchod.managers.ICartManager;
+import sk.upjs.ics.obchod.managers.IUserManager;
 
 public class ObchodController implements Initializable {
 
-    private IKategoriaDao mysqlKategoriaDao;
+    private ICategoryDao mysqlKategoriaDao;
 
-    private IZnackaDao mysqlZnackaDao;
+    private IBrandDao mysqlZnackaDao;
 
-    private ITovarDao mysqlTovarDao;
+    private IProductDao mysqlTovarDao;
 
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager pouzivatelManager;
 
-    private IKosikManager kosikManager;
-
-    @FXML
-    private ComboBox<Kategoria> kategorieComboBox;
+    private ICartManager kosikManager;
 
     @FXML
-    private ComboBox<Znacka> znackyComboBox;
+    private ComboBox<Category> kategorieComboBox;
+
+    @FXML
+    private ComboBox<Brand> znackyComboBox;
 
     @FXML
     private ComboBox<String> profilComboBox;
@@ -81,7 +79,7 @@ public class ObchodController implements Initializable {
     @FXML
     private Pagination tovarPagination;
 
-    private ObservableList<Tovar> tovar;
+    private ObservableList<Product> tovar;
 
     private int pocetStranok;
 
@@ -93,12 +91,12 @@ public class ObchodController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
-        kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
-        mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
-        mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
+        mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlCategoryDao();
+        mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlBrandDao();
 
-        BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny();
+        BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isSignedIn();
 
         jePouzivatelPrihlaseny.addListener(e -> {
             zmenButtony();
@@ -113,8 +111,8 @@ public class ObchodController implements Initializable {
     }
 
     private void inicializujTovarPagination() {
-        mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
-        tovar = FXCollections.observableArrayList(mysqlTovarDao.dajTovar());
+        mysqlTovarDao = DaoFactory.INSTANCE.getMysqlProductDao();
+        tovar = FXCollections.observableArrayList(mysqlTovarDao.getAll());
         pocetStranok = (tovar.size() / 8);
         tovarPagination.setPageCount(pocetStranok + 1);
         tovarPagination.setPageFactory((Integer pageIndex) -> vytvorStranku(pageIndex));
@@ -137,12 +135,12 @@ public class ObchodController implements Initializable {
             vBox.getChildren().add(l);
 
             if (tovar.size() > i) {
-                Tovar kusTovaru = tovar.get(i);
+                Product kusTovaru = tovar.get(i);
 
-                Image obrazok = new Image("file:" + kusTovaru.getObrazokUrl());
+                Image obrazok = new Image("file:" + kusTovaru.getImagePath());
                 l.setImage(obrazok);
 
-                Label nazovTovaru = new Label(kusTovaru.getNazov());
+                Label nazovTovaru = new Label(kusTovaru.getName());
 
                 l.setOnMouseClicked((event) -> {
                     prejdiNaSpecifikaciuTovaru(nazovTovaru.getText());
@@ -167,17 +165,17 @@ public class ObchodController implements Initializable {
     }
 
     private void inicializujKategoriaComboBox() {
-        ObservableList<Kategoria> kategorie = FXCollections.observableArrayList(mysqlKategoriaDao.dajKategorie());
+        ObservableList<Category> kategorie = FXCollections.observableArrayList(mysqlKategoriaDao.getAll());
 
-        kategorieComboBox.setConverter(new StringConverter<Kategoria>() {
+        kategorieComboBox.setConverter(new StringConverter<Category>() {
             @Override
-            public String toString(Kategoria k) {
-                return k.getNazov();
+            public String toString(Category k) {
+                return k.getName();
             }
 
             @Override
-            public Kategoria fromString(String nazovKategorie) {
-                return mysqlKategoriaDao.najdiPodlaNazvu(nazovKategorie);
+            public Category fromString(String nazovKategorie) {
+                return mysqlKategoriaDao.findByName(nazovKategorie);
             }
 
         });
@@ -185,8 +183,8 @@ public class ObchodController implements Initializable {
         kategorieComboBox.setItems(kategorie);
 
         kategorieComboBox.valueProperty().addListener(event -> {
-            Kategoria kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
-            List<Tovar> tovarPodlaKategorie = mysqlTovarDao.dajTovarPodlaKategorie(kategoria);
+            Category kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
+            List<Product> tovarPodlaKategorie = mysqlTovarDao.findProductsByCategory(kategoria);
             System.out.println(tovarPodlaKategorie.size());
             obnovTovar(tovarPodlaKategorie);
             zobrazitVsetkoLabel.setVisible(true);
@@ -194,17 +192,17 @@ public class ObchodController implements Initializable {
     }
 
     private void inicializujZnackyComboBox() {
-        ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackaDao.dajZnacky());
+        ObservableList<Brand> znacky = FXCollections.observableArrayList(mysqlZnackaDao.getAll());
 
-        znackyComboBox.setConverter(new StringConverter<Znacka>() {
+        znackyComboBox.setConverter(new StringConverter<Brand>() {
             @Override
-            public String toString(Znacka z) {
-                return z.getNazov();
+            public String toString(Brand z) {
+                return z.getName();
             }
 
             @Override
-            public Znacka fromString(String nazovZnacky) {
-                return mysqlZnackaDao.najdiPodlaNazvu(nazovZnacky);
+            public Brand fromString(String nazovZnacky) {
+                return mysqlZnackaDao.findByName(nazovZnacky);
             }
 
         });
@@ -212,8 +210,8 @@ public class ObchodController implements Initializable {
         znackyComboBox.setItems(znacky);
 
         znackyComboBox.valueProperty().addListener(event -> {
-            Znacka znacka = znackyComboBox.getSelectionModel().getSelectedItem();
-            List<Tovar> tovarPodlaZnacky = mysqlTovarDao.dajTovarPodlaZnacky(znacka);
+            Brand znacka = znackyComboBox.getSelectionModel().getSelectedItem();
+            List<Product> tovarPodlaZnacky = mysqlTovarDao.findProductsByBrand(znacka);
             obnovTovar(tovarPodlaZnacky);
             zobrazitVsetkoLabel.setVisible(true);
         });
@@ -241,14 +239,14 @@ public class ObchodController implements Initializable {
             }
 
             if (vybranyIdx == 1) {
-                kosikManager.vyprazdniKosik();
-                pouzivatelManager.odhlasPouzivatela();
+                kosikManager.clearCart();
+                pouzivatelManager.logOutUser();
             }
 
         });
     }
 
-    public void obnovTovar(List<Tovar> filtovanyTovar) {
+    public void obnovTovar(List<Product> filtovanyTovar) {
         tovar.removeAll(tovar);
         tovar.addAll(FXCollections.observableArrayList(filtovanyTovar));
 
@@ -288,12 +286,12 @@ public class ObchodController implements Initializable {
     @FXML
     public void onZobrazitVsetkoLabelClicked() {
         zobrazitVsetkoLabel.setVisible(false);
-        List<Tovar> vsetokTovar = mysqlTovarDao.dajTovar();
+        List<Product> vsetokTovar = mysqlTovarDao.getAll();
         obnovTovar(vsetokTovar);
     }
 
     private void zmenButtony() {
-        boolean jePouzivatelPrihlaseny = pouzivatelManager.isPrihlaseny().get();
+        boolean jePouzivatelPrihlaseny = pouzivatelManager.isSignedIn().get();
         prihlasitButton.setVisible(!jePouzivatelPrihlaseny);
         registrovatButton.setVisible(!jePouzivatelPrihlaseny);
 

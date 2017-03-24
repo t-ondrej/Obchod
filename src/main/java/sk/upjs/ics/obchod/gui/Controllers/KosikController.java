@@ -22,17 +22,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import sk.upjs.ics.obchod.entity.Kosik;
-import sk.upjs.ics.obchod.entity.Tovar;
+import sk.upjs.ics.obchod.entity.Cart;
+import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.KosikManager;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
-import sk.upjs.ics.obchod.managers.IFakturaManager;
-import sk.upjs.ics.obchod.managers.IKosikManager;
-import sk.upjs.ics.obchod.managers.IPouzivatelManager;
+import sk.upjs.ics.obchod.managers.IBillManager;
+import sk.upjs.ics.obchod.managers.ICartManager;
+import sk.upjs.ics.obchod.managers.IUserManager;
 
-public class KosikController extends AbstractController implements Initializable {
+public class KosikController extends Controller implements Initializable {
 
     @FXML
     private Button kupitButton;
@@ -41,41 +39,41 @@ public class KosikController extends AbstractController implements Initializable
     private Label celkovaCenaLabel;
 
     @FXML
-    private TableView<Tovar> tovarTableView;
+    private TableView<Product> tovarTableView;
 
     @FXML
-    private TableColumn<Tovar, String> nazovTableColumn;
+    private TableColumn<Product, String> nazovTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> mnozstvoTableColumn;
+    private TableColumn<Product, Number> mnozstvoTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> cenaTableColumn;
+    private TableColumn<Product, Number> cenaTableColumn;
 
     @FXML
     private TableColumn odobratTovarTableColumn;
 
-    protected ObservableList<Tovar> tovarKosika;
+    protected ObservableList<Product> tovarKosika;
 
-    private IKosikManager kosikManager;
+    private ICartManager kosikManager;
 
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager pouzivatelManager;
 
-    private IFakturaManager fakturaManager;
+    private IBillManager fakturaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        kosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
-        fakturaManager = EntityManagerFactory.INSTANCE.getFakturaManager();
+        kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        fakturaManager = EntityManagerFactory.INSTANCE.getBillManager();
         
-        Kosik kosikAktivnehoPouzivatela = pouzivatelManager.getAktivnyPouzivatel().getKosik();
+        Cart kosikAktivnehoPouzivatela = pouzivatelManager.getSignedInUser().getCart();
 
-        celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.celkovaCenaProperty()));
+        celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.totalPriceProperty()));
 
-        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        mnozstvoTableColumn.setCellValueFactory(cellData -> kosikManager.pocetTovaruVKosikuProperty(cellData.getValue()));
-        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
+        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        mnozstvoTableColumn.setCellValueFactory(cellData -> kosikManager.cartProductQuantityProperty(cellData.getValue()));
+        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
 
         odobratTovarTableColumn.setCellFactory(col -> {
 
@@ -83,9 +81,9 @@ public class KosikController extends AbstractController implements Initializable
             ImageView obrazok = new ImageView(new Image("file:src/main/resources/img/square-minus-small.jpg"));
             odstranitButton.setGraphic(obrazok);
 
-            TableCell<Tovar, Tovar> cell = new TableCell<Tovar, Tovar>() {
+            TableCell<Product, Product> cell = new TableCell<Product, Product>() {
                 @Override
-                public void updateItem(Tovar tovar, boolean empty) {
+                public void updateItem(Product tovar, boolean empty) {
                     super.updateItem(tovar, empty);
                     if (empty) {
                         setGraphic(null);
@@ -101,31 +99,31 @@ public class KosikController extends AbstractController implements Initializable
             cell.setAlignment(Pos.CENTER);
 
             odstranitButton.setOnAction(event -> {
-                Tovar vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
+                Product vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
 
-                List<Tovar> tovar = kosikManager.dajTovarKosika();
+                List<Product> tovar = kosikManager.getCartProducts();
 
-                Tovar prvyTovar = tovar.stream().filter(t -> t.getNazov().equals(vybranyTovar.getNazov())).collect(Collectors.toList()).get(0);
+                Product prvyTovar = tovar.stream().filter(t -> t.getName().equals(vybranyTovar.getName())).collect(Collectors.toList()).get(0);
 
-                kosikManager.odoberTovarZKosika(prvyTovar);
+                kosikManager.removeProductFromCart(prvyTovar);
             });
             return cell;
         });
 
-        kosikAktivnehoPouzivatela.getTovar().addListener(new MapChangeListener() {
+        kosikAktivnehoPouzivatela.getProducts().addListener(new MapChangeListener() {
             @Override
             public void onChanged(MapChangeListener.Change change) {
                 tovarTableView.getItems().clear();
-                tovarTableView.setItems(kosikManager.tovarKosikaObservableList());
+                tovarTableView.setItems(kosikManager.cartProductsObservableList());
             }
         });
 
-        tovarTableView.setItems(kosikManager.tovarKosikaObservableList());
+        tovarTableView.setItems(kosikManager.cartProductsObservableList());
     }
 
     @FXML
     public void onKupitButtonClicked() {
-        if (kosikManager.dajTovarKosika().isEmpty()) {
+        if (kosikManager.getCartProducts().isEmpty()) {
             return;
         }
         ukazChceteKupitTovarDialog();
@@ -149,11 +147,11 @@ public class KosikController extends AbstractController implements Initializable
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ano) {
-            if (!pouzivatelManager.maVyplneneFakturacneUdaje()) {
+            if (!pouzivatelManager.hasFilledBillingAddress()) {
                 ukazUpozornenie("Vyplňte prosím fakturačné údaje");
                 alert.close();
             } else {
-                fakturaManager.vytvorFakturu(pouzivatelManager.getAktivnyPouzivatel());
+                fakturaManager.createBill(pouzivatelManager.getSignedInUser());
             }
         } else {
             alert.close();

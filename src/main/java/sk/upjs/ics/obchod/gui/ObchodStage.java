@@ -4,11 +4,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import sk.upjs.ics.obchod.entity.Pouzivatel;
-import sk.upjs.ics.obchod.managers.IKosikManager;
-
-import static javafx.application.Application.launch;
+import sk.upjs.ics.obchod.entity.User;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
+import sk.upjs.ics.obchod.managers.ICartManager;
+
 
 public class ObchodStage extends Application {
 
@@ -24,10 +23,10 @@ public class ObchodStage extends Application {
         stage.show();
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            Pouzivatel aktivnyPouzivatel = EntityManagerFactory.INSTANCE.getPouzivatelManager().getAktivnyPouzivatel();
+            User aktivnyPouzivatel = EntityManagerFactory.INSTANCE.getUserManager().getSignedInUser();
             if (aktivnyPouzivatel != null) {
-                IKosikManager defaultKosikManager = EntityManagerFactory.INSTANCE.getKosikManager();
-                defaultKosikManager.vyprazdniKosik();
+                ICartManager defaultKosikManager = EntityManagerFactory.INSTANCE.getCartManager();
+                defaultKosikManager.clearCart();
             }
             stage.close();
         });

@@ -5,12 +5,12 @@ import javafx.scene.Scene;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 
-public class AdministraciaController extends AbstractController {
+public class AdministraciaController extends Controller {
 
     @FXML
     public void onOdhlasitLabelClicked() {
         Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-        EntityManagerFactory.INSTANCE.getPouzivatelManager().odhlasPouzivatela();
+        EntityManagerFactory.INSTANCE.getUserManager().logOutUser();
         mainStage.setScene(obchodScene);     
     }
 }

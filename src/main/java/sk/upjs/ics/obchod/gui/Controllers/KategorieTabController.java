@@ -13,10 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import sk.upjs.ics.obchod.entity.Kategoria;
+import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.KategoriaManager;
-import sk.upjs.ics.obchod.managers.IKategoriaManager;
+import sk.upjs.ics.obchod.managers.ICategoryManager;
 
 public class KategorieTabController implements Initializable {
 
@@ -42,21 +41,21 @@ public class KategorieTabController implements Initializable {
     private TextField nazovTextField;
 
     @FXML
-    private TableView<Kategoria> kategorieTableView;
+    private TableView<Category> kategorieTableView;
 
     @FXML
-    private TableColumn<Kategoria, Number> idTableColumn;
+    private TableColumn<Category, Number> idTableColumn;
 
     @FXML
-    private TableColumn<Kategoria, String> nazovTableColumn;
+    private TableColumn<Category, String> nazovTableColumn;
 
-    private ObservableList<Kategoria> kategoriaModely;
+    private ObservableList<Category> kategoriaModely;
 
-    private IKategoriaManager defaultKategoriaManager;
+    private ICategoryManager defaultKategoriaManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultKategoriaManager = EntityManagerFactory.INSTANCE.getKategoriaManager();
+        defaultKategoriaManager = EntityManagerFactory.INSTANCE.getCategoryManager();
 
         inicializujKategorieTableView();
     }
@@ -65,7 +64,7 @@ public class KategorieTabController implements Initializable {
         naplnKategoriaModely();
 
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
+        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
         obnovKategorieTableView();
     }
@@ -75,7 +74,7 @@ public class KategorieTabController implements Initializable {
     }
 
     private void naplnKategoriaModely() {
-        List<Kategoria> znacky = defaultKategoriaManager.dajKategorie();
+        List<Category> znacky = defaultKategoriaManager.getCategories();
         kategoriaModely = FXCollections.observableArrayList(znacky);
     }
 
@@ -95,14 +94,14 @@ public class KategorieTabController implements Initializable {
             return;
         }
 
-        Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
+        Category oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
 
-        if (defaultKategoriaManager.existujeTovarVKategorii(oznacenaKategoria)) {
+        if (defaultKategoriaManager.productsOfCategoryExists(oznacenaKategoria)) {
             ukazUpozornenie("Kategóriu nie je možné odstrániť. Existuje tovar v danej kategórii.");
             return;
         }
 
-        defaultKategoriaManager.odstranKategoriu(oznacenaKategoria);
+        defaultKategoriaManager.delete(oznacenaKategoria);
         kategoriaModely.remove(oznacenaKategoria);
         obnovKategorieTableView();
     }
@@ -118,22 +117,22 @@ public class KategorieTabController implements Initializable {
             return;
         }
 
-        Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
+        Category oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
 
-        nazovTextField.setText(oznacenaKategoria.getNazov());
+        nazovTextField.setText(oznacenaKategoria.getName());
     }
 
     @FXML
     public void onUpravitButtonClicked() {
-        Kategoria oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
+        Category oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
 
-        if (defaultKategoriaManager.existujeKategoriaSNazvom(novyNazov)) {
+        if (defaultKategoriaManager.categoryExists(novyNazov)) {
             ukazUpozornenie("Kategória s daným názvom už existuje!");
         } else if (novyNazov == null || novyNazov.trim().isEmpty()) {
             ukazUpozornenie("Zadajte názov kategórie");
         } else {
-            defaultKategoriaManager.upravKategoriu(oznacenaKategoria, novyNazov);
+            defaultKategoriaManager.update(oznacenaKategoria, novyNazov);
         }
     }
 
@@ -141,15 +140,15 @@ public class KategorieTabController implements Initializable {
     public void onPridatButtonClicked() {
         String nazovKategorie = nazovTextField.getText();
 
-        if (defaultKategoriaManager.existujeKategoriaSNazvom(nazovKategorie)) {
+        if (defaultKategoriaManager.categoryExists(nazovKategorie)) {
             ukazUpozornenie("Kategória s daným názvom už existuje!");
         } else if (nazovKategorie == null || nazovKategorie.trim().isEmpty()) {
             ukazUpozornenie("Zadajte názov kategórie");
         } else {
-            Kategoria novaKategoria = new Kategoria();
-            novaKategoria.setNazov(nazovKategorie);
+            Category novaKategoria = new Category();
+            novaKategoria.setName(nazovKategorie);
 
-            Long idKategorie = defaultKategoriaManager.pridajKategoriu(novaKategoria);
+            Long idKategorie = defaultKategoriaManager.add(novaKategoria);
             novaKategoria.setId(idKategorie);
 
             kategoriaModely.add(novaKategoria);

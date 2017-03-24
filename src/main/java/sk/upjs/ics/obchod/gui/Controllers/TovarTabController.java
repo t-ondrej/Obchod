@@ -21,12 +21,12 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import sk.upjs.ics.obchod.dao.DaoFactory;
-import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
-import sk.upjs.ics.obchod.entity.Kategoria;
-import sk.upjs.ics.obchod.entity.Tovar;
-import sk.upjs.ics.obchod.entity.Znacka;
+import sk.upjs.ics.obchod.dao.mysql.MysqlCategoryDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlBrandDao;
+import sk.upjs.ics.obchod.entity.Category;
+import sk.upjs.ics.obchod.entity.Product;
+import sk.upjs.ics.obchod.entity.Brand;
 import sk.upjs.ics.obchod.utils.StringUtilities;
 
 public class TovarTabController implements Initializable {
@@ -50,7 +50,7 @@ public class TovarTabController implements Initializable {
     private Pane pridatUpravitTovarPane;
 
     @FXML
-    private TableView<Tovar> tovarTableView;
+    private TableView<Product> tovarTableView;
 
     @FXML
     private Label upozornenieLabel;
@@ -59,31 +59,31 @@ public class TovarTabController implements Initializable {
      * Stlpce tabulky tovar 
      */
     @FXML
-    private TableColumn<Tovar, Number> idTableColumn;
+    private TableColumn<Product, Number> idTableColumn;
 
     @FXML
-    private TableColumn<Tovar, String> nazovTableColumn;
+    private TableColumn<Product, String> nazovTableColumn;
 
     @FXML
-    private TableColumn<Tovar, String> kategoriaTableColumn;
+    private TableColumn<Product, String> kategoriaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, String> znackaTableColumn;
+    private TableColumn<Product, String> znackaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> cenaTableColumn;
+    private TableColumn<Product, Number> cenaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, String> urlObrazkaTableColumn;
+    private TableColumn<Product, String> urlObrazkaTableColumn;
 
     @FXML
-    private TableColumn<Tovar, Number> pocetKusovTableColumn;
+    private TableColumn<Product, Number> pocetKusovTableColumn;
 
     @FXML
-    private ComboBox<Kategoria> kategorieComboBox;
+    private ComboBox<Category> kategorieComboBox;
 
     @FXML
-    private ComboBox<Znacka> znackyComboBox;
+    private ComboBox<Brand> znackyComboBox;
 
     @FXML
     private TextField nazovTextField;
@@ -106,19 +106,19 @@ public class TovarTabController implements Initializable {
     @FXML
     private Label upravitTovarLabel;
 
-    private ObservableList<Tovar> tovarModely;
+    private ObservableList<Product> tovarModely;
 
-    private MysqlTovarDao mysqlTovarDao;
+    private MysqlProductDao mysqlProductDao;
 
-    private MysqlKategoriaDao mysqlKategoriaDao;
+    private MysqlCategoryDao mysqlCategoryDao;
 
-    private MysqlZnackaDao mysqlZnackaDao;
+    private MysqlBrandDao mysqlBrandDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mysqlTovarDao = DaoFactory.INSTANCE.getMysqlTovarDao();
-        mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlKategoriaDao();
-        mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlZnackaDao();
+        mysqlProductDao = DaoFactory.INSTANCE.getMysqlProductDao();
+        mysqlCategoryDao = DaoFactory.INSTANCE.getMysqlCategoryDao();
+        mysqlBrandDao = DaoFactory.INSTANCE.getMysqlBrandDao();
 
         inicializujTovarTableView();
         inicializujKategorieComboBox();
@@ -148,9 +148,9 @@ public class TovarTabController implements Initializable {
             return;
         }
 
-        Tovar oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();
+        Product oznacenyTovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        mysqlTovarDao.odstranTovar(oznacenyTovar);
+        mysqlProductDao.delete(oznacenyTovar);
         tovarModely.remove(oznacenyTovar);
         obnovTovarTableView();
     }
@@ -169,16 +169,16 @@ public class TovarTabController implements Initializable {
             return;
         }
 
-        Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
+        Product tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        kategorieComboBox.setValue(tovar.getKategoria());
-        znackyComboBox.setValue(tovar.getZnacka());
+        kategorieComboBox.setValue(tovar.getCategory());
+        znackyComboBox.setValue(tovar.getBrand());
 
-        nazovTextField.setText(tovar.getNazov());
-        cenaTextField.setText(Integer.toString(tovar.getCena()));
-        obrazokUrlTextField.setText(tovar.getObrazokUrl());
-        pocetKusovTextField.setText(Integer.toString(tovar.getPocetKusov()));
-        popisTovaruTextArea.setText(tovar.getPopis());
+        nazovTextField.setText(tovar.getName());
+        cenaTextField.setText(Integer.toString(tovar.getPrice()));
+        obrazokUrlTextField.setText(tovar.getImagePath());
+        pocetKusovTextField.setText(Integer.toString(tovar.getQuantity()));
+        popisTovaruTextArea.setText(tovar.getDescription());
     }
 
     @FXML
@@ -190,25 +190,25 @@ public class TovarTabController implements Initializable {
         } else if (znackyComboBox.getSelectionModel().getSelectedItem() == null) {
             upozornenieLabel.setText("Vyberte značku!");
             ukazUpozornenieLabel();
-        } else if (!StringUtilities.jeCislo(cenaTextField.getText())) {
+        } else if (!StringUtilities.isNumber(cenaTextField.getText())) {
             cenaTextField.getStyleClass().add("chyba");
-            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+            if (!StringUtilities.isNumber(pocetKusovTextField.getText())) {
                 pocetKusovTextField.getStyleClass().add("chyba");
             }
-        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+        } else if (!StringUtilities.isNumber(pocetKusovTextField.getText())) {
             pocetKusovTextField.getStyleClass().add("chyba");
         } else {
-            Tovar tovar = new Tovar();
-            tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
-            tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
-            tovar.setNazov(nazovTextField.getText());
-            tovar.setCena(Integer.parseInt(cenaTextField.getText()));
-            tovar.setObrazokUrl(obrazokUrlTextField.getText());
-            tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
-            tovar.setPopis(popisTovaruTextArea.getText());
+            Product tovar = new Product();
+            tovar.setCategory(kategorieComboBox.getSelectionModel().getSelectedItem());
+            tovar.setBrand(znackyComboBox.getSelectionModel().getSelectedItem());
+            tovar.setName(nazovTextField.getText());
+            tovar.setPrice(Integer.parseInt(cenaTextField.getText()));
+            tovar.setImagePath(obrazokUrlTextField.getText());
+            tovar.setQuantity(Integer.parseInt(pocetKusovTextField.getText()));
+            tovar.setDescription(popisTovaruTextArea.getText());
 
             tovarModely.add(tovar);
-            Long idTovaru = mysqlTovarDao.ulozTovar(tovar);
+            Long idTovaru = mysqlProductDao.saveOrUpdate(tovar);
             tovar.setId(idTovaru);
 
             obnovTovarTableView();
@@ -221,26 +221,26 @@ public class TovarTabController implements Initializable {
 
     @FXML
     public void onUpravitButtonClicked() {
-        Tovar tovar = tovarTableView.getSelectionModel().getSelectedItem();
+        Product tovar = tovarTableView.getSelectionModel().getSelectedItem();
 
-        if (!StringUtilities.jeCislo(cenaTextField.getText())) {
+        if (!StringUtilities.isNumber(cenaTextField.getText())) {
             cenaTextField.getStyleClass().add("chyba");
-            if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+            if (!StringUtilities.isNumber(pocetKusovTextField.getText())) {
                 pocetKusovTextField.getStyleClass().add("chyba");
             }
-        } else if (!StringUtilities.jeCislo(pocetKusovTextField.getText())) {
+        } else if (!StringUtilities.isNumber(pocetKusovTextField.getText())) {
             pocetKusovTextField.getStyleClass().add("chyba");
         } else {
 
-            tovar.setKategoria(kategorieComboBox.getSelectionModel().getSelectedItem());
-            tovar.setZnacka(znackyComboBox.getSelectionModel().getSelectedItem());
-            tovar.setNazov(nazovTextField.getText());
-            tovar.setCena(Integer.parseInt(cenaTextField.getText()));
-            tovar.setObrazokUrl(obrazokUrlTextField.getText());
-            tovar.setPocetKusov(Integer.parseInt(pocetKusovTextField.getText()));
-            tovar.setPopis(popisTovaruTextArea.getText());
+            tovar.setCategory(kategorieComboBox.getSelectionModel().getSelectedItem());
+            tovar.setBrand(znackyComboBox.getSelectionModel().getSelectedItem());
+            tovar.setName(nazovTextField.getText());
+            tovar.setPrice(Integer.parseInt(cenaTextField.getText()));
+            tovar.setImagePath(obrazokUrlTextField.getText());
+            tovar.setQuantity(Integer.parseInt(pocetKusovTextField.getText()));
+            tovar.setDescription(popisTovaruTextArea.getText());
 
-            mysqlTovarDao.ulozTovar(tovar);
+            mysqlProductDao.saveOrUpdate(tovar);
             
             obnovTovarTableView();
             vymazTextFieldy();
@@ -254,33 +254,33 @@ public class TovarTabController implements Initializable {
         naplnTovarModely();
 
         idTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nazovProperty());
-        kategoriaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getKategoria().nazovProperty());
-        znackaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getZnacka().nazovProperty());
-        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().cenaProperty());
-        urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().obrazokUrl());
-        pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().pocetKusovProperty());
+        nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        kategoriaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getCategory().nameProperty());
+        znackaTableColumn.setCellValueFactory(cellData -> cellData.getValue().getBrand().nameProperty());
+        cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
+        urlObrazkaTableColumn.setCellValueFactory(cellData -> cellData.getValue().imagePathProperty());
+        pocetKusovTableColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty());
 
         tovarTableView.setItems(tovarModely);
     }
 
     private void naplnTovarModely() {
-        List<Tovar> tovar = DaoFactory.INSTANCE.getMysqlTovarDao().dajTovar();
+        List<Product> tovar = DaoFactory.INSTANCE.getMysqlProductDao().getAll();
         tovarModely = FXCollections.observableArrayList(tovar);
     }
 
     private void inicializujKategorieComboBox() {
-        ObservableList<Kategoria> kategorie = FXCollections.observableArrayList(mysqlKategoriaDao.dajKategorie());
+        ObservableList<Category> kategorie = FXCollections.observableArrayList(mysqlCategoryDao.getAll());
 
-        kategorieComboBox.setConverter(new StringConverter<Kategoria>() {
+        kategorieComboBox.setConverter(new StringConverter<Category>() {
             @Override
-            public String toString(Kategoria k) {
-                return k.getNazov();
+            public String toString(Category k) {
+                return k.getName();
             }
 
             @Override
-            public Kategoria fromString(String nazovKategorie) {
-                return mysqlKategoriaDao.najdiPodlaNazvu(nazovKategorie);
+            public Category fromString(String nazovKategorie) {
+                return mysqlCategoryDao.findByName(nazovKategorie);
             }
 
         });
@@ -290,17 +290,17 @@ public class TovarTabController implements Initializable {
     }
 
     private void inicializujZnackyComboBox() {
-        ObservableList<Znacka> znacky = FXCollections.observableArrayList(mysqlZnackaDao.dajZnacky());
+        ObservableList<Brand> znacky = FXCollections.observableArrayList(mysqlBrandDao.getAll());
 
-        znackyComboBox.setConverter(new StringConverter<Znacka>() {
+        znackyComboBox.setConverter(new StringConverter<Brand>() {
             @Override
-            public String toString(Znacka z) {
-                return z.getNazov();
+            public String toString(Brand z) {
+                return z.getName();
             }
 
             @Override
-            public Znacka fromString(String nazovZnacky) {
-                return mysqlZnackaDao.najdiPodlaNazvu(nazovZnacky);
+            public Brand fromString(String nazovZnacky) {
+                return mysqlBrandDao.findByName(nazovZnacky);
             }
         });
 

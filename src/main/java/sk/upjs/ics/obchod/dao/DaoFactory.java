@@ -1,27 +1,26 @@
 package sk.upjs.ics.obchod.dao;
 
-import sk.upjs.ics.obchod.dao.mysql.MysqlFakturaDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlKategoriaDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlPouzivatelDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlTovarDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlZnackaDao;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import sk.upjs.ics.obchod.dao.mysql.MysqlBillDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlCategoryDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlUserDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlBrandDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public enum DaoFactory {
     INSTANCE;
     
-    private MysqlPouzivatelDao mysqlPouzivatelDao;
+    private MysqlUserDao mysqlPouzivatelDao;
     
-    private MysqlTovarDao mysqlTovarDao;
+    private MysqlProductDao mysqlProductDao;
     
-    private MysqlKategoriaDao mysqlKategoriaDao;
+    private MysqlCategoryDao mysqlCategoryDao;
     
-    private MysqlZnackaDao mysqlZnackaDao;
+    private MysqlBrandDao mysqlBrandDao;
     
-    private PamatovyKosikDao pamatovyKosikDao;
+    private MemoryCartDao memoryCartDao;
     
-    private MysqlFakturaDao mysqlFakturaDao;
+    private MysqlBillDao mysqlBillDao;
     
     private JdbcTemplate jdbcTemplate;
     
@@ -29,49 +28,49 @@ public enum DaoFactory {
         jdbcTemplate = JdbcTemplateFactory.INSTANCE.getProductionTemplate();
     }
     
-    public MysqlTovarDao getMysqlTovarDao() {
-        if (mysqlTovarDao == null)
-            mysqlTovarDao = new MysqlTovarDao(jdbcTemplate);
+    public MysqlProductDao getMysqlProductDao() {
+        if (mysqlProductDao == null)
+            mysqlProductDao = new MysqlProductDao(jdbcTemplate);
         
-        return mysqlTovarDao;
+        return mysqlProductDao;
     }
     
-    public MysqlPouzivatelDao getMysqlPouzivatelDao() {
+    public MysqlUserDao getMysqlUserDao() {
         if (mysqlPouzivatelDao == null)
-            mysqlPouzivatelDao = new MysqlPouzivatelDao(jdbcTemplate);
+            mysqlPouzivatelDao = new MysqlUserDao(jdbcTemplate);
         
         return mysqlPouzivatelDao;
     }
     
-    public MysqlKategoriaDao getMysqlKategoriaDao() {
-        if (mysqlKategoriaDao == null)
-            mysqlKategoriaDao = new MysqlKategoriaDao(jdbcTemplate);
+    public MysqlCategoryDao getMysqlCategoryDao() {
+        if (mysqlCategoryDao == null)
+            mysqlCategoryDao = new MysqlCategoryDao(jdbcTemplate);
         
-        return mysqlKategoriaDao;
+        return mysqlCategoryDao;
     }
     
-    public MysqlZnackaDao getMysqlZnackaDao() {
-        if (mysqlZnackaDao == null)
-            mysqlZnackaDao = new MysqlZnackaDao(jdbcTemplate);
+    public MysqlBrandDao getMysqlBrandDao() {
+        if (mysqlBrandDao == null)
+            mysqlBrandDao = new MysqlBrandDao(jdbcTemplate);
         
-        return mysqlZnackaDao;
+        return mysqlBrandDao;
     }
     
-    public PamatovyKosikDao getPamatoviKosikDao() {
-        if (pamatovyKosikDao == null)
-            pamatovyKosikDao = new PamatovyKosikDao();
+    public MemoryCartDao getMemoryCartDao() {
+        if (memoryCartDao == null)
+            memoryCartDao = new MemoryCartDao();
         
-        return pamatovyKosikDao;
+        return memoryCartDao;
     }
     
-    public MysqlFakturaDao getMysqlFakturaDao() {
-        if (mysqlFakturaDao == null)
-            mysqlFakturaDao = new MysqlFakturaDao(jdbcTemplate);
+    public MysqlBillDao getMysqlBillDao() {
+        if (mysqlBillDao == null)
+            mysqlBillDao = new MysqlBillDao(jdbcTemplate);
         
-        return mysqlFakturaDao;
+        return mysqlBillDao;
     }
     
-    public JdbcTemplate getJdbcTemplate(){
+    private JdbcTemplate getJdbcTemplate(){
         return jdbcTemplate;
     }
 }

@@ -18,13 +18,13 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import sk.upjs.ics.obchod.entity.Pouzivatel;
+import sk.upjs.ics.obchod.entity.User;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.IPouzivatelManager;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.UserManager;
+import sk.upjs.ics.obchod.managers.IUserManager;
 
-public class ProfilPouzivatelaController extends AbstractController implements Initializable {
+public class ProfilPouzivatelaController extends Controller implements Initializable {
 
     @FXML
     private TextField prihlasovacieMenoTextField;
@@ -56,35 +56,35 @@ public class ProfilPouzivatelaController extends AbstractController implements I
     @FXML
     private Button zmenitHesloButton;
 
-    private Pouzivatel aktivnyPouzivatel;
+    private User aktivnyPouzivatel;
     
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager pouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
-        aktivnyPouzivatel = pouzivatelManager.getAktivnyPouzivatel();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        aktivnyPouzivatel = pouzivatelManager.getSignedInUser();
 
-        prihlasovacieMenoTextField.setText(aktivnyPouzivatel.getPrihlasovacieMeno());
+        prihlasovacieMenoTextField.setText(aktivnyPouzivatel.getLogin());
         emailTextField.setText(aktivnyPouzivatel.getEmail());
-        menoTextField.setText(aktivnyPouzivatel.getMeno());
-        priezviskoTextField.setText(aktivnyPouzivatel.getPriezvisko());
-        mestoTextField.setText(aktivnyPouzivatel.getMeno());
-        ulicaTextField.setText(aktivnyPouzivatel.getUlica());
-        pscTextField.setText(Integer.toString(aktivnyPouzivatel.getPsc()));
+        menoTextField.setText(aktivnyPouzivatel.getName());
+        priezviskoTextField.setText(aktivnyPouzivatel.getSurname());
+        mestoTextField.setText(aktivnyPouzivatel.getName());
+        ulicaTextField.setText(aktivnyPouzivatel.getStreet());
+        pscTextField.setText(Integer.toString(aktivnyPouzivatel.getPostalCode()));
 
     }
 
     @FXML
     public void onUlozitButtonClicked() {
         aktivnyPouzivatel.setEmail(emailTextField.getText());
-        aktivnyPouzivatel.setMeno(menoTextField.getText());
-        aktivnyPouzivatel.setPriezvisko(priezviskoTextField.getText());
-        aktivnyPouzivatel.setMesto(mestoTextField.getText());
-        aktivnyPouzivatel.setUlica(ulicaTextField.getText());
-        aktivnyPouzivatel.setPsc(Integer.parseInt(pscTextField.getText()));
+        aktivnyPouzivatel.setName(menoTextField.getText());
+        aktivnyPouzivatel.setSurname(priezviskoTextField.getText());
+        aktivnyPouzivatel.setCity(mestoTextField.getText());
+        aktivnyPouzivatel.setStreet(ulicaTextField.getText());
+        aktivnyPouzivatel.setPostalCode(Integer.parseInt(pscTextField.getText()));
 
-        pouzivatelManager.ulozPouzivatela(aktivnyPouzivatel);
+        pouzivatelManager.save(aktivnyPouzivatel);
     }
 
     @FXML
@@ -92,7 +92,7 @@ public class ProfilPouzivatelaController extends AbstractController implements I
         Optional<String> noveHeslo = ukazZmenitHesloDialog();
 
         if (noveHeslo.isPresent()) {
-            pouzivatelManager.zmenHeslo(aktivnyPouzivatel, noveHeslo.get());
+            pouzivatelManager.changePassword(aktivnyPouzivatel, noveHeslo.get());
             System.out.println(noveHeslo.get());
         }
     }

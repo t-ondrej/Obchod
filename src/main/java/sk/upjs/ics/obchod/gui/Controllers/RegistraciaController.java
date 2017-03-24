@@ -13,11 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.PouzivatelManager;
+import sk.upjs.ics.obchod.managers.UserManager;
 import sk.upjs.ics.obchod.utils.StringUtilities;
-import sk.upjs.ics.obchod.managers.IPouzivatelManager;
+import sk.upjs.ics.obchod.managers.IUserManager;
 
-public class RegistraciaController extends AbstractController implements Initializable {
+public class RegistraciaController extends Controller implements Initializable {
 
     @FXML
     private TextField prihlasovacieMenoTextField;
@@ -49,11 +49,11 @@ public class RegistraciaController extends AbstractController implements Initial
     @FXML
     private Label spatLabel;
 
-    private IPouzivatelManager pouzivatelManager;
+    private IUserManager pouzivatelManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getPouzivatelManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
     }
 
     @FXML
@@ -74,21 +74,21 @@ public class RegistraciaController extends AbstractController implements Initial
         int psc = -1;
         
         String pscRetazec = pscTextField.getText();
-        if (StringUtilities.jeCislo(pscRetazec)) {
+        if (StringUtilities.isNumber(pscRetazec)) {
             psc = Integer.parseInt(pscRetazec);
         }     
         
-        if (!pouzivatelManager.jeVolneMeno(prihlasovacieMeno)) {
+        if (!pouzivatelManager.isUsernameAvailable(prihlasovacieMeno)) {
             ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
             return;
         } else if (prihlasovacieMeno.trim().isEmpty() || heslo.trim().isEmpty() || email.trim().isEmpty()) {
             ukazUpozornenie("Nevyplnili ste všetky údaje.");
             return;
-        } else if (!StringUtilities.jeValidnyFormatEmailu(email)) {
+        } else if (!StringUtilities.isValidEmailFormat(email)) {
             ukazUpozornenie("Formát emailovej adresy nie je valídny.");
             return;
         } else {
-            pouzivatelManager.registrujPouzivatela(prihlasovacieMeno, heslo, 
+            pouzivatelManager.signUpUser(prihlasovacieMeno, heslo, 
                     email, meno, priezvisko, mesto, ulica, psc);
             onSpatLabelClicked();
         }
