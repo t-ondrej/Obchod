@@ -13,9 +13,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.ICategoryDao;
 import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.ICategoryManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
 
 public class KategorieTabController implements Initializable {
 
@@ -51,11 +54,14 @@ public class KategorieTabController implements Initializable {
 
     private ObservableList<Category> kategoriaModely;
 
-    private ICategoryManager defaultKategoriaManager;
+    private ICategoryManager categoryManager;
+    
+    private ICategoryDao categoryDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultKategoriaManager = EntityManagerFactory.INSTANCE.getCategoryManager();
+        categoryManager = EntityManagerFactory.INSTANCE.getCategoryManager();
+        categoryDao = DaoFactory.INSTANCE.getMysqlCategoryDao();
 
         inicializujKategorieTableView();
     }
@@ -74,7 +80,7 @@ public class KategorieTabController implements Initializable {
     }
 
     private void naplnKategoriaModely() {
-        List<Category> znacky = defaultKategoriaManager.getCategories();
+        List<Category> znacky = categoryDao.getAll();
         kategoriaModely = FXCollections.observableArrayList(znacky);
     }
 
@@ -90,18 +96,18 @@ public class KategorieTabController implements Initializable {
         pridatUpravitKategoriuPane.setVisible(false);
 
         if (kategorieTableView.getSelectionModel().isEmpty()) {
-            ukazUpozornenie("Vyberte kategóriu v tabuľke!");
+            GuiUtils.showWarning("Vyberte kategóriu v tabuľke!");
             return;
         }
 
         Category oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
 
-        if (defaultKategoriaManager.productsOfCategoryExists(oznacenaKategoria)) {
-            ukazUpozornenie("Kategóriu nie je možné odstrániť. Existuje tovar v danej kategórii.");
+        if (categoryManager.productsOfCategoryExists(oznacenaKategoria)) {
+            GuiUtils.showWarning("Kategóriu nie je možné odstrániť. Existuje tovar v danej kategórii.");
             return;
         }
 
-        defaultKategoriaManager.delete(oznacenaKategoria);
+        categoryDao.delete(oznacenaKategoria);
         kategoriaModely.remove(oznacenaKategoria);
         obnovKategorieTableView();
     }
@@ -113,7 +119,7 @@ public class KategorieTabController implements Initializable {
         upravitButton.setVisible(true);
 
         if (kategorieTableView.getSelectionModel().isEmpty()) {
-            ukazUpozornenie("Vyberte kategóriu v tabuľke!");
+            GuiUtils.showWarning("Vyberte kategóriu v tabuľke!");
             return;
         }
 
@@ -127,12 +133,12 @@ public class KategorieTabController implements Initializable {
         Category oznacenaKategoria = kategorieTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
 
-        if (defaultKategoriaManager.categoryExists(novyNazov)) {
-            ukazUpozornenie("Kategória s daným názvom už existuje!");
+        if (categoryManager.categoryExists(novyNazov)) {
+            GuiUtils.showWarning("Kategória s daným názvom už existuje!");
         } else if (novyNazov == null || novyNazov.trim().isEmpty()) {
-            ukazUpozornenie("Zadajte názov kategórie");
+            GuiUtils.showWarning("Zadajte názov kategórie");
         } else {
-            defaultKategoriaManager.update(oznacenaKategoria, novyNazov);
+            categoryManager.update(oznacenaKategoria, novyNazov);
         }
     }
 
@@ -140,28 +146,20 @@ public class KategorieTabController implements Initializable {
     public void onPridatButtonClicked() {
         String nazovKategorie = nazovTextField.getText();
 
-        if (defaultKategoriaManager.categoryExists(nazovKategorie)) {
-            ukazUpozornenie("Kategória s daným názvom už existuje!");
+        if (categoryManager.categoryExists(nazovKategorie)) {
+            GuiUtils.showWarning("Kategória s daným názvom už existuje!");
         } else if (nazovKategorie == null || nazovKategorie.trim().isEmpty()) {
-            ukazUpozornenie("Zadajte názov kategórie");
+            GuiUtils.showWarning("Zadajte názov kategórie");
         } else {
             Category novaKategoria = new Category();
             novaKategoria.setName(nazovKategorie);
 
-            Long idKategorie = defaultKategoriaManager.add(novaKategoria);
-            novaKategoria.setId(idKategorie);
+            categoryDao.saveOrUpdate(novaKategoria);
 
             kategoriaModely.add(novaKategoria);
             obnovKategorieTableView();
         }
 
         nazovTextField.clear();
-    }
-
-    private void ukazUpozornenie(String hlavička) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText(hlavička);
-        alert.showAndWait();
     }
 }

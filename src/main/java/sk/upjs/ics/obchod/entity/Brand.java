@@ -7,6 +7,15 @@ public class Brand extends Entity{
         
     private StringProperty name = new SimpleStringProperty();  
 
+    public Brand() {
+        
+    }
+    
+    public Brand(Long id, String name) {
+        super(id);
+        this.name.setValue(name);
+    }
+ 
     public String getName() {
         return name.getValue();
     }

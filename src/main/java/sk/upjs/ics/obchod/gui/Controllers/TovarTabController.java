@@ -21,12 +21,16 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.IBrandDao;
+import sk.upjs.ics.obchod.dao.ICategoryDao;
+import sk.upjs.ics.obchod.dao.IProductDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlCategoryDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlBrandDao;
 import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.entity.Brand;
+import sk.upjs.ics.obchod.utils.GuiUtils;
 import sk.upjs.ics.obchod.utils.StringUtilities;
 
 public class TovarTabController implements Initializable {
@@ -108,11 +112,11 @@ public class TovarTabController implements Initializable {
 
     private ObservableList<Product> tovarModely;
 
-    private MysqlProductDao mysqlProductDao;
+    private IProductDao mysqlProductDao;
 
-    private MysqlCategoryDao mysqlCategoryDao;
+    private ICategoryDao mysqlCategoryDao;
 
-    private MysqlBrandDao mysqlBrandDao;
+    private IBrandDao mysqlBrandDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -144,7 +148,7 @@ public class TovarTabController implements Initializable {
         pridatUpravitTovarPane.setVisible(false);
 
         if (tovarTableView.getSelectionModel().isEmpty()) {
-            ukazVyberTovarUpozornenie();
+            GuiUtils.showWarning("Vyberte tovar v tabuľke");
             return;
         }
 
@@ -165,7 +169,7 @@ public class TovarTabController implements Initializable {
         upravitTovarLabel.setVisible(true);
 
         if (tovarTableView.getSelectionModel().isEmpty()) {
-            ukazVyberTovarUpozornenie();
+            GuiUtils.showWarning("Vyberte tovar v tabuľke");
             return;
         }
 
@@ -208,8 +212,7 @@ public class TovarTabController implements Initializable {
             tovar.setDescription(popisTovaruTextArea.getText());
 
             tovarModely.add(tovar);
-            Long idTovaru = mysqlProductDao.saveOrUpdate(tovar);
-            tovar.setId(idTovaru);
+            mysqlProductDao.saveOrUpdate(tovar);
 
             obnovTovarTableView();
             vymazTextFieldy();
@@ -324,13 +327,6 @@ public class TovarTabController implements Initializable {
         return !(nazovTextField.getText() == null || nazovTextField.getText().trim().isEmpty()
                 || obrazokUrlTextField.getText() == null || obrazokUrlTextField.getText().trim().isEmpty()
                 || popisTovaruTextArea.getText() == null || popisTovaruTextArea.getText().trim().isEmpty());
-    }
-
-    private void ukazVyberTovarUpozornenie() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText("Vyberte tovar v tabuľke.");
-        alert.showAndWait();
     }
 
     private void ukazUpozornenieLabel() {

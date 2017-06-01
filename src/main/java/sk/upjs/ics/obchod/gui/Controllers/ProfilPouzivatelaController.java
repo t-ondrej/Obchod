@@ -16,13 +16,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.util.Callback;
-import sk.upjs.ics.obchod.entity.User;
+import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.IPersonDao;
+import sk.upjs.ics.obchod.entity.Account;
+import sk.upjs.ics.obchod.entity.Person;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.UserManager;
-import sk.upjs.ics.obchod.managers.IUserManager;
+import sk.upjs.ics.obchod.managers.IAccountManager;
+import sk.upjs.ics.obchod.managers.IPersonManager;
 
 public class ProfilPouzivatelaController extends Controller implements Initializable {
 
@@ -56,35 +57,42 @@ public class ProfilPouzivatelaController extends Controller implements Initializ
     @FXML
     private Button zmenitHesloButton;
 
-    private User aktivnyPouzivatel;
+    private Account activeAccount;
     
-    private IUserManager pouzivatelManager;
+    private Person activeAccountPerson;
+    
+    private IAccountManager accountManager;
 
+    private IPersonManager personManager;
+    
+    private IPersonDao personDao;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
-        aktivnyPouzivatel = pouzivatelManager.getSignedInUser();
+        accountManager = EntityManagerFactory.INSTANCE.getAccountManager();
+        personDao = DaoFactory.INSTANCE.getMysqlPersonDao();
+        activeAccount = accountManager.getActiveAccount();
 
-        prihlasovacieMenoTextField.setText(aktivnyPouzivatel.getLogin());
-        emailTextField.setText(aktivnyPouzivatel.getEmail());
-        menoTextField.setText(aktivnyPouzivatel.getName());
-        priezviskoTextField.setText(aktivnyPouzivatel.getSurname());
-        mestoTextField.setText(aktivnyPouzivatel.getName());
-        ulicaTextField.setText(aktivnyPouzivatel.getStreet());
-        pscTextField.setText(Integer.toString(aktivnyPouzivatel.getPostalCode()));
+        prihlasovacieMenoTextField.setText(activeAccount.getUsername());
+        emailTextField.setText(activeAccountPerson.getEmail());
+        menoTextField.setText(activeAccountPerson.getName());
+        priezviskoTextField.setText(activeAccountPerson.getSurname());
+        mestoTextField.setText(activeAccountPerson.getName());
+        ulicaTextField.setText(activeAccountPerson.getStreet());
+        pscTextField.setText(Integer.toString(activeAccountPerson.getPostalCode()));
 
     }
 
     @FXML
     public void onUlozitButtonClicked() {
-        aktivnyPouzivatel.setEmail(emailTextField.getText());
-        aktivnyPouzivatel.setName(menoTextField.getText());
-        aktivnyPouzivatel.setSurname(priezviskoTextField.getText());
-        aktivnyPouzivatel.setCity(mestoTextField.getText());
-        aktivnyPouzivatel.setStreet(ulicaTextField.getText());
-        aktivnyPouzivatel.setPostalCode(Integer.parseInt(pscTextField.getText()));
+        activeAccountPerson.setEmail(emailTextField.getText());
+        activeAccountPerson.setName(menoTextField.getText());
+        activeAccountPerson.setSurname(priezviskoTextField.getText());
+        activeAccountPerson.setCity(mestoTextField.getText());
+        activeAccountPerson.setStreet(ulicaTextField.getText());
+        activeAccountPerson.setPostalCode(Integer.parseInt(pscTextField.getText()));
 
-        pouzivatelManager.save(aktivnyPouzivatel);
+        personDao.saveOrUpdate(activeAccountPerson);
     }
 
     @FXML
@@ -92,7 +100,7 @@ public class ProfilPouzivatelaController extends Controller implements Initializ
         Optional<String> noveHeslo = ukazZmenitHesloDialog();
 
         if (noveHeslo.isPresent()) {
-            pouzivatelManager.changePassword(aktivnyPouzivatel, noveHeslo.get());
+            accountManager.changePassword(activeAccount, noveHeslo.get());
             System.out.println(noveHeslo.get());
         }
     }

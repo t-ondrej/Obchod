@@ -6,7 +6,15 @@ import javafx.beans.property.StringProperty;
 public class Category extends Entity {
        
     private StringProperty name = new SimpleStringProperty();
-    
+
+    public Category() {
+    }
+
+    public Category(Long id, String name) {
+        super(id);
+        this.name.setValue(name);
+    }
+      
     public String getName() {
         return name.getValue();
     }

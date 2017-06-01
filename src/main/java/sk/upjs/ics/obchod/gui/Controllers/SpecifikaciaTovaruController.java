@@ -10,16 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import sk.upjs.ics.obchod.dao.DaoFactory;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.gui.ViewFactory;
-import sk.upjs.ics.obchod.managers.CartManager;
-import sk.upjs.ics.obchod.managers.UserManager;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.dao.IProductDao;
-import sk.upjs.ics.obchod.managers.ICartManager;
+import sk.upjs.ics.obchod.entity.Cart;
 
 public class SpecifikaciaTovaruController extends Controller {
 
@@ -41,17 +38,18 @@ public class SpecifikaciaTovaruController extends Controller {
     @FXML
     private Label pridatDoKosikaNotifikaciaLabel;
 
-    private ICartManager kosikManager;
-
     private IProductDao mysqlTovarDao;
 
     private Product tovar;
+    
+    private Cart activeAccountCart;
 
     // TODO kosikManager pri prihlasovani/odhlasovani
     public void inicializuj(String nazovTovaru) {
-        this.kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
         mysqlTovarDao = DaoFactory.INSTANCE.getMysqlProductDao();
-        tovar = mysqlTovarDao.findProductsByName(nazovTovaru);
+        tovar = mysqlTovarDao.findByName(nazovTovaru);
+        
+        activeAccountCart = EntityManagerFactory.INSTANCE.getAccountManager().getActiveAccount().getCart();
 
         Image obrazok = new Image("file:" + tovar.getImagePath());
 
@@ -66,7 +64,7 @@ public class SpecifikaciaTovaruController extends Controller {
     @FXML
     public void onPridatDoKosikaButtonClicked() {
 
-        if (EntityManagerFactory.INSTANCE.getUserManager().getSignedInUser() == null) {
+        if (EntityManagerFactory.INSTANCE.getAccountManager().getActiveAccount() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Upozornenie");
             alert.setHeaderText("Ak chcete nakupovať, musite sa prihlásiť.");
@@ -74,7 +72,7 @@ public class SpecifikaciaTovaruController extends Controller {
             return;
         }
         
-        if (kosikManager.addProductToCart(tovar)) {
+        if (activeAccountCart.addProductToCart(tovar, 1)) {
             pridatDoKosikaNotifikaciaLabel.setStyle("-fx-text-fill: green");
             pridatDoKosikaNotifikaciaLabel.setText("Tovar bol pridaný!");
             pridatDoKosikaNotifikaciaLabel.setLayoutX(741);

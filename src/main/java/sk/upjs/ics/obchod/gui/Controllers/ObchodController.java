@@ -37,8 +37,8 @@ import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.dao.ICategoryDao;
 import sk.upjs.ics.obchod.dao.IProductDao;
 import sk.upjs.ics.obchod.dao.IBrandDao;
-import sk.upjs.ics.obchod.managers.ICartManager;
-import sk.upjs.ics.obchod.managers.IUserManager;
+import sk.upjs.ics.obchod.entity.Cart;
+import sk.upjs.ics.obchod.managers.IAccountManager;
 
 public class ObchodController implements Initializable {
 
@@ -48,9 +48,7 @@ public class ObchodController implements Initializable {
 
     private IProductDao mysqlTovarDao;
 
-    private IUserManager pouzivatelManager;
-
-    private ICartManager kosikManager;
+    private IAccountManager accountManager;
 
     @FXML
     private ComboBox<Category> kategorieComboBox;
@@ -91,12 +89,11 @@ public class ObchodController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
-        kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
+        accountManager = EntityManagerFactory.INSTANCE.getAccountManager();
         mysqlKategoriaDao = DaoFactory.INSTANCE.getMysqlCategoryDao();
         mysqlZnackaDao = DaoFactory.INSTANCE.getMysqlBrandDao();
 
-        BooleanProperty jePouzivatelPrihlaseny = pouzivatelManager.isSignedIn();
+        BooleanProperty jePouzivatelPrihlaseny = accountManager.isSignedIn();
 
         jePouzivatelPrihlaseny.addListener(e -> {
             zmenButtony();
@@ -184,7 +181,7 @@ public class ObchodController implements Initializable {
 
         kategorieComboBox.valueProperty().addListener(event -> {
             Category kategoria = kategorieComboBox.getSelectionModel().getSelectedItem();
-            List<Product> tovarPodlaKategorie = mysqlTovarDao.findProductsByCategory(kategoria);
+            List<Product> tovarPodlaKategorie = mysqlTovarDao.findByCategory(kategoria);
             System.out.println(tovarPodlaKategorie.size());
             obnovTovar(tovarPodlaKategorie);
             zobrazitVsetkoLabel.setVisible(true);
@@ -211,7 +208,7 @@ public class ObchodController implements Initializable {
 
         znackyComboBox.valueProperty().addListener(event -> {
             Brand znacka = znackyComboBox.getSelectionModel().getSelectedItem();
-            List<Product> tovarPodlaZnacky = mysqlTovarDao.findProductsByBrand(znacka);
+            List<Product> tovarPodlaZnacky = mysqlTovarDao.findByBrand(znacka);
             obnovTovar(tovarPodlaZnacky);
             zobrazitVsetkoLabel.setVisible(true);
         });
@@ -220,7 +217,8 @@ public class ObchodController implements Initializable {
     private void incializujProfilComboBox() {
         ObservableList<String> profil = FXCollections.observableArrayList(Arrays.asList("Upraviť", "Odhlásiť"));
         profilComboBox.setItems(profil);
-
+        Cart cart = EntityManagerFactory.INSTANCE.getAccountManager().getActiveAccount().getCart();
+        
         profilComboBox.valueProperty().addListener(event -> {
             int vybranyIdx = profilComboBox.getSelectionModel().getSelectedIndex();
 
@@ -239,8 +237,8 @@ public class ObchodController implements Initializable {
             }
 
             if (vybranyIdx == 1) {
-                kosikManager.clearCart();
-                pouzivatelManager.logOutUser();
+                cart.clearCart();
+                accountManager.logOutPerson();
             }
 
         });
@@ -291,7 +289,7 @@ public class ObchodController implements Initializable {
     }
 
     private void zmenButtony() {
-        boolean jePouzivatelPrihlaseny = pouzivatelManager.isSignedIn().get();
+        boolean jePouzivatelPrihlaseny = accountManager.isSignedIn().get();
         prihlasitButton.setVisible(!jePouzivatelPrihlaseny);
         registrovatButton.setVisible(!jePouzivatelPrihlaseny);
 

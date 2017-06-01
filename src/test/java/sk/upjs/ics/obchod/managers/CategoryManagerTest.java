@@ -1,9 +1,9 @@
 package sk.upjs.ics.obchod.managers;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
@@ -12,6 +12,7 @@ import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
 import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.dao.ICategoryDao;
 import sk.upjs.ics.obchod.dao.IProductDao;
+import sk.upjs.ics.obchod.utils.TestDataProvider;
 
 public class CategoryManagerTest {
     
@@ -27,28 +28,14 @@ public class CategoryManagerTest {
         manager = new CategoryManager(kategoriaDao, tovarDao);      
     }
     
-    @Before
-    public void naplnTestovacieUdaje(){
-        String sql = "INSERT INTO kategoria (nazov) values ('Test1'), ('Test2'), ('Test3')";
-        jdbcTemplate.execute(sql);
-        
-        String sql1 = "INSERT INTO znacka (nazov) values ('1')";
-        jdbcTemplate.execute(sql1);
-        
-        String sql2 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
-                + " VALUES ('test11', 2, 1, 80, 'dobre', '@../img/1.JPG', 2), "
-                + "('test12', 1, 1, 40, 'skvele', '@../img/2.JPG', 0)";
-        jdbcTemplate.execute(sql2);
+    @BeforeClass
+    public static void setUp() {
+        TestDataProvider.insertTestData();
     }
     
-    @After 
-    public void vymazTestovacieUdaje(){
-        String sql = "TRUNCATE TABLE kategoria;";
-        jdbcTemplate.execute(sql);
-        String sql1 = "TRUNCATE TABLE znacka;";
-        jdbcTemplate.execute(sql1);
-        String sql2 = "TRUNCATE TABLE tovar;";
-        jdbcTemplate.execute(sql2);
+    @AfterClass
+    public static void tearDown() {
+        TestDataProvider.clearTestData();
     }
 
     /**
@@ -58,11 +45,8 @@ public class CategoryManagerTest {
     public void testExistujeKategoriaSNazvom() {
         System.out.println("existujeKategoriaSNazvom");
         
-        boolean ano = manager.categoryExists("TEST1");
-        boolean nie = manager.categoryExists("TEST5");
-        
-        Assert.assertTrue(ano);
-        Assert.assertTrue(!nie);
+        Assert.assertTrue(manager.categoryExists("C1"));
+        Assert.assertTrue(!manager.categoryExists("C7"));
     }
 
     /**
@@ -71,36 +55,35 @@ public class CategoryManagerTest {
     @Test
     public void testUpravKategoriu() {
         System.out.println("upravKategoriu");        
-        Category kategoria = new Category();
-        kategoria.setId(2L);
-        kategoria.setName("Test2");
+        Category kategoria = new Category(3L, "C3");
         
-        manager.update(kategoria, "TEST6");
-        String sql = "SELECT * FROM kategoria WHERE id=2";
+        manager.update(kategoria, "C33");
+        String sql = "SELECT * FROM Category WHERE id = 3";
         BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
         Category k = jdbcTemplate.queryForObject(sql, mapper);
-        Assert.assertEquals("Test6", k.getName());        
+        Assert.assertEquals("C33", k.getName());        
     }
 
+    // UNCOMPLETE
     /**
      * Test of pridajKategoriu method, of class DefaultKategoriaManager.
      */
     @Test
     public void testPridajKategoriu() {
         System.out.println("pridajKategoriu");
-        Category kategoria = new Category();        
-        kategoria.setName("TESt4");
+        Category category = new Category(null, "TESt4");        
         
-        Long id = manager.add(kategoria);
-        String sql1 = "SELECT COUNT(*) FROM kategoria";
-        Long pocetPo = jdbcTemplate.queryForObject(sql1, Long.class);
+        manager.save(category);
+        String sql1 = "SELECT COUNT(*) FROM Category";
+        int categoryCount = jdbcTemplate.queryForObject(sql1, int.class);
         
-        String sql2 = "SELECT * FROM kategoria WHERE id=4";
+        String sql2 = "SELECT * FROM Category WHERE id = 4";
         BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
         Category k = jdbcTemplate.queryForObject(sql2, mapper);
-        Assert.assertEquals(new Long(4L), id); 
-        Assert.assertEquals(new Long(4L), pocetPo);  
-        Assert.assertEquals("Test4", k.getName());
+        
+        Assert.assertNotNull(category.getId()); 
+        Assert.assertEquals(6, categoryCount);  
+        Assert.assertEquals("C4", k.getName());
     }
 
     /**
@@ -109,16 +92,10 @@ public class CategoryManagerTest {
     @Test
     public void testExistujeTovarVKategorii() {
         System.out.println("existujeTovarVKategorii");
-        Category kategoria1 = new Category();
-        kategoria1.setId(1L);
-        kategoria1.setName("Test1");
-        Category kategoria3 = new Category();
-        kategoria3.setId(3L);
-        kategoria3.setName("Test3");
-              
-        boolean ano = manager.productsOfCategoryExists(kategoria1);
-        boolean nie = manager.productsOfCategoryExists(kategoria3);        
-        Assert.assertTrue(ano);
-        Assert.assertTrue(!nie);
+        Category kategoria1 = new Category(1L, "C1");
+        Category kategoria3 = new Category(3L, "C3");
+                  
+        Assert.assertTrue(manager.productsOfCategoryExists(kategoria1));
+        Assert.assertTrue(!manager.productsOfCategoryExists(kategoria3));
     }    
 }

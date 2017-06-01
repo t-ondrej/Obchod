@@ -1,21 +1,18 @@
 package sk.upjs.ics.obchod.gui.Controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.UserManager;
-import sk.upjs.ics.obchod.managers.IUserManager;
+import sk.upjs.ics.obchod.managers.IAccountManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
 
 public class PrihlasenieController extends Controller implements Initializable {
 
@@ -31,11 +28,11 @@ public class PrihlasenieController extends Controller implements Initializable {
     @FXML
     private Button prihlasitButton;
 
-    private IUserManager pouzivatelManager;
+    private IAccountManager accountManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        accountManager = EntityManagerFactory.INSTANCE.getAccountManager();
     }
 
     @FXML
@@ -49,22 +46,19 @@ public class PrihlasenieController extends Controller implements Initializable {
         String meno = prihlasovacieMenoTextField.getText();
         String heslo = hesloPasswordField.getText();
 
-        if (pouzivatelManager.signInUser(meno, heslo)) {
+        if (accountManager.signInPerson(meno, heslo)) {
             prihlasovacieMenoTextField.clear();
             hesloPasswordField.clear();
             Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
             
-            if(pouzivatelManager.getSignedInUser().isAdministrator()) {
+            if(accountManager.getActiveAccount().isAdministrator()) {
                ViewFactory.INSTANCE.getAdministraciaScene(mainStage);
             } else {
                 mainStage.setScene(obchodScene);
             }
 
         } else {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("Upozornenie");
-            alert.setHeaderText("Nesprávne meno alebo heslo");
-            alert.showAndWait();
+            GuiUtils.showWarning("Nesprávne meno alebo heslo");
         }
 
     }

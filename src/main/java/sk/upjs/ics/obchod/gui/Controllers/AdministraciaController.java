@@ -10,7 +10,7 @@ public class AdministraciaController extends Controller {
     @FXML
     public void onOdhlasitLabelClicked() {
         Scene obchodScene = ViewFactory.INSTANCE.getObchodScene(mainStage);
-        EntityManagerFactory.INSTANCE.getUserManager().logOutUser();
+        EntityManagerFactory.INSTANCE.getAccountManager().logOutPerson();
         mainStage.setScene(obchodScene);     
     }
 }

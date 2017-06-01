@@ -7,6 +7,13 @@ public abstract class Entity {
    
     private LongProperty id = new SimpleLongProperty();
 
+    public Entity() {
+    }
+
+    public Entity(Long id) {
+        this.id.setValue(id);
+    }
+    
     public Long getId()
     {
         return id.getValue();

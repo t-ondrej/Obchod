@@ -16,12 +16,15 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.IBillDao;
+import sk.upjs.ics.obchod.entity.Account;
 import sk.upjs.ics.obchod.entity.Bill;
-import sk.upjs.ics.obchod.entity.User;
+import sk.upjs.ics.obchod.entity.Person;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.BillManager;
 import sk.upjs.ics.obchod.managers.IBillManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
 
 public class FakturyTabController implements Initializable {
 
@@ -78,10 +81,13 @@ public class FakturyTabController implements Initializable {
     private ObservableList<String> filtre;
 
     private IBillManager fakturaManager;
+    
+    private IBillDao billDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fakturaManager = EntityManagerFactory.INSTANCE.getBillManager();
+        billDao = DaoFactory.INSTANCE.getMysqlBillDao();
         inicializujFakturyTableView();
         inicializujTovarFakturyTableView();
         incializujFilterComboBox();
@@ -89,18 +95,18 @@ public class FakturyTabController implements Initializable {
 
     private void inicializujFakturyTableView() {
         idFakturyTableColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
-        pouzivatelTableColumn.setCellValueFactory(cellData -> cellData.getValue().userIdProperty());
+        pouzivatelTableColumn.setCellValueFactory(cellData -> cellData.getValue().accountIdProperty());
         sumaTableColumn.setCellValueFactory(cellData -> cellData.getValue().totalPriceProperty());
         datumNakupuTableColumn.setCellValueFactory(cellData -> cellData.getValue().purchaseDateProperty());
 
         pouzivatelTableColumn.setCellFactory(column -> {
             return new TableCell<Bill, Number>() {
                 @Override
-                protected void updateItem(Number idPouzivatela, boolean empty) {
-                    super.updateItem(idPouzivatela, empty);
+                protected void updateItem(Number accountId, boolean empty) {
+                    super.updateItem(accountId, empty);
                     if (!empty) {
-                        User pouzivatel = DaoFactory.INSTANCE.getMysqlUserDao().findById(idPouzivatela.longValue());
-                        setText(pouzivatel.getLogin());
+                        Account account = EntityManagerFactory.INSTANCE.getAccountManager().findById(accountId.longValue());
+                        setText(account.getUsername());
                     } else {
                         setText("");
                     }
@@ -130,7 +136,8 @@ public class FakturyTabController implements Initializable {
             if (filterComboBox.getSelectionModel().getSelectedItem().equals("všetky")) {
                 obnovFakturyTableView();
             } else {
-                obnovFakturyTableView(filterComboBox.getSelectionModel().getSelectedItem());
+                // TODO
+                obnovFakturyTableView(1);
             }
         });
     }
@@ -141,18 +148,18 @@ public class FakturyTabController implements Initializable {
         fakturyTableView.setItems(fakturaModely);
     }
 
-    private void obnovFakturyTableView(String obdobie) {
-        naplnFaktury(obdobie);
+    private void obnovFakturyTableView(int daysCount) {
+        naplnFaktury(daysCount);
         fakturyTableView.setItems(fakturaModely);
     }
 
     private void naplnFaktury() {
-        List<Bill> faktury = fakturaManager.getBills();
+        List<Bill> faktury = billDao.getAll();
         fakturaModely = FXCollections.observableArrayList(faktury);
     }
 
-    private void naplnFaktury(String obdobie) {
-        List<Bill> fakturyZaObdobie = fakturaManager.getBillsForPeriod(obdobie);
+    private void naplnFaktury(int obdobie) {
+        List<Bill> fakturyZaObdobie = billDao.getBillsForLastDays(obdobie);
         fakturaModely = FXCollections.observableArrayList(fakturyZaObdobie);
     }
 
@@ -162,21 +169,15 @@ public class FakturyTabController implements Initializable {
     }
 
     private void naplnTovarFaktury(Bill faktura) {
-        List<Product> tovarFaktury = fakturaManager.getBillProducts(faktura);
+        List<Product> tovarFaktury = billDao.getBillProducts(faktura);
         tovarModely = FXCollections.observableArrayList(tovarFaktury);
     }
 
-    private void ukazVyberFakturuUpozornenie() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText("Vyberte fakturu v tabuľke.");
-        alert.showAndWait();
-    }
 
     @FXML
     public void onZobrazTovarFakturyButtonClicked() {
         if (fakturyTableView.getSelectionModel().isEmpty()) {
-            ukazVyberFakturuUpozornenie();
+            GuiUtils.showWarning("Vyberte faktúru v tabuľke.");
             return;
         }
 

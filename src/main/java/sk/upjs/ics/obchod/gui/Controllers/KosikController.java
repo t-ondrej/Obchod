@@ -26,9 +26,10 @@ import sk.upjs.ics.obchod.entity.Cart;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
+import sk.upjs.ics.obchod.managers.IAccountManager;
 import sk.upjs.ics.obchod.managers.IBillManager;
-import sk.upjs.ics.obchod.managers.ICartManager;
-import sk.upjs.ics.obchod.managers.IUserManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
+import sk.upjs.ics.obchod.managers.IPersonManager;
 
 public class KosikController extends Controller implements Initializable {
 
@@ -55,24 +56,26 @@ public class KosikController extends Controller implements Initializable {
 
     protected ObservableList<Product> tovarKosika;
 
-    private ICartManager kosikManager;
-
-    private IUserManager pouzivatelManager;
+    private IPersonManager pouzivatelManager;
+    
+    private IAccountManager accountManager;
 
     private IBillManager fakturaManager;
+    
+    private Cart activeAccountCart;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        kosikManager = EntityManagerFactory.INSTANCE.getCartManager();
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPersonManager();
+        accountManager = EntityManagerFactory.INSTANCE.getAccountManager();
         fakturaManager = EntityManagerFactory.INSTANCE.getBillManager();
         
-        Cart kosikAktivnehoPouzivatela = pouzivatelManager.getSignedInUser().getCart();
+        activeAccountCart = accountManager.getActiveAccount().getCart();
 
-        celkovaCenaLabel.textProperty().bind(Bindings.convert(kosikAktivnehoPouzivatela.totalPriceProperty()));
+        celkovaCenaLabel.textProperty().bind(Bindings.convert(activeAccountCart.totalPriceProperty()));
 
         nazovTableColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        mnozstvoTableColumn.setCellValueFactory(cellData -> kosikManager.cartProductQuantityProperty(cellData.getValue()));
+        mnozstvoTableColumn.setCellValueFactory(cellData -> activeAccountCart.cartProductQuantityProperty(cellData.getValue()));
         cenaTableColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
 
         odobratTovarTableColumn.setCellFactory(col -> {
@@ -101,29 +104,29 @@ public class KosikController extends Controller implements Initializable {
             odstranitButton.setOnAction(event -> {
                 Product vybranyTovar = tovarTableView.getItems().get(cell.getIndex());
 
-                List<Product> tovar = kosikManager.getCartProducts();
+                List<Product> tovar = activeAccountCart.getCartProducts();
 
                 Product prvyTovar = tovar.stream().filter(t -> t.getName().equals(vybranyTovar.getName())).collect(Collectors.toList()).get(0);
 
-                kosikManager.removeProductFromCart(prvyTovar);
+                activeAccountCart.removeProductFromCart(prvyTovar);
             });
             return cell;
         });
 
-        kosikAktivnehoPouzivatela.getProducts().addListener(new MapChangeListener() {
+        activeAccountCart.getProducts().addListener(new MapChangeListener() {
             @Override
             public void onChanged(MapChangeListener.Change change) {
                 tovarTableView.getItems().clear();
-                tovarTableView.setItems(kosikManager.cartProductsObservableList());
+                tovarTableView.setItems(activeAccountCart.cartProductsObservableList());
             }
         });
 
-        tovarTableView.setItems(kosikManager.cartProductsObservableList());
+        tovarTableView.setItems(activeAccountCart.cartProductsObservableList());
     }
 
     @FXML
     public void onKupitButtonClicked() {
-        if (kosikManager.getCartProducts().isEmpty()) {
+        if (activeAccountCart.getCartProducts().isEmpty()) {
             return;
         }
         ukazChceteKupitTovarDialog();
@@ -147,21 +150,14 @@ public class KosikController extends Controller implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ano) {
-            if (!pouzivatelManager.hasFilledBillingAddress()) {
-                ukazUpozornenie("Vyplňte prosím fakturačné údaje");
+            if (!pouzivatelManager.hasFilledBillingAddress(accountManager.getActiveAccount().getPerson())) {
+                GuiUtils.showWarning("Vyplňte prosím fakturačné údaje");
                 alert.close();
             } else {
-                fakturaManager.createBill(pouzivatelManager.getSignedInUser());
+                fakturaManager.createBill(accountManager.getActiveAccount());
             }
         } else {
             alert.close();
         }
-    }
-
-    private void ukazUpozornenie(String hlavička) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText(hlavička);
-        alert.showAndWait();
     }
 }

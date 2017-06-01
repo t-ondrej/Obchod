@@ -13,10 +13,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import sk.upjs.ics.obchod.dao.DaoFactory;
+import sk.upjs.ics.obchod.dao.IBrandDao;
 import sk.upjs.ics.obchod.entity.Brand;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
 import sk.upjs.ics.obchod.managers.BrandManager;
 import sk.upjs.ics.obchod.managers.IBrandManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
 
 public class ZnackyTabController implements Initializable {
 
@@ -52,11 +55,14 @@ public class ZnackyTabController implements Initializable {
 
     private ObservableList<Brand> znackaModely;
 
-    private IBrandManager defaultZnackaManager;
+    private IBrandManager brandManager;
+    
+    private IBrandDao brandDao;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        defaultZnackaManager = EntityManagerFactory.INSTANCE.getBrandManager();
+        brandManager = EntityManagerFactory.INSTANCE.getBrandManager();
+        brandDao = DaoFactory.INSTANCE.getMysqlBrandDao();
 
         inicializujZnackyTableView();
     }
@@ -75,7 +81,7 @@ public class ZnackyTabController implements Initializable {
     }
 
     private void naplnZnackaModely() {
-        List<Brand> znacky = defaultZnackaManager.getBrands();
+        List<Brand> znacky = brandDao.getAll();
         znackaModely = FXCollections.observableArrayList(znacky);
     }
 
@@ -91,18 +97,18 @@ public class ZnackyTabController implements Initializable {
         pridatUpravitZnackuPane.setVisible(false);
 
         if (znackyTableView.getSelectionModel().isEmpty()) {
-            ukazUpozornenie("Vyberte značku v tabuľke!");
+            GuiUtils.showWarning("Vyberte značku v tabuľke!");
             return;
         }
 
         Brand oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
 
-        if (defaultZnackaManager.productOfBrandExists(oznacenaZnacka)) {
-            ukazUpozornenie("Značku nie je možné odstrániť. Existuje tovar s danou značkou.");
+        if (brandManager.productOfBrandExists(oznacenaZnacka)) {
+            GuiUtils.showWarning("Značku nie je možné odstrániť. Existuje tovar s danou značkou.");
             return;
         }
 
-        defaultZnackaManager.remove(oznacenaZnacka);
+        brandDao.delete(oznacenaZnacka);
         znackaModely.remove(oznacenaZnacka);
         obnovZnackyTableView();
     }
@@ -114,7 +120,7 @@ public class ZnackyTabController implements Initializable {
         upravitButton.setVisible(true);
 
         if (znackyTableView.getSelectionModel().isEmpty()) {
-            ukazUpozornenie("Vyberte značku v tabuľke!");
+            GuiUtils.showWarning("Vyberte značku v tabuľke!");
             return;
         }
 
@@ -128,12 +134,12 @@ public class ZnackyTabController implements Initializable {
         Brand oznacenaZnacka = znackyTableView.getSelectionModel().getSelectedItem();
         String novyNazov = nazovTextField.getText();
 
-        if (defaultZnackaManager.brandExists(novyNazov)) {
-            ukazUpozornenie("Značka s daným názvom už existuje!");
+        if (brandManager.brandExists(novyNazov)) {
+            GuiUtils.showWarning("Značka s daným názvom už existuje!");
         } else if (novyNazov == null || novyNazov.trim().isEmpty()) {
-            ukazUpozornenie("Zadajte názov značky");
+            GuiUtils.showWarning("Zadajte názov značky");
         } else {
-            defaultZnackaManager.update(oznacenaZnacka, novyNazov);
+            brandManager.update(oznacenaZnacka, novyNazov);
         }
     }
 
@@ -141,28 +147,20 @@ public class ZnackyTabController implements Initializable {
     public void onPridatButtonClicked() {
         String nazov = nazovTextField.getText();
 
-        if (defaultZnackaManager.brandExists(nazov)) {
-            ukazUpozornenie("Značka s daným názvom už existuje!");
+        if (brandManager.brandExists(nazov)) {
+            GuiUtils.showWarning("Značka s daným názvom už existuje!");
         } else if (nazov == null || nazov.trim().isEmpty()) {
-            ukazUpozornenie("Zadajte názov značky");
+            GuiUtils.showWarning("Zadajte názov značky");
         } else {
             Brand novaZnacka = new Brand();
             novaZnacka.setName(nazov);
 
-            Long idZnacky = defaultZnackaManager.save(novaZnacka);
-            novaZnacka.setId(idZnacky);
+            brandManager.save(novaZnacka);
 
             znackaModely.add(novaZnacka);
             obnovZnackyTableView();
         }
 
         nazovTextField.clear();
-    }
-
-    private void ukazUpozornenie(String hlavicka) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText(hlavicka);
-        alert.showAndWait();
     }
 }

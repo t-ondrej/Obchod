@@ -5,16 +5,14 @@ import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.entity.Brand;
 
-public interface IProductDao extends GenericDao<Product> {
+public interface IProductDao extends IEntityDao<Product> {
         
-    List<Product> findProductsByCategory(Category category);
+    Product findByName(String name);
     
-    Product findProductsByName(String name);
+    List<Product> findByCategory(Category category);  
     
-    List<Product> findProductsByBrand(Brand brand);
-    
-    Product findById(Long id);
-    
+    List<Product> findByBrand(Brand brand);
+      
     int getProductQuantity(Product product);
     
     void setProductQuantity(Product product, int quantity);               

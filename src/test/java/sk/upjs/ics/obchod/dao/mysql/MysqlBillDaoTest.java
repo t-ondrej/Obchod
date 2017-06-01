@@ -1,233 +1,171 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Bill;
 import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.entity.Brand;
+import sk.upjs.ics.obchod.utils.TestDataProvider;
 
 public class MysqlBillDaoTest {
     
-    private MysqlBillDao fakturaDao;
+    private MysqlBillDao billDao;
     private JdbcTemplate jdbcTemplate;
     
     public MysqlBillDaoTest(){
         jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
-        fakturaDao = new MysqlBillDao(jdbcTemplate);
-        
+        billDao = new MysqlBillDao(jdbcTemplate);
     }
     
-    private void naplnTestovacieUdaje(){
-        String sql1 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
+    @BeforeClass
+    public static void setUp() {
+        TestDataProvider.insertTestData();
+    }
+    
+    @AfterClass
+    public static void tearDown() {
+        TestDataProvider.clearTestData();
+    }
+    
+    public void naplnTestovacieUdaje(){
+      /*  String[] sql = {
+                "INSERT INTO Bill(account_id, total_price, purchase_date) VALUES"
                 + "(1, 100, date_add(now(), interval -3 minute)),"
                 + "(2, 55, date_add(now(), interval -5 minute)), "
                 + "(3, 64, date_add(now(), interval -1 year)), "
                 + "(3, 60, date_add(now(), interval -1 week)), "
                 + "(3, 65, date_add(now(), interval -1 day)), "
-                + "(3, 60, date_add(now(), interval -1 month))";
-        jdbcTemplate.execute(sql1);
-             
-        String sql2 = "INSERT INTO Kategoria (nazov) VALUES ('Nezaradene')";
-        jdbcTemplate.execute(sql2);
+                + "(3, 60, date_add(now(), interval -1 month)); ",
+                
+                "INSERT INTO Category (`name`) VALUES ('EleGiggle'); ",
         
-        String sql3 = "INSERT INTO Znacka (nazov) VALUES ('Nezaradene')";
-        jdbcTemplate.execute(sql3);
+                "INSERT INTO Brand (`name`) VALUES ('4Head'); ",
         
-        String sql4 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
-                + " values ('test1', 1, 1, 80, 'dobre', '@../img/1.JPG', 2)";
-        jdbcTemplate.execute(sql4);
+                "INSERT INTO Product (`name`, category_id, brand_id, price, description, image_path, quantity)"
+                + " values ('test1', 1, 1, 80, 'High quality', '@../img/1.JPG', 2); ",
+    
+                "INSERT INTO Bill_Product(bill_id, product_name, category_name, "
+                + "brand_name, quantity, price) VALUES(4, 'Product1', 'C1', 'B1', 6, 80);"};
         
-        String sql5 = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, "
-                + "nazov_znacky, pocet_kusov_tovaru, cena) VALUES(4, 'test1', 'Nezaradene', 'Nezaradene', 6, 80)";
-        jdbcTemplate.execute(sql5);
+        jdbcTemplate.batchUpdate(sql);*/
     }
     
-    @After 
     public void vymazTestovacieUdaje(){
-        String sql1 = "TRUNCATE TABLE faktura;";
-        jdbcTemplate.execute(sql1);
-        
-        String sql2 = "TRUNCATE TABLE Tovar_Faktury;";
-        jdbcTemplate.execute(sql2);
-        
-        String sql3 = "TRUNCATE TABLE Tovar;";
-        jdbcTemplate.execute(sql3);
-        
-        String sql4 = "TRUNCATE TABLE kategoria;";
-        jdbcTemplate.execute(sql4);
-        
-        String sql5 = "TRUNCATE TABLE znacka;";
-        jdbcTemplate.execute(sql5);
+        String sql[] = {
+                "TRUNCATE TABLE Bill; ",
+                "TRUNCATE TABLE Bill_Product; ",
+                "TRUNCATE TABLE Product; ",
+                "TRUNCATE TABLE Category; ",
+                "TRUNCATE TABLE Brand;" };
+
+        jdbcTemplate.batchUpdate(sql);
     }
     
-    /**
-     * Test of dajFaktury method, of class MysqlFakturaDao.
-     */
+    // Done
     @Test
     public void testDajFaktury() {
         System.out.println("dajFaktury");
-        naplnTestovacieUdaje();
-        
-        List<Bill> faktury = fakturaDao.getAll();        
-        Assert.assertEquals(6, faktury.size());       
+             
+        List<Bill> faktury = billDao.getAll();   
+        faktury.forEach(f -> Assert.assertNotNull(f.getId()));
+        Assert.assertNotNull(faktury);     
     }    
     
-    /**
-     * Test of dajFakturyZaPoslednyDen method, of class MysqlFakturaDao.
-     */
+    // Done
     @Test
     public void testDajFakturyZaPoslednyDen() {
         System.out.println("dajFakturyZaPoslednyDen");
-        naplnTestovacieUdaje();
         
-        List<Bill> faktury = fakturaDao.getBillsForLastDay();         
-        Assert.assertEquals(2, faktury.size()); 
+        List<Bill> faktury = billDao.getBillsForLastDay();         
+        Assert.assertTrue(faktury.size() > 0); 
     }
 
-    /**
-     * Test of dajFakturyZaPoslednyTyzden method, of class MysqlFakturaDao.
-     */
+    // Done
     @Test
     public void testDajFakturyZaPoslednyTyzden() {
         System.out.println("dajFakturyZaPoslednyTyzden");
-        naplnTestovacieUdaje();
         
-        List<Bill> faktury = fakturaDao.getBillsForLastWeek();       
-        Assert.assertEquals(4, faktury.size());         
+        List<Bill> faktury = billDao.getBillsForLastWeek();       
+        Assert.assertTrue(faktury.size() > 1);         
     }
 
-    /**
-     * Test of dajFakturyZaPoslednyMesiac method, of class MysqlFakturaDao.
-     */
+// Done
     @Test
     public void testDajFakturyZaPoslednyMesiac() {
         System.out.println("dajFakturyZaPoslednyMesiac");
-        naplnTestovacieUdaje();
         
-        List<Bill> faktury = fakturaDao.getBillsForLastMonth();       
-        Assert.assertEquals(5, faktury.size());        
+        List<Bill> faktury = billDao.getBillsForLastMonth();       
+        Assert.assertTrue(faktury.size() > 2);        
     }
 
-    /**
-     * Test of dajFakturyZaPoslednyRok method, of class MysqlFakturaDao.
-     */
+// Done
     @Test
     public void testDajFakturyZaPoslednyRok() {
         System.out.println("dajFakturyZaPoslednyRok");
-        naplnTestovacieUdaje();
         
-        List<Bill> faktury = fakturaDao.getBillsForLastYear();       
-        Assert.assertEquals(6, faktury.size());        
+        List<Bill> faktury = billDao.getBillsForLastYear();       
+        Assert.assertTrue(faktury.size() > 4);        
     }
 
-
-    /**
-     * Test of pridajFakturu method, of class MysqlFakturaDao.
-     */
+// Done
     @Test
     public void testPridajFakturu() {
-        System.out.println("pridajFakturu");        
-        Bill faktura = new Bill();        
-        faktura.setUserId(3L);
-        faktura.setTotalPrice(50);
-        faktura.setPurchaseDate(LocalDateTime.now());
+        System.out.println("pridajFakturu");   
         
-        Long id = fakturaDao.saveOrUpdate(faktura);
-        String sql = "SELECT * FROM faktura";
-        BeanPropertyRowMapper<Bill> mapper = BeanPropertyRowMapper.newInstance(Bill.class);
-        Bill f = jdbcTemplate.queryForObject(sql, mapper); 
-        
-        Assert.assertEquals(new Long(1), id);
-        Assert.assertEquals(new Long(1), f.getId());
-        Assert.assertEquals(new Long(3), f.getUserId());
-        Assert.assertEquals(50, f.getTotalPrice()); 
+        Bill bill = new Bill(null, 3, 50, LocalDateTime.of(1995, Month.MARCH, 1, 2, 30));        
+        billDao.saveOrUpdate(bill);      
+        Assert.assertNotNull(bill.getId());
     }
 
-    /**
-     * Test of odstranFakturu method, of class MysqlFakturaDao.
-     */
+// Done
     @Test
     public void testOdstranFakturu() {
         System.out.println("odstranFakturu");
-        naplnTestovacieUdaje();
         
-        Bill faktura = new Bill(); 
-        faktura.setId(1L);
-        fakturaDao.delete(faktura);
-        String sql1 = "SELECT COUNT(*) FROM faktura"; 
-        String sql2 = "SELECT COUNT(*) FROM faktura WHERE id = 1"; 
-        Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
-        Long pocetSVymazanymId = jdbcTemplate.queryForObject(sql2, Long.class);
-        Assert.assertEquals(pocetOstavajucich, new Long(5)); 
-        Assert.assertEquals(pocetSVymazanymId, new Long(0));
+        Bill faktura = new Bill(1L, 1L, 1, LocalDateTime.now()); 
+        billDao.delete(faktura);
+        
+        String sql2 = "SELECT COUNT(*) FROM Bill WHERE id = 1";         
+        Assert.assertEquals(jdbcTemplate.queryForObject(sql2, Long.class), new Long(0));
     }    
 
-    /**
-     * Test of pridajTovarFakture method, of class MysqlFakturaDao.
-     */
+  // Done  
     @Test
     public void testPridajTovarFakture() {
         System.out.println("pridajTovarFakture");
-        naplnTestovacieUdaje();
         
-        Product tovar = new Product(); 
-        tovar.setId(2L);
-        tovar.setName("NazovTovaru");
-        tovar.setPrice(150);
+        Product product = new Product(2L, "NazovTovaru", new Brand(1L, "NazovZnacky"), 
+                new Category(1L, "NazovKategorie"), 150, "", "", 1); 
         
-        Category kategoria = new Category();
-        kategoria.setName("NazovKategorie");
-        tovar.setCategory(kategoria);
+        Bill bill = new Bill(5L, 1L, 150, LocalDateTime.now());               
+        billDao.addProductToBill(product, bill, 3);
         
-        Brand znacka = new Brand();
-        znacka.setName("NazovZnacky");
-        tovar.setBrand(znacka);
-        
-        Bill faktura = new Bill();
-        faktura.setId(5L);
-        
-        int pocetTovaru = 3;  
-        
-        String sql1 = "SELECT COUNT(*) FROM Tovar_Faktury"; 
-        Long pocetPred = jdbcTemplate.queryForObject(sql1, Long.class);
-        
-        fakturaDao.addProductToBill(tovar, faktura, pocetTovaru);
-        
-        String sql2 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'NazovTovaru' and id_faktura = 5";
-        Long pocetT = jdbcTemplate.queryForObject(sql2, Long.class);
-        
-        String sql3 = "SELECT COUNT(*) FROM Tovar_Faktury";         
-        Long pocet = jdbcTemplate.queryForObject(sql3, Long.class);        
-        
-        Assert.assertEquals(new Long(3), pocetT);        
-        Assert.assertEquals(pocet, new Long(2));
+        String sql2 = "SELECT quantity FROM Bill_Product WHERE product_name = 'NazovTovaru' and bill_id = 5";                      
+        Assert.assertEquals(new Long(3), jdbcTemplate.queryForObject(sql2, Long.class));        
     }
 
-    /**
-     * Test of dajTovarFaktury method, of class MysqlFakturaDao.
-     */
+  // Done  
     @Test
     public void testDajTovarFaktury() {
         System.out.println("dajTovarFaktury");
-        naplnTestovacieUdaje();
         
-        Bill faktura = new Bill();
-        faktura.setId(4L);
+        Bill bill = new Bill();
+        bill.setId(4L);
         
-        List<Product> tovar = fakturaDao.getBillProducts(faktura);
+        List<Product> products = billDao.getBillProducts(bill);
 
-        Assert.assertEquals("test1", tovar.get(0).getName()); 
-        Assert.assertEquals("Nezaradene", tovar.get(0).getCategory().getName());
-        Assert.assertEquals("Nezaradene", tovar.get(0).getBrand().getName());
-        Assert.assertEquals("test1", tovar.get(0).getName());
-        Assert.assertEquals(80, tovar.get(0).getPrice()); 
-        Assert.assertEquals(6, tovar.get(0).getQuantity());        
+        Assert.assertEquals("P4", products.get(0).getName()); 
+        Assert.assertEquals("C2", products.get(0).getCategory().getName());
+        Assert.assertEquals("B3", products.get(0).getBrand().getName());
+        Assert.assertEquals(4, products.get(0).getPrice()); 
+        Assert.assertEquals(5, products.get(0).getQuantity());        
     }
 }

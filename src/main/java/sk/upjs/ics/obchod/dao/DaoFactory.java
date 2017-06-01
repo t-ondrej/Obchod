@@ -2,25 +2,26 @@ package sk.upjs.ics.obchod.dao;
 
 import sk.upjs.ics.obchod.dao.mysql.MysqlBillDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlCategoryDao;
-import sk.upjs.ics.obchod.dao.mysql.MysqlUserDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlPersonDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlBrandDao;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.obchod.dao.mysql.MysqlAccountDao;
 
 public enum DaoFactory {
     INSTANCE;
     
-    private MysqlUserDao mysqlPouzivatelDao;
+    private IPersonDao mysqlPersonDao;
     
-    private MysqlProductDao mysqlProductDao;
+    private IAccountDao mysqlAccountDao;
     
-    private MysqlCategoryDao mysqlCategoryDao;
+    private IProductDao mysqlProductDao;
     
-    private MysqlBrandDao mysqlBrandDao;
+    private ICategoryDao mysqlCategoryDao;
     
-    private MemoryCartDao memoryCartDao;
+    private IBrandDao mysqlBrandDao; 
     
-    private MysqlBillDao mysqlBillDao;
+    private IBillDao mysqlBillDao;
     
     private JdbcTemplate jdbcTemplate;
     
@@ -28,49 +29,46 @@ public enum DaoFactory {
         jdbcTemplate = JdbcTemplateFactory.INSTANCE.getProductionTemplate();
     }
     
-    public MysqlProductDao getMysqlProductDao() {
+    
+    public IPersonDao getMysqlPersonDao() {
+        if (mysqlPersonDao == null)
+            mysqlPersonDao = new MysqlPersonDao(jdbcTemplate);
+        
+        return mysqlPersonDao;
+    }
+    
+    public IAccountDao getMysqlAccountDao() {
+        if (mysqlAccountDao == null)
+            mysqlAccountDao = new MysqlAccountDao(jdbcTemplate);
+        
+        return mysqlAccountDao;
+    }
+    
+    public IProductDao getMysqlProductDao() {
         if (mysqlProductDao == null)
             mysqlProductDao = new MysqlProductDao(jdbcTemplate);
         
         return mysqlProductDao;
     }
     
-    public MysqlUserDao getMysqlUserDao() {
-        if (mysqlPouzivatelDao == null)
-            mysqlPouzivatelDao = new MysqlUserDao(jdbcTemplate);
-        
-        return mysqlPouzivatelDao;
-    }
-    
-    public MysqlCategoryDao getMysqlCategoryDao() {
+    public ICategoryDao getMysqlCategoryDao() {
         if (mysqlCategoryDao == null)
             mysqlCategoryDao = new MysqlCategoryDao(jdbcTemplate);
         
         return mysqlCategoryDao;
     }
     
-    public MysqlBrandDao getMysqlBrandDao() {
+    public IBrandDao getMysqlBrandDao() {
         if (mysqlBrandDao == null)
             mysqlBrandDao = new MysqlBrandDao(jdbcTemplate);
         
         return mysqlBrandDao;
     }
     
-    public MemoryCartDao getMemoryCartDao() {
-        if (memoryCartDao == null)
-            memoryCartDao = new MemoryCartDao();
-        
-        return memoryCartDao;
-    }
-    
-    public MysqlBillDao getMysqlBillDao() {
+    public IBillDao getMysqlBillDao() {
         if (mysqlBillDao == null)
             mysqlBillDao = new MysqlBillDao(jdbcTemplate);
         
         return mysqlBillDao;
-    }
-    
-    private JdbcTemplate getJdbcTemplate(){
-        return jdbcTemplate;
     }
 }

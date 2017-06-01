@@ -1,10 +1,5 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,76 +7,44 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.entity.Category;
 import sk.upjs.ics.obchod.dao.ICategoryDao;
 
-public class MysqlCategoryDao implements ICategoryDao {
-
-    private final JdbcTemplate jdbcTemplate;
+public class MysqlCategoryDao extends MysqlEntityDao<Category> implements ICategoryDao {
 
     public MysqlCategoryDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        super(jdbcTemplate, "Category", BeanPropertyRowMapper.newInstance(Category.class));
     }
 
     @Override
     public List<Category> getAll() {
-        String sql = "SELECT * FROM Kategoria";
-        BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
-        return jdbcTemplate.query(sql, mapper);
+        String sql = "SELECT * FROM Category";
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
-    public Category finById(Long categoryId) {
-        String sql = "SELECT * FROM kategoria WHERE id = ?";
-        BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
-        return jdbcTemplate.queryForObject(sql, mapper, categoryId);
+    public Category findById(Long categoryId) {
+        String sql = "SELECT * FROM Category WHERE id = ?";
+        
+        try {
+            return jdbcTemplate.queryForObject(sql, rowMapper, categoryId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }         
     }
 
     @Override
     public Category findByName(String categoryName) {
-        String sql = "SELECT * FROM kategoria WHERE nazov = ?";
-        BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
+        String sql = "SELECT * FROM Category WHERE `name` = ?";
+        
         try {
-            return jdbcTemplate.queryForObject(sql, mapper, categoryName);
+            return jdbcTemplate.queryForObject(sql, rowMapper, categoryName);
         } catch (EmptyResultDataAccessException e) {
             return null;
-        }
+        }      
     }
 
     @Override
-    public Long saveOrUpdate(Category category) {
-
-        if (category.getId() == 0) {
-            String sql = "INSERT INTO kategoria (nazov) VALUES(?) ";
-
-            Long categoryId = -1L;
-
-            try {
-                Connection conn = jdbcTemplate.getDataSource().getConnection();
-                PreparedStatement stm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-                stm.setString(1, category.getName());
-                stm.execute();
-
-                ResultSet rs = stm.getGeneratedKeys();
-                if (rs.next()) {
-                    categoryId = rs.getLong(1);
-                }
-
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            return categoryId;
-        } else {
-            String sql = "UPDATE kategoria SET nazov=? WHERE id = ?;";
-            jdbcTemplate.update(sql, category.getName(), category.getId());
-
-            return category.getId();
-        }
+    public void saveOrUpdate(Category category) {
+        entityFields.put("id", category.getId());
+        entityFields.put("`name`", category.getName());
+        super.saveOrUpdate(category);
     }
-
-    @Override
-    public void delete(Category category) {
-        String sql = "DELETE FROM kategoria WHERE id = ?";
-        jdbcTemplate.update(sql, category.getId());
-    }
-
 }

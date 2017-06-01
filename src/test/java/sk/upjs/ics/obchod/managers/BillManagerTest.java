@@ -1,168 +1,81 @@
 package sk.upjs.ics.obchod.managers;
 
-import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableMap;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Before;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
-import sk.upjs.ics.obchod.dao.MemoryCartDao;
 import sk.upjs.ics.obchod.dao.mysql.MysqlBillDao;
-import sk.upjs.ics.obchod.dao.rowmappers.ProductRowMapper;
-import sk.upjs.ics.obchod.entity.Bill;
 import sk.upjs.ics.obchod.entity.Cart;
-import sk.upjs.ics.obchod.entity.User;
+import sk.upjs.ics.obchod.entity.Person;
 import sk.upjs.ics.obchod.entity.Product;
 import sk.upjs.ics.obchod.dao.IBillDao;
-import sk.upjs.ics.obchod.dao.ICartDao;
+import sk.upjs.ics.obchod.dao.mysql.MysqlProductDao;
+import sk.upjs.ics.obchod.entity.Account;
+import sk.upjs.ics.obchod.entity.Brand;
+import sk.upjs.ics.obchod.entity.Category;
+import sk.upjs.ics.obchod.utils.TestDataProvider;
 
 public class BillManagerTest {
     
     private BillManager manager;
     private JdbcTemplate jdbcTemplate;
-    private Cart kosik;
-    private Product tovar1;
-    private Product tovar2;
-    private Product tovar3;
     
     public BillManagerTest() {
         jdbcTemplate = JdbcTemplateFactory.INSTANCE.getTestTemplate();
         IBillDao fakturaDao = new MysqlBillDao(jdbcTemplate);
-        ICartDao kosikDao = new MemoryCartDao();
-        manager = new BillManager(fakturaDao, kosikDao);      
-        kosik = new Cart();
+        manager = new BillManager(fakturaDao);      
+    }  
+    
+    @BeforeClass
+    public static void setUp() {
+        TestDataProvider.insertTestData();
     }
     
-    @Before
-    public void naplnTestovacieUdaje(){
-         String sql1 = "INSERT INTO tovar (nazov, id_kategoria, id_znacka, cena, popis, obrazok_url, pocet_kusov)"
-                + " values ('test1', 2, 1, 80, 'popis1', '@../img/1.JPG', 0), "
-                        + "('test2', 1, 1, 40, 'popis2', '@../img/2.JPG', 2),"
-                        + "('test3', 3, 2, 23, 'popis3', '@../img/3.JPG', 5)";
-        jdbcTemplate.execute(sql1);
-        
-        String sql2 = "INSERT INTO kategoria (nazov) VALUES('Kategoria1'), ('Kategoria2'), ('Kategoria3')";
-        jdbcTemplate.execute(sql2);
-        
-        String sql3 = "INSERT INTO znacka (nazov) VALUES ('Znacka1'), ('Znacka2')";
-        jdbcTemplate.execute(sql3);
-        
-        String sql4 = "SELECT T.id AS id_tovar, T.nazov AS nazov_tovar, "
-            + "T.id_kategoria AS id_kategoria, T.id_znacka AS id_znacka, "
-            + "T.cena AS cena, T.popis AS popis, T.obrazok_url AS obrazok_url, "
-            + "T.pocet_kusov AS pocet_kusov, K.nazov AS nazov_kategoria, Z.nazov AS nazov_znacka "
-            + "FROM Tovar T JOIN Kategoria K ON T.id_kategoria = K.id "
-            + "JOIN Znacka Z ON T.id_znacka = Z.id ";
-        
-        ProductRowMapper mapper = new ProductRowMapper();
-        List<Product> tovar = jdbcTemplate.query(sql4, mapper);
-        
-        tovar1 = tovar.get(0);        
-        tovar2 = tovar.get(1);
-        tovar3 = tovar.get(2);
-        
-        kosik.getProducts().put(tovar1, new SimpleIntegerProperty(1));
-        kosik.getProducts().put(tovar2, new SimpleIntegerProperty(2));
-        kosik.setTotalPrice(160);
-        
-        String sql5 = "INSERT INTO Faktura(id_pouzivatel, suma, datum_nakupu) VALUES"
-                + "(1, 100, date_add(now(), interval -3 minute)),"
-                + "(2, 55, date_add(now(), interval -5 minute)), "
-                + "(3, 64, date_add(now(), interval -1 year)), "
-                + "(3, 60, date_add(now(), interval -1 week)), "
-                + "(3, 65, date_add(now(), interval -1 day)), "
-                + "(3, 60, date_add(now(), interval -1 month))";
-        jdbcTemplate.execute(sql5);
-        
-        String sql6 = "INSERT INTO Tovar_Faktury(id_faktura, nazov_tovaru, nazov_kategorie, "
-                + "nazov_znacky, pocet_kusov_tovaru, cena) "
-                + "VALUES(1,'test1', 'Kategoria1', 'Znacka1', 4, 320), "
-                + "(2, 'test2', 'Kategoria2', 'Znacka2', 6, 240)";
-        jdbcTemplate.execute(sql6);
+    @AfterClass
+    public static void tearDown() {
+        TestDataProvider.clearTestData();
     }
     
-    @After 
-    public void vymazTestovacieUdaje(){
-        String sql = "TRUNCATE TABLE tovar;";
-        jdbcTemplate.execute(sql);
-        kosik = null;
-        
-        String sql1 = "TRUNCATE TABLE faktura;";
-        jdbcTemplate.execute(sql1);
-        
-        String sql2 = "TRUNCATE TABLE Tovar_Faktury;";
-        jdbcTemplate.execute(sql2);
-        
-        String sql3 = "TRUNCATE TABLE kategoria;";
-        jdbcTemplate.execute(sql3);
-        
-        String sql4 = "TRUNCATE TABLE znacka;";
-        jdbcTemplate.execute(sql4);
-    }
-
-    /**
-     * Test of vytvorFakturu method, of class DefaultFakturaManager.
-     */
     @Test
     public void testVytvorFakturu() {
         System.out.println("vytvorFakturu");
         
-        User pouzivatel = new User();
-        pouzivatel.setId(2L);
-        pouzivatel.setCart(kosik);
+        Cart cart = new Cart();
+        cart.setProductDao(new MysqlProductDao(jdbcTemplate));
         
-        Long idF = manager.createBill(pouzivatel);
-        String sql1 = "SELECT COUNT(*) FROM Faktura"; 
-        Long pocetF = jdbcTemplate.queryForObject(sql1, Long.class);
+        Product p3 = new Product(3L, "P3", new Brand(1L, "B1"), new Category(2L, "C2"), 3, "desc3", "@../img/3.JPG", 2);        
+        Product p4 = new Product(4L, "P4", new Brand(2L, "B2"), new Category(2L, "C2"), 3, "desc4", "@../img/4.JPG", 3);    
         
-        String sql2 = "SELECT * FROM faktura WHERE id = 7";
-        BeanPropertyRowMapper<Bill> mapper = BeanPropertyRowMapper.newInstance(Bill.class);
-        Bill f = jdbcTemplate.queryForObject(sql2, mapper); 
+        cart.getProducts().put(p3, new SimpleIntegerProperty(1));
+        cart.getProducts().put(p4, new SimpleIntegerProperty(2));
         
-        String sql3 = "SELECT COUNT(*) FROM Tovar_Faktury"; 
-        Long pocetTF = jdbcTemplate.queryForObject(sql3, Long.class);
+        Account account = new Account(2L, "dandiV", "hash", "salt", cart, new Person());        
         
-        String sql4 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test1' and id_faktura = 7";
-        Long pocet3 = jdbcTemplate.queryForObject(sql4, Long.class);
+        manager.createBill(account);
         
-        String sql5 = "SELECT pocet_kusov_tovaru FROM Tovar_Faktury WHERE nazov_tovaru = 'test2' and id_faktura = 7";
-        Long pocet4 = jdbcTemplate.queryForObject(sql5, Long.class);
+        String sql1 = "SELECT COUNT(*) FROM Bill"; 
+        Long billCount = jdbcTemplate.queryForObject(sql1, long.class); 
         
-        ObservableMap<Product, IntegerProperty> tovar = kosik.getProducts();
+        String sql2 = "SELECT COUNT(*) FROM Bill_Product"; 
+        long billProductCount = jdbcTemplate.queryForObject(sql2, long.class);
         
-        Assert.assertEquals(new Long(7), pocetF);
-        Assert.assertEquals(new Long(7), idF);
-        Assert.assertEquals(new Long(7), f.getId());
-        Assert.assertEquals(new Long(2), f.getUserId());
-        Assert.assertEquals(160, f.getTotalPrice());
-        Assert.assertEquals(new Long(4), pocetTF);
-        Assert.assertEquals(new Long(1), pocet3);
-        Assert.assertEquals(new Long(2), pocet4);
-        Assert.assertEquals(0, tovar.size());
-    }
-
-    /**
-     * Test of dajFakturyZaObdobie method, of class DefaultFakturaManager.
-     */
-    @Test
-    public void testDajFakturyZaObdobie() {
-        System.out.println("dajFakturyZaObdobie");        
+        String sql3 = "SELECT SUM(quantity) FROM Bill_Product WHERE product_name = 'P3'";
+        Long p3Quant = jdbcTemplate.queryForObject(sql3, Long.class);
         
-        List<Bill> den = manager.getBillsForPeriod("posledný deň");
-        List<Bill> tyzden = manager.getBillsForPeriod("posledný týždeň");
-        List<Bill> mesiac = manager.getBillsForPeriod("posledný mesiac");
-        List<Bill> rok = manager.getBillsForPeriod("posledný rok");
-        List<Bill> nic = manager.getBillsForPeriod("neni");
+        String sql4 = "SELECT SUM(quantity) FROM Bill_Product WHERE product_name = 'P4'";
+        Long p4Quant = jdbcTemplate.queryForObject(sql4, Long.class);
         
-        Assert.assertEquals(2, den.size());  
-        Assert.assertEquals(4, tyzden.size());
-        Assert.assertEquals(5, mesiac.size());
-        Assert.assertEquals(6, rok.size());
-        Assert.assertEquals(null, nic);
+        ObservableMap<Product, IntegerProperty> cartProducts = cart.getProducts();
+        
+        Assert.assertEquals(new Long(6), billCount);
+        Assert.assertEquals(10L, billProductCount);
+        Assert.assertEquals(new Long(8), p3Quant);
+        Assert.assertEquals(new Long(10), p4Quant);
+        Assert.assertEquals(0, cartProducts.size());
     }
 }

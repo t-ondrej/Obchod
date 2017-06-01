@@ -13,9 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sk.upjs.ics.obchod.gui.ViewFactory;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.UserManager;
+import sk.upjs.ics.obchod.managers.IAccountManager;
+import sk.upjs.ics.obchod.managers.PersonManager;
 import sk.upjs.ics.obchod.utils.StringUtilities;
-import sk.upjs.ics.obchod.managers.IUserManager;
+import sk.upjs.ics.obchod.utils.GuiUtils;
+import sk.upjs.ics.obchod.managers.IPersonManager;
 
 public class RegistraciaController extends Controller implements Initializable {
 
@@ -49,11 +51,14 @@ public class RegistraciaController extends Controller implements Initializable {
     @FXML
     private Label spatLabel;
 
-    private IUserManager pouzivatelManager;
+    private IPersonManager pouzivatelManager;
+    
+    private IAccountManager accountManager;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pouzivatelManager = EntityManagerFactory.INSTANCE.getUserManager();
+        pouzivatelManager = EntityManagerFactory.INSTANCE.getPersonManager();
+        accountManager = EntityManagerFactory.INSTANCE.getAccountManager();
     }
 
     @FXML
@@ -62,6 +67,8 @@ public class RegistraciaController extends Controller implements Initializable {
         mainStage.setScene(obchodScene);
     }
 
+    
+    // TODO MAKE A PERSON REGISTRATION
     @FXML
     public void onRegistrovatButtonClicked() {
         String prihlasovacieMeno = prihlasovacieMenoTextField.getText();
@@ -78,18 +85,17 @@ public class RegistraciaController extends Controller implements Initializable {
             psc = Integer.parseInt(pscRetazec);
         }     
         
-        if (!pouzivatelManager.isUsernameAvailable(prihlasovacieMeno)) {
-            ukazUpozornenie("Zadané prihlasovacie meno už existuje.");
+        if (!accountManager.isUsernameAvailable(prihlasovacieMeno)) {
+            GuiUtils.showWarning("Zadané prihlasovacie meno už existuje.");
             return;
         } else if (prihlasovacieMeno.trim().isEmpty() || heslo.trim().isEmpty() || email.trim().isEmpty()) {
-            ukazUpozornenie("Nevyplnili ste všetky údaje.");
+            GuiUtils.showWarning("Nevyplnili ste všetky údaje.");
             return;
         } else if (!StringUtilities.isValidEmailFormat(email)) {
-            ukazUpozornenie("Formát emailovej adresy nie je valídny.");
+            GuiUtils.showWarning("Formát emailovej adresy nie je valídny.");
             return;
         } else {
-            pouzivatelManager.signUpUser(prihlasovacieMeno, heslo, 
-                    email, meno, priezvisko, mesto, ulica, psc);
+            accountManager.signUpPerson(prihlasovacieMeno, heslo);
             onSpatLabelClicked();
         }
 
@@ -104,10 +110,4 @@ public class RegistraciaController extends Controller implements Initializable {
         pscTextField.clear();
     }
 
-    private void ukazUpozornenie(String hlavicka) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Upozornenie");
-        alert.setHeaderText(hlavicka);
-        alert.showAndWait();
-    }
 }

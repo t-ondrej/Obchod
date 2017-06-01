@@ -19,13 +19,36 @@ public class Product extends Entity {
     private IntegerProperty price = new SimpleIntegerProperty();
 
     private StringProperty description = new SimpleStringProperty();
-    ;
     
-    private StringProperty imagePath = new SimpleStringProperty();
-    ;
+    private StringProperty imagePath = new SimpleStringProperty();  
     
     private IntegerProperty quantity = new SimpleIntegerProperty();
 
+    public Product() {
+    }
+
+    public Product(Long id, String name, Brand brand, Category category, int price, 
+            String description, String imagePath, int quantity) {
+        super(id);
+        this.name.setValue(name);
+        this.brand.setValue(brand);
+        this.category.setValue(category);
+        this.price.setValue(price);
+        this.description.setValue(description);
+        this.imagePath.setValue(imagePath);
+        this.quantity.setValue(quantity);
+    }
+    
+    public Product(Long id, String name, Brand brand, Category category, int price, 
+            int quantity) {
+        super(id);
+        this.name.setValue(name);
+        this.brand.setValue(brand);
+        this.category.setValue(category);
+        this.price.setValue(price);
+        this.quantity.setValue(quantity);
+    }
+    
     public String getName() {
         return name.getValue();
     }

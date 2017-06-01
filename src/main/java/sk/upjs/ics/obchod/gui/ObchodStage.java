@@ -4,10 +4,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import sk.upjs.ics.obchod.entity.User;
+import sk.upjs.ics.obchod.entity.Account;
+import sk.upjs.ics.obchod.entity.Cart;
 import sk.upjs.ics.obchod.managers.EntityManagerFactory;
-import sk.upjs.ics.obchod.managers.ICartManager;
-
 
 public class ObchodStage extends Application {
 
@@ -23,10 +22,10 @@ public class ObchodStage extends Application {
         stage.show();
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            User aktivnyPouzivatel = EntityManagerFactory.INSTANCE.getUserManager().getSignedInUser();
-            if (aktivnyPouzivatel != null) {
-                ICartManager defaultKosikManager = EntityManagerFactory.INSTANCE.getCartManager();
-                defaultKosikManager.clearCart();
+            Account activeAccount = EntityManagerFactory.INSTANCE.getAccountManager().getActiveAccount();
+            Cart cart = activeAccount.getCart();
+            if (activeAccount != null) {
+                cart.clearCart();
             }
             stage.close();
         });

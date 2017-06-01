@@ -27,12 +27,12 @@ public enum JdbcTemplateFactory {
     private MysqlDataSource createDataSource(boolean forTests) {
         MysqlDataSource dataSource = new MysqlDataSource();
         
-        String urlForTestDatabase = "jdbc:mysql://localhost:3306/Obchod_test?serverTimezone=UTC";
-        String urlForProductionDatabase = "jdbc:mysql://localhost:3306/Obchod?serverTimezone=UTC";
+        String testDatabaseUrl = "jdbc:mysql://localhost:3306/shop_test?serverTimezone=UTC";
+        String productionDatabaseUrl = "jdbc:mysql://localhost:3306/Obchod?serverTimezone=UTC";
         
-        dataSource.setUrl(forTests ? urlForTestDatabase : urlForProductionDatabase);
-        dataSource.setUser(forTests ? "obchod_test" : "obchod");
-        dataSource.setPassword(forTests ? "obchod1_test" : "obchod1");
+        dataSource.setUrl(forTests ? testDatabaseUrl : productionDatabaseUrl);
+        dataSource.setUser(forTests ? "testing_user" : "obchod");
+        dataSource.setPassword(forTests ? "qwerty" : "obchod1");
         
         return dataSource;
     }

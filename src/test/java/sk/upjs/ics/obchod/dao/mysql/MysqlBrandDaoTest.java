@@ -2,13 +2,18 @@ package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Brand;
+import sk.upjs.ics.obchod.utils.TestDataProvider;
 
+
+// DONE
 public class MysqlBrandDaoTest {
     
     private MysqlBrandDao brandDao;
@@ -19,113 +24,98 @@ public class MysqlBrandDaoTest {
         brandDao = new MysqlBrandDao(jdbcTemplate);
     }
     
-    private void naplnTestovacieUdaje(){
-        String sql = "INSERT INTO znacka (nazov) values ('test1'), ('test2')";
-        jdbcTemplate.execute(sql);
+    @BeforeClass
+    public static void setUp() {
+        TestDataProvider.insertTestData();
     }
     
-    @After 
-    public void vymazTestovacieUdaje(){
-        String sql = "TRUNCATE TABLE znacka;";
-        jdbcTemplate.execute(sql);
-    }
+    @AfterClass
+    public static void tearDown() {
+        TestDataProvider.clearTestData();
+    }  
 
     /**
      * Test of dajZnacky method, of class MysqlZnackaDao.
      */
-    @Test
+    @Test // DONE
     public void testDajZnacky() {
         System.out.println("dajZnacky");
-        naplnTestovacieUdaje();
                 
-        List<Brand> znacky = brandDao.getAll();        
-        Assert.assertEquals(2, znacky.size());
+        List<Brand> znacky = brandDao.getAll();      
+        znacky.forEach(z -> Assert.assertNotNull(z.getId()));              
+        Assert.assertNotNull(znacky);
+        Assert.assertEquals("B1", znacky.get(0).getName());
     }
 
     /**
      * Test of najdiPodlaId method, of class MysqlZnackaDao.
      */
-    @Test
+    @Test // DONE
     public void testNajdiPodlaId() {
         System.out.println("najdiPodlaId");
-        naplnTestovacieUdaje();
                 
         Brand z = brandDao.findById(1L);        
-        Assert.assertEquals("test1", z.getName());        
+        Assert.assertEquals(new Long(1), z.getId());        
     }
 
     /**
      * Test of najdiPodlaNazvu method, of class MysqlZnackaDao.
      */
-    @Test
+    @Test // DONE
     public void testNajdiPodlaNazvu() {
         System.out.println("najdiPodlaNazvu");    
-        naplnTestovacieUdaje();
         
-        Brand z = brandDao.findByName("test2");
-        Assert.assertEquals(new Long(2), z.getId());
+        Brand z = brandDao.findByName("B4");
+        Assert.assertEquals("B4", z.getName());
     }
     
     /**
      * Test of uloz method, of class MysqlZnackaDao.
      * Pridaj
      */
-    @Test
+    @Test // DONE
     public void testUlozPridaj() {
         System.out.println("uloz");
-        Brand znacka = new Brand();
-        znacka.setName("skusobna");       
+        Brand znacka = new Brand(null, "testUlozPridaj");   
         
-        Long id = brandDao.saveOrUpdate(znacka);
-        String sql = "SELECT * FROM znacka";
-        BeanPropertyRowMapper<Brand> mapper = BeanPropertyRowMapper.newInstance(Brand.class);
-        Brand z = jdbcTemplate.queryForObject(sql, mapper); 
-         
-        Assert.assertEquals(new Long(1), id);
-        Assert.assertEquals(new Long(1), z.getId());
-        Assert.assertEquals("skusobna", z.getName()); 
+        brandDao.saveOrUpdate(znacka);
+        Assert.assertNotNull(znacka.getId());
     }
     
     /**
      * Test of uloz method, of class MysqlZnackaDao.
      * Uprav
      */
-    @Test
+    @Test  // DONE
     public void testUlozUprav() {
         System.out.println("uloz");
-        naplnTestovacieUdaje();
-    
-        Brand znacka = new Brand();
-        znacka.setId(2L);
-        znacka.setName("skusobna");       
+ 
+        Brand znacka = new Brand(2L, "skusobna");   
         
-        Long id = brandDao.saveOrUpdate(znacka);
-        String sql = "SELECT * FROM znacka WHERE id = 2";
-        BeanPropertyRowMapper<Brand> mapper = BeanPropertyRowMapper.newInstance(Brand.class);
-        Brand z = jdbcTemplate.queryForObject(sql, mapper); 
-         
-        Assert.assertEquals(new Long(2), id);
-        Assert.assertEquals(new Long(2), z.getId());
-        Assert.assertEquals("skusobna", z.getName()); 
+        brandDao.saveOrUpdate(znacka);
+        String sql = "SELECT `name` FROM Brand WHERE id = 2";
+        String noveMeno = jdbcTemplate.queryForObject(sql, String.class);       
+        
+        Assert.assertEquals("skusobna", noveMeno); 
     }
 
     /**
      * Test of odstranZnacku method, of class MysqlZnackaDao.
      */
-    @Test
+    @Test // DONE
     public void testOdstranZnacku() {
         System.out.println("odstranZnacku");
-        naplnTestovacieUdaje();
         
-        Brand znacka = new Brand();
-        znacka.setId(1L);        
-        brandDao.delete(znacka);
+        String sql = "SELECT COUNT(*) FROM Brand";
+        Long pocetPredVymazanim = jdbcTemplate.queryForObject(sql, Long.class);       
         
-        String sql1 = "SELECT COUNT(*) FROM znacka"; 
-        String sql2 = "SELECT COUNT(*) FROM znacka WHERE id = 1"; 
-        Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
-        Long pocetSVymazanymId = jdbcTemplate.queryForObject(sql2, Long.class);
-        Assert.assertEquals(pocetOstavajucich, new Long(1)); 
-        Assert.assertEquals(pocetSVymazanymId, new Long(0));        
+        Brand znacka = new Brand(3L, "");    
+        brandDao.delete(znacka);                    
+        
+        Long pocetPoVymazani = jdbcTemplate.queryForObject(sql, Long.class);
+        
+        Long rozdiel = pocetPredVymazanim - pocetPoVymazani;
+        
+        Assert.assertEquals(new Long(1), rozdiel);     
     }
 }

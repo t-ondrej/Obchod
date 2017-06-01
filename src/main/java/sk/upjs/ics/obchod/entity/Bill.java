@@ -10,22 +10,32 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class Bill extends Entity {
     
-    private LongProperty userId = new SimpleLongProperty();
+    private LongProperty accountId = new SimpleLongProperty();
      
     private IntegerProperty totalPrice = new SimpleIntegerProperty();
     
     private ObjectProperty<LocalDateTime> purchaseDate = new SimpleObjectProperty();
-       
-    public Long getUserId() {
-        return userId.getValue();
+
+    public Bill() {
     }
 
-    public void setUserId(Long idPouzivatel) {
-        this.userId.setValue(idPouzivatel);
+    public Bill(Long id, long userId, int totalPrice, LocalDateTime purchaseDate) {
+        super(id);
+        this.accountId.setValue(userId);
+        this.totalPrice.setValue(totalPrice);
+        this.purchaseDate.setValue(purchaseDate);
+    }
+      
+    public long getAccountId() {
+        return accountId.getValue();
+    }
+
+    public void setAccountId(long idPouzivatel) {
+        this.accountId.setValue(idPouzivatel);
     }
     
-    public LongProperty userIdProperty() {
-        return userId;
+    public LongProperty accountIdProperty() {
+        return accountId;
     }
 
     public int getTotalPrice() {

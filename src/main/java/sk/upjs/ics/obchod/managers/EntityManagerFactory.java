@@ -7,53 +7,51 @@ public enum EntityManagerFactory {
     
     private IBillManager billManager;
     
-    private ICategoryManager categoryManager;
+    private ICategoryManager categoryManager;   
     
-    private ICartManager cartManager;
-    
-    private IUserManager userManager;
+    private IPersonManager personManager;
     
     private IBrandManager brandManager;
+    
+    private IAccountManager accountManager;
     
     private final DaoFactory daoFactory = DaoFactory.INSTANCE;
     
     public IBillManager getBillManager() {
         if (billManager == null)
-            return new BillManager(daoFactory.getMysqlBillDao(), 
-                    daoFactory.getMemoryCartDao());
+            this.billManager =  new BillManager(daoFactory.getMysqlBillDao());
         
         return billManager;
     }
     
     public ICategoryManager getCategoryManager() {
         if (categoryManager == null)
-            return new CategoryManager(daoFactory.getMysqlCategoryDao(), 
+            this.categoryManager =  new CategoryManager(daoFactory.getMysqlCategoryDao(), 
                     daoFactory.getMysqlProductDao());
         
         return categoryManager;
     }
     
-    public ICartManager getCartManager() {
-        if (cartManager == null)
-            return new CartManager(daoFactory.getMemoryCartDao(), 
-                    daoFactory.getMysqlProductDao(), userManager);
+    public IPersonManager getPersonManager() {
+        if (personManager == null)
+            this.personManager =  new PersonManager(daoFactory.getMysqlPersonDao());
         
-        return cartManager;
-    }
-    
-    public IUserManager getUserManager() {
-        if (userManager == null)
-            return new UserManager(daoFactory.getMysqlUserDao());
-        
-        return userManager;
+        return personManager;
     }
     
     public IBrandManager getBrandManager() {
         if (brandManager == null)
-            return new BrandManager(daoFactory.getMysqlBrandDao(), 
+            this.brandManager =  new BrandManager(daoFactory.getMysqlBrandDao(), 
                     daoFactory.getMysqlProductDao());
         
         return brandManager;
+    }
+    
+    public IAccountManager getAccountManager() {
+        if (accountManager == null)
+            this.accountManager =  new AccountManager(daoFactory.getMysqlAccountDao());
+        
+        return accountManager;
     }
             
 }

@@ -1,14 +1,16 @@
 package sk.upjs.ics.obchod.dao.mysql;
 
 import java.util.List;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.obchod.dao.JdbcTemplateFactory;
 import sk.upjs.ics.obchod.entity.Category;
+import sk.upjs.ics.obchod.utils.TestDataProvider;
 
+// DONE
 public class MysqlCategoryDaoTest {
     
     private MysqlCategoryDao kategoriaDao;
@@ -19,113 +21,79 @@ public class MysqlCategoryDaoTest {
         kategoriaDao = new MysqlCategoryDao(jdbcTemplate);
     }
     
-    private void naplnTestovacieUdaje(){
-        String sql = "INSERT INTO kategoria (nazov) values ('test1'), ('test2')";
-        jdbcTemplate.execute(sql);
+    @BeforeClass
+    public static void setUp() {
+        TestDataProvider.insertTestData();
     }
     
-    @After 
-    public void vymazTestovacieUdaje(){
-        String sql = "TRUNCATE TABLE kategoria;";
-        jdbcTemplate.execute(sql);
+    @AfterClass
+    public static void tearDown() {
+        TestDataProvider.clearTestData();
     }
-    
-    /**
-     * Test of dajKategorie method, of class MysqlKategoriaDao.
-     */
+
     @Test
     public void testDajKategorie() {
         System.out.println("dajKategorie");
-        naplnTestovacieUdaje();
         
         List<Category> kategorie = kategoriaDao.getAll();
-        Assert.assertEquals(2, kategorie.size());        
+        Assert.assertNotNull(kategorie);
+        kategorie.forEach(c -> Assert.assertNotNull(c.getId()));
+        Assert.assertEquals("C1", kategorie.get(0).getName());
     }
 
-    /**
-     * Test of najdiPodlaId method, of class MysqlKategoriaDao.
-     */
     @Test
     public void testNajdiPodlaId() {
         System.out.println("najdiPodlaId");
-        naplnTestovacieUdaje();
        
-        Category k = kategoriaDao.finById(1L);        
-        Assert.assertEquals("test1", k.getName());        
+        Category k = kategoriaDao.findById(1L);        
+        Assert.assertEquals(new Long(1), k.getId());
+        Assert.assertEquals("C1", k.getName());
     }
     
-    /**
-     * Test of najdiPodlaNazvu method, of class MysqlKategoriaDao.
-     */
     @Test
     public void testNajdiPodlaNazvu() {
         System.out.println("najdiPodlaNazvu");
-        naplnTestovacieUdaje();
         
-        Category k = kategoriaDao.findByName("test2");        
-        Assert.assertEquals(new Long(2), k.getId());        
+        Category k = kategoriaDao.findByName("C1");        
+        Assert.assertEquals("C1", k.getName());        
     }
     
-    /**
-     * Test of uloz method, of class MysqlKategoriaDao.
-     * Pridaj
-     */
     @Test
     public void testUlozPridaj() {
-        System.out.println("uloz");        
-        Category kategoria = new Category();
-        kategoria.setName("skusobna");
-       
-        Long id = kategoriaDao.saveOrUpdate(kategoria);
-        String sql = "SELECT * FROM kategoria";
-        BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
-        Category k = jdbcTemplate.queryForObject(sql, mapper);        
+        System.out.println("uloz");  
+        
+        Category kategoria = new Category(null, "skusobna");      
+        kategoriaDao.saveOrUpdate(kategoria);
+        
+        String sql = "SELECT `name` FROM Category WHERE `name` = 'skusobna'";
+        String name = jdbcTemplate.queryForObject(sql, String.class);        
          
-        Assert.assertEquals(new Long(1), id);
-        Assert.assertEquals(new Long(1), k.getId());
-        Assert.assertEquals("skusobna", k.getName());        
+        Assert.assertNotNull(kategoria);
+        Assert.assertEquals("skusobna", name);        
     }    
     
-    /**
-     * Test of uloz method, of class MysqlKategoriaDao.
-     * Uprav
-     */
+
     @Test
     public void testUlozUprav() {
         System.out.println("uloz");  
-        naplnTestovacieUdaje();
         
-        Category kategoria = new Category();
-        kategoria.setId(2L);
-        kategoria.setName("skusobna");
-       
-        Long id = kategoriaDao.saveOrUpdate(kategoria);
-        String sql = "SELECT * FROM kategoria WHERE id=2";
-        BeanPropertyRowMapper<Category> mapper = BeanPropertyRowMapper.newInstance(Category.class);
-        Category k = jdbcTemplate.queryForObject(sql, mapper);        
+        Category kategoria = new Category(2L, "skusobna2");      
+        kategoriaDao.saveOrUpdate(kategoria);
+        
+        String sql = "SELECT `name` FROM Category WHERE id = 2";
+        String name = jdbcTemplate.queryForObject(sql, String.class);        
          
-        Assert.assertEquals(new Long(2), id);
-        Assert.assertEquals(new Long(2), k.getId());
-        Assert.assertEquals("skusobna", k.getName());        
+        Assert.assertEquals("skusobna2", name);        
     }      
 
-    /**
-     * Test of odstranKategoriu method, of class MysqlKategoriaDao.
-     */
     @Test
     public void testOdstranKategoriu() {
         System.out.println("odstranKategoriu");
-        naplnTestovacieUdaje();
         
-        Category kategoria = new Category();
-        kategoria.setId(1L);        
+        Category kategoria = new Category(3L, null);    
         kategoriaDao.delete(kategoria);
         
-        String sql1 = "SELECT COUNT(*) FROM kategoria"; 
-        String sql2 = "SELECT COUNT(*) FROM kategoria WHERE id = 1"; 
-        Long pocetOstavajucich = jdbcTemplate.queryForObject(sql1, Long.class);
-        Long pocetSVymazanymId = jdbcTemplate.queryForObject(sql2, Long.class);
-        Assert.assertEquals(pocetOstavajucich, new Long(1)); 
-        Assert.assertEquals(pocetSVymazanymId, new Long(0));
+        String sql2 = "SELECT COUNT(*) FROM Category WHERE id = 3"; 
+        Assert.assertEquals(jdbcTemplate.queryForObject(sql2, Long.class), new Long(0));
     }
 }
